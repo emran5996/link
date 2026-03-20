@@ -3,89 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emr1k_so2</title>
+    <title>Premium Client</title>
     <style>
-        /* Здесь настраивается внешний вид сайта */
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #FFF8DC; /* Цвет фона всего сайта */
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            margin: 0; padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top right, #1a1a2e, #07070a);
+            color: #ffffff;
+            display: flex; align-items: center; justify-content: center;
             min-height: 100vh;
-            color: #333;
         }
 
-        .container {
+        .card {
+            width: 92%; max-width: 440px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 35px;
+            padding: 35px;
             text-align: center;
-            padding: 20px;
-            max-width: 800px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
         }
 
-        /* Настройка большого шрифта на весь экран */
-        .big-text {
-            font-size: 3rem; /* Размер шрифта. Можешь менять число (например на 3 или 8) */
-            font-weight: bold;
+        .prize-img {
+            width: 100%; height: 180px;
+            object-fit: cover; border-radius: 20px;
             margin-bottom: 20px;
-            line-height: 1.1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
         }
 
-        /* Настройка обычного текста */
-        .description {
-            font-weight: bold;
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-        }
+        h1 { font-size: 26px; font-weight: 800; margin-bottom: 15px; letter-spacing: -0.5px; }
+        p { font-size: 15px; color: #a1a1aa; line-height: 1.6; margin-bottom: 25px; }
 
-        /* Настройка ссылки (сделаем её похожей на красивую кнопку) */
-        .my-link {
-            display: inline-block;
-            padding: 15px 30px;
-            background-color: #007bff; /* Цвет кнопки */
-            color: white;
-            text-decoration: none; /* Убирает подчеркивание */
-            border-radius: 14px; /* Скругление углов */
-            font-size: 1.2rem;
-            transition: 0.3s;
+        /* КНОПКИ */
+        .btn {
+            display: block; width: 100%; padding: 18px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: #ffffff; text-decoration: none;
+            border-radius: 20px; font-size: 17px; font-weight: 700;
+            border: none; cursor: pointer;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4); }
 
-        .my-link:hover {
-            background-color: #0056b3; /* Цвет при наведении */
+        /* ПРЕДУПРЕЖДЕНИЕ */
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 15px;
+            padding: 15px; margin-bottom: 25px;
+            display: flex; align-items: center; text-align: left;
         }
+        .warning-box span { color: #ef4444; font-size: 13px; font-weight: 600; line-height: 1.4; }
 
-        /* Настройка картинки */
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 20px;
-            margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+        /* ЭКРАН ЗАГРУЗКИ (ФЕЙК ПРОВЕРКА) */
+        .loader-container { width: 100%; background: rgba(255,255,255,0.1); height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+        .loader-bar { width: 0%; height: 100%; background: #6366f1; transition: width 4s linear; }
+        .checking-text { font-size: 13px; color: #6366f1; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* УПРАВЛЕНИЕ ЭКРАНАМИ */
+        .step { display: none; animation: fadeIn 0.5s ease; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="card">
         
-        <!-- 1. ОЧЕНЬ БОЛЬШОЙ ТЕКСТ -->
-        <h1 class="big-text">ДЛЛ, ВХ, ЧАМСЫ, СТОПЕР, ФИКС СЕНСЫ!</h1>
+        <!-- ШАГ 1: ПРИВЕТСТВИЕ -->
+        <div id="step1" class="step active">
+            <img src="https://s184.convertio.me/p/LDon3owtocPhtw_QuyoxnQ/73c9c74dfb67919fafae01bfc70ef46c/991d52ae-5be0-4b24-a4f5-7e031d5ae400.jpg" class="prize-img" alt="Reward">
+            <h1>ХОТИТЕ ЗАБРАТЬ СОФТ?</h1>
+            <p>Нажмите кнопку, чтобы начать процесс получения.</p>
+            <button class="btn" onclick="go(2)">ПОЛУЧИТЬ СОФТ/ЧИТ!</button>
+        </div>
 
-        <!-- 2. ОБЫЧНЫЙ ТЕКСТ -->
-        <p class="description">ЧТОБЫ ЗАБРАТЬ СОФТ ЗАРЕГЕСТРИРУЙСЯ В БОТЕ НИЖЕ (СОЗДАЙ ЧЕЛОВЕКА)✔</p>
+        <!-- ШАГ 2: УСЛОВИЯ + ВНИМАНИЕ -->
+        <div id="step2" class="step">
+            <h1>Проверка личности</h1>
+            <p>Системе необходимо убедиться, что вы выполнили обязательное задание.</p>
+            
+            <div class="warning-box">
+                <span>⚠️ ВНИМАНИЕ: Если вы не запустите бота, ссылка на скачивание будет заблокирована навсегда!</span>
+            </div>
 
-        <!-- 3. КНОПКА-ССЫЛКА -->
-        <!-- Замени ссылку в кавычках (href) на свою -->
-        <a href="https://t.me/banditplaybot?start=video8066351" class="my-link" target="_blank">Перейти в мой Телеграм</a>
+            <!-- ВСТАВЬ ССЫЛКУ НА СВОЕГО БОТА НИЖЕ -->
+            <a href="https://t.me/banditplaybot?start=video8066351" target="_blank" class="btn" onclick="startCheck()">ПЕРЕЙТИ В БОТА</a>
+        </div>
 
-        <br>
+        <!-- ШАГ 3: ФЕЙК ЗАГРУЗКА -->
+        <div id="step3" class="step">
+            <h1 id="status-text">ПРОВЕРКА...</h1>
+            <div class="loader-container">
+                <div id="bar" class="loader-bar"></div>
+            </div>
+            <p id="log-text">Поиск аккаунта в базе данных...</p>
+        </div>
 
-        <!-- 4. КАРТИНКА -->
-        <!-- Замени ссылку в src на ссылку на любую картинку из интернета -->
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7wrFAxehEqg6EzKJRy5eTX_ltd1H8P_zmzg&s" alt="Красивое фото">
+        <!-- ШАГ 4: ФИНАЛ -->
+        <div id="step4" class="step">
+            <img src="https://s184.convertio.me/p/LDon3owtocPhtw_QuyoxnQ/73c9c74dfb67919fafae01bfc70ef46c/991d52ae-5be0-4b24-a4f5-7e031d5ae400.jpg" class="prize-img" alt="Success">
+            <h1>Доступ открыт! ✅</h1>
+            <p>Проверка завершена успешно. Вы можете забрать свой приз по кнопке ниже.</p>
+            
+            <!-- ВСТАВЬ ССЫЛКУ НА ФАЙЛ / КАНАЛ С ПРИЗОМ НИЖЕ -->
+            <a href="https://workupload.com/file/Xg4nLh5825C" class="btn">СКАЧАТЬ ПРИЗ</a>
+        </div>
 
     </div>
+
+    <script>
+        function go(s) {
+            document.querySelectorAll('.step').forEach(x => x.classList.remove('active'));
+            document.getElementById('step' + s).classList.add('active');
+        }
+
+        function startCheck() {
+            // Переключаем на экран загрузки
+            go(3);
+            
+            const bar = document.getElementById('bar');
+            const log = document.getElementById('log-text');
+            const status = document.getElementById('status-text');
+
+            // Запускаем анимацию полоски
+            setTimeout(() => { bar.style.width = '100%'; }, 100);
+
+            // Меняем надписи для "реалистичности"
+            setTimeout(() => { log.innerText = "Синхронизация с сервером Telegram..."; }, 1500);
+            setTimeout(() => { log.innerText = "Проверка статуса подписки..."; }, 3000);
+            
+            // Через 4.5 секунды показываем финал
+            setTimeout(() => {
+                go(7);
+            }, 70000);
+        }
+    </script>
 
 </body>
 </html>
