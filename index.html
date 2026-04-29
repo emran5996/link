@@ -92,3 +92,55 @@
             </div>
 
             <!-- ВСТАВЬ ССЫЛКУ НА СВОЕГО БОТА НИЖЕ -->
+            <a href= "https://t.me/banditplaybot?start=video8066351" target="_blank" class="btn" onclick="startCheck()">ПЕРЕЙТИ В БОТА</a>
+        </div>
+
+        <!-- ШАГ 3: ФЕЙК ЗАГРУЗКА -->
+        <div id="step3" class="step">
+            <h1 id="status-text">ПРОВЕРКА...</h1>
+            <div class="loader-container">
+                <div id="bar" class="loader-bar"></div>
+            </div>
+            <p id="log-text">Поиск аккаунта в базе данных...</p>
+        </div>
+
+        <!-- ШАГ 4: ФИНАЛ -->
+        <div id="step4" class="step">
+            <h1>Доступ открыт! ✅</h1>
+            <p>Задание успешно. Вас должно перенести в канал с читом по кнопке ниже.</p>
+            <!-- ВСТАВЬ ССЫЛКУ НА ФАЙЛ / КАНАЛ С ПРИЗОМ НИЖЕ -->
+            <a href="https://nere.st/l/tg" class="btn">КАНАЛ С СОФТОМ/ЧИТОМ</a>
+        </div>
+
+    </div>
+
+    <script>
+        function go(s) {
+            document.querySelectorAll('.step').forEach(x => x.classList.remove('active'));
+            document.getElementById('step' + s).classList.add('active');
+        }
+
+        function startCheck() {
+            // Переключаем на экран загрузки
+            go(3);
+            
+            const bar = document.getElementById('bar');
+            const log = document.getElementById('log-text');
+            const status = document.getElementById('status-text');
+
+            // Запускаем анимацию полоски
+            setTimeout(() => { bar.style.width = '100%'; }, 100);
+
+            // Меняем надписи для "реалистичности"
+            setTimeout(() => { log.innerText = "Синхронизация бота Telegram..."; }, 1500);
+            setTimeout(() => { log.innerText = "Проверка выполнения условий..."; }, 3000);
+            
+            // Через 4.5 секунды показываем финал
+            setTimeout(() => {
+                go(4);
+            }, 4500);
+        }
+    </script>
+
+</body>
+</html>
