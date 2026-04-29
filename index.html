@@ -1,233 +1,93 @@
-<!DOCTYPE html>
-<html lang="ru">
+lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emr1k_client</title>
-    <link rel="icon" href="https://via.placeholder.com/32/8A2BE2/FFFFFF?text=E" type="image/png"> <!-- Можно заменить на свою иконку -->
-
+    <title>ПЕРЕХОД В КАНАЛ</title>
     <style>
-        /* --- CSS Стилизация --- */
-        :root {
-            --primary-color: #8A2BE2; /* Сине-фиолетовый */
-            --secondary-color: #4B0082; /* Темно-фиолетовый */
-            --accent-color: #FF4500; /* Красный для внимания */
-            --text-color: #FFFFFF;
-            --border-color: #A020F0; /* Фиолетовый для обводки */
-            --gradient-start: #6A0DAD; /* Более светлый фиолетовый */
-            --gradient-end: #000080;   /* Темно-синий */
-        }
-
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0; padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top right, #1a1a2e, #07070a);
+            color: #ffffff;
+            display: flex; align-items: center; justify-content: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-            color: var(--text-color);
-            overflow: hidden; /* Чтобы не было скролла при переключении слайдов */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        .container {
-            background-color: rgba(0, 0, 0, 0.4); /* Полупрозрачный фон для содержимого */
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 900px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        .card {
+            width: 92%; max-width: 440px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 35px;
+            padding: 35px;
             text-align: center;
-            border: 2px solid var(--border-color); /* Обводка всего контейнера */
-            box-sizing: border-box;
-            position: relative; /* Для позиционирования слайдов */
-            overflow: hidden; /* Чтобы слайды не вылезали при анимации */
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
         }
 
-        .slide {
-            display: none; /* Скрываем все слайды по умолчанию */
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 25px;
-            animation: fadeIn 0.8s ease-out forwards;
-            min-height: 400px; /* Минимальная высота для стабильности */
+        .prize-img {
+            width: 100%; height: 180px;
+            object-fit: cover; border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
         }
 
-        .slide.active {
-            display: flex; /* Показываем активный слайд */
-        }
+        h1 { font-size: 26px; font-weight: 800; margin-bottom: 15px; letter-spacing: -0.5px; }
+        p { font-size: 15px; color: #a1a1aa; line-height: 1.6; margin-bottom: 25px; }
 
-        /* Анимация появления слайдов */
-        @keyframes fadeIn {% { opacity: 0; transform: scale(0.3); }
-            50% { opacity: 1; transform: scale(1.1); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); }
+        /* КНОПКИ */
+        .btn {
+            display: block; width: 100%; padding: 18px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: #ffffff; text-decoration: none;
+            border-radius: 20px; font-size: 17px; font-weight: 700;
+            border: none; cursor: pointer;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4); }
 
-        /* Медиа-запросы для адаптивности */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5em;
-            }
-            h2 {
-                font-size: 1.8em;
-            }
-            .button {
-                padding: 12px 25px;
-                font-size: 1.1em;
-            }
-            .product-image {
-                max-width: 80%;
-            }
-            .info-frame {
-                width: 95%;
-                padding: 15px;
-            }
-            .button-group {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .progress-container {
-                width: 95%;
-            }
+        /* ПРЕДУПРЕЖДЕНИЕ */
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 15px;
+            padding: 15px; margin-bottom: 25px;
+            display: flex; align-items: center; text-align: left;
         }
+        .warning-box span { color: #ef4444; font-size: 13px; font-weight: 600; line-height: 1.4; }
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2em;
-            }
-            h2 {
-                font-size: 1.5em;
-            }
-            p {
-                font-size: 1em;
-            }
-            .button {
-                font-size: 1em;
-                width: 100%; /* Кнопки занимают всю ширину */
-            }
-            .container {
-                padding: 20px 15px;
-            }
-        }
+        /* ЭКРАН ЗАГРУЗКИ (ФЕЙК ПРОВЕРКА) */
+        .loader-container { width: 100%; background: rgba(255,255,255,0.1); height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; }
+        .loader-bar { width: 0%; height: 100%; background: #6366f1; transition: width 4s linear; }
+        .checking-text { font-size: 13px; color: #6366f1; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* УПРАВЛЕНИЕ ЭКРАНАМИ */
+        .step { display: none; animation: fadeIn 0.5s ease; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Слайд 1: Приветствие и продукт -->
-        <div id="slide1" class="slide active">
-            <h1>{{ВАШ_ТЕКСТ_ПРИВЕТСТВИЯ}}</h1>
-            <img src="{{ССЫЛКА_НА_КАРТИНКУ_ПРОДУКТА}}" alt="Продукт Emr1k_client" class="product-image">
-            <button class="button" onclick="showSlide('slide2')">Начать</button>
+    <div class="card">
+        
+        <!-- ШАГ 1: ПРИВЕТСТВИЕ -->
+        <div id="step1" class="step active">
+            <img src="https://i.ytimg.com/vi/OaYfNpJz0j8/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDsgVihyMA8=&amp;rs=AOn4CLCnjbR-L9z9AEJKjWFbJPyx_sfgeQ" class="prize-img" alt="Reward">
+            <h1>ХОТИТЕ ЗАБРАТЬ СОФТ?</h1>
+            <p>Нажмите кнопку, чтобы начать процесс получения.</p>
+            <button class="btn" onclick="go(2)">ПОЛУЧИТЬ СОФТ/ЧИТ!</button>
         </div>
 
-        <!-- Слайд 2: Условия получения продукта -->
-        <div id="slide2" class="slide">
-            <h2>{{ТЕКСТ_О_ПОЛУЧЕНИИ_ПРОДУКТА}}</h2>
+        <!-- ШАГ 2: УСЛОВИЯ + ВНИМАНИЕ -->
+        <div id="step2" class="step">
+            <h1>Проверка личности</h1>
+            <p>Системе необходимо убедиться, что вы выполнили обязательное задание.</p>
             
-            <div class="info-frame">
-                <p class="attention-text">{{ТЕКСТ_УСЛОВИЙ_ПОДПИСКИ}}</p>
+            <div class="warning-box">
+                <span>⚠️ ВНИМАНИЕ: Если вы не запустите бота и не выполните все начальные задания в боте(обязательно), ссылка на скачивание будет заблокирована навсегда!</span>
             </div>
 
-            <div class="button-group">
-                <button id="createPersonBtn" class="button" onclick="clickButton('createPerson')">{{ТЕКСТ_КНОПКИ_СОЗДАТЬ_ЧЕЛОВЕКА}}</button>
-                <!-- Важно: Ссылка на ТГ канал должна открываться в новой вкладке, чтобы пользователь не ушел с сайта -->
-                <a href="{{ССЫЛКА_НА_ТГ_КАНАЛ}}" target="_blank" class="button" onclick="clickButton('subscribeChannel'); return true;">{{ТЕКСТ_КНОПКИ_ПОДПИСАТЬСЯ}}</a>
-                <!-- Если есть отдельный бот, можете добавить:
-                <a href="{{ССЫЛКА_НА_ТГ_БОТА}}" target="_blank" class="button" onclick="clickButton('startBot'); return true;">Запустить бота</a>
-                -->
-            </div>
-            <!-- Скрытая кнопка, которая появится, когда оба действия будут выполнены -->
-            <button id="proceedToVerificationBtn" class="button" style="display: none; margin-top: 30px;" onclick="showSlide('slide3')">Продолжить</button>
-        </div>
-
-        <!-- Слайд 3: Имитация проверки подписки -->
-        <div id="slide3" class="slide">
-            <h2>Идет проверка заданий...</h2>
-            <p>Это может занять несколько секунд.</p>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-        </div>
-
-        <!-- Слайд 4: Имитация выигрыша и кнопка получения приза -->
-        <div id="slide4" class="slide">
-            <h1 class="win-animation">Поздравляем! Задания выполнены!</h1>
-            <p>Вы успешно выполнили все условия. Теперь вы можете получить вашу программу.</p>
-            <a href="{{ССЫЛКА_НА_ВАШ_ПРОДУКТ}}" target="_blank" class="button win-animation">Получить приз</a>
-        </div>
-    \</div>
-
-    <script>
-        // --- JavaScript Логика ---
-        let currentSlide = 'slide1';
-        let createPersonClicked = false;
-        let subscribeChannelClicked = false;
-        // let startBotClicked = false; // Если используете отдельную кнопку для бота
-
-        // Функция для переключения слайдов
-        function showSlide(slideId) {
-            document.getElementById(currentSlide).classList.remove('active');
-            currentSlide = slideId;
-            document.getElementById(currentSlide).classList.add('active');
-
-            if (slideId === 'slide3') {
-                startVerification();
-            }
-        }
-
-        // Логика кликов по кнопкам на Слайде 2
-        function clickButton(buttonType) {
-            if (buttonType === 'createPerson') {
-                createPersonClicked = true;
-                document.getElementById('createPersonBtn').classList.add('clicked'); // Опционально: добавить стиль для кликнутой кнопки
-                document.getElementById('createPersonBtn').style.opacity = '0.7';
-                document.getElementById('createPersonBtn').style.cursor = 'default';
-                document.getElementById('createPersonBtn').disabled = true;
-            } else if (buttonType === 'subscribeChannel') {
-                subscribeChannelClicked = true;
-                // document.getElementById('subscribeChannelBtn').classList.add('clicked'); // Если кнопка была бы с ID
-            }
-            // else if (buttonType === 'startBot') {
-            //     startBotClicked = true;
-            // }
-
-            // Проверяем, нажаты ли все нужные кнопки
-            if (createPersonClicked && subscribeChannelClicked /* && startBotClicked */) {
-                document.getElementById('proceedToVerificationBtn').style.display = 'inline-block';
-            }
-        }
-
-        // Имитация проверки подписки (Слайд 3)
-        function startVerification() {
-            const progressBar = document.getElementById('progressBar');
-            let width = 0;
-            const duration = 4000; // 4 секунды
-            const intervalTime = 50; // Обновляем каждые 50 мс
-            const increment = (intervalTime / duration) * 100;
-
-            const progressInterval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(progressInterval);
-                    setTimeout(() => showSlide('slide4'), 500); // Небольшая задержка перед переходом на 4 слайд
-                } else {
-                    width += increment;
-                    progressBar.style.width = width + '%';
-                    progressBar.textContent = `Проверка... ${Math.round(width)}%`;
-                }
-            }, intervalTime);
-        }
-
-        // Инициализация - показываем первый слайд при загрузке
-        document.addEventListener('DOMContentLoaded', () => {
-            showSlide('slide1');
-        });
-    </script>
-
-</body>
-</html>
+            <!-- ВСТАВЬ ССЫЛКУ НА СВОЕГО БОТА НИЖЕ -->
