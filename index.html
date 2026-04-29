@@ -3,96 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ПЕРЕХОД В КАНАЛ</title>
+    <title>Доступ к боту</title>
     <style>
-        * { box-sizing: border-box; }
+        /* БЕЛЫЙ СТИЛЬ — МИНИМАЛИЗМ */
         body {
-            margin: 0; padding: 0;
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at top right, #1a1a2e, #07070a);
-            color: #ffffff;
-            display: flex; align-items: center; justify-content: center;
-            min-height: 100vh;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
         }
 
-        .card {
-            width: 92%; max-width: 440px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 35px;
-            padding: 35px;
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            width: 90%;
+            max-width: 400px;
         }
 
-        .prize-img {
-            width: 100%; height: 180px;
-            object-fit: cover; border-radius: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
-        }
-
-        h1 { font-size: 26px; font-weight: 800; margin-bottom: 15px; letter-spacing: -0.5px; }
-        p { font-size: 15px; color: #a1a1aa; line-height: 1.6; margin-bottom: 25px; }
+        h1 { font-size: 22px; margin-bottom: 15px; font-weight: 700; }
+        p { font-size: 15px; color: #666; line-height: 1.4; margin-bottom: 20px; }
 
         /* КНОПКИ */
         .btn {
-            display: block; width: 100%; padding: 18px;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            color: #ffffff; text-decoration: none;
-            border-radius: 20px; font-size: 17px; font-weight: 700;
-            border: none; cursor: pointer;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block;
+            background: #0088cc; /* Цвет Telegram */
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
         }
-        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4); }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn:active { transform: scale(0.98); }
 
-        /* ПРЕДУПРЕЖДЕНИЕ */
-        .warning-box {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 15px;
-            padding: 15px; margin-bottom: 25px;
-            display: flex; align-items: center; text-align: left;
+        /* Вторая кнопка чуть другим оттенком, чтобы выделялась */
+        .btn-alt {
+            background: #0077b5;
         }
-        .warning-box span { color: #ef4444; font-size: 13px; font-weight: 600; line-height: 1.4; }
 
-        /* ЭКРАН ЗАГРУЗКИ (ФЕЙК ПРОВЕРКА) */
-        .loader-container { width: 100%; background: rgba(255,255,255,0.1); height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; }
-        .loader-bar { width: 0%; height: 100%; background: #6366f1; transition: width 4s linear; }
-        .checking-text { font-size: 13px; color: #6366f1; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        /* ШАГИ (СКРЫТЫЕ ПО УМОЛЧАНИЮ) */
+        .step { display: none; }
+        .active { display: block; animation: fadeIn 0.4s ease; }
 
-        /* УПРАВЛЕНИЕ ЭКРАНАМИ */
-        .step { display: none; animation: fadeIn 0.5s ease; }
-        .active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* ПОЛОСКА ЗАГРУЗКИ */
+        .loader-container {
+            background: #eee;
+            border-radius: 10px;
+            height: 12px;
+            width: 100%;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .loader-bar {
+            background: #0088cc;
+            height: 100%;
+            width: 0%;
+            transition: width 4.5s linear; /* Время имитации загрузки */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        
-        <!-- ШАГ 1: ПРИВЕТСТВИЕ -->
-        <div id="step1" class="step active">
-            <img src="https://i.ytimg.com/vi/OaYfNpJz0j8/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDsgVihyMA8=&amp;rs=AOn4CLCnjbR-L9z9AEJKjWFbJPyx_sfgeQ" class="prize-img" alt="Reward">
-            <h1>ХОТИТЕ ЗАБРАТЬ СОФТ?</h1>
-            <p>Нажмите кнопку, чтобы начать процесс получения.</p>
-            <button class="btn" onclick="go(2)">ПОЛУЧИТЬ СОФТ/ЧИТ!</button>
-        </div>
+    <div class="container">
 
-        <!-- ШАГ 2: УСЛОВИЯ + ВНИМАНИЕ -->
-        <div id="step2" class="step">
-            <h1>Проверка личности</h1>
-            <p>Системе необходимо убедиться, что вы выполнили обязательное задание.</p>
+        <!-- ШАГ 2: ВЫБОР БОТА (ГЛАВНЫЙ ЭКРАН) -->
+        <div id="step2" class="step active">
+                    <h1>ПОЛУЧИТЬ ДОСТУП</h1>
+            <p>Для активации выберите любого свободного бота из списка ниже:</p>
             
-            <div class="warning-box">
-                <span>⚠️ ВНИМАНИЕ: Если вы не запустите бота и не выполните все начальные задания в боте(обязательно), ссылка на скачивание будет заблокирована навсегда!</span>
-            </div>
+            <!-- КНОПКА №1 -->
+            <a href="https://t.me/banditplaybot?start=video8066351" target="_blank" class="btn" onclick="startCheck()">
+                🤖 ПЕРЕЙТИ В БОТА #1
+            </a>
 
-            <!-- ВСТАВЬ ССЫЛКУ НА СВОЕГО БОТА НИЖЕ -->
-            <a href= "https://t.me/banditplaybot?start=video8066351" target="_blank" class="btn" onclick="startCheck()">ПЕРЕЙТИ В БОТА</a>
+            <!-- КНОПКА №2 (НОВАЯ) -->
+            <a href="https://t.me/ССЫЛКА_НА_ВТОРОГО_БОТА" target="_blank" class="btn btn-alt" onclick="startCheck()">
+                🤖 ПЕРЕЙТИ В БОТА #2
+            </a>
         </div>
 
         <!-- ШАГ 3: ФЕЙК ЗАГРУЗКА -->
@@ -107,38 +112,39 @@
         <!-- ШАГ 4: ФИНАЛ -->
         <div id="step4" class="step">
             <h1>Доступ открыт! ✅</h1>
-            <p>Задание успешно. Вас должно перенести в канал с читом по кнопке ниже.</p>
-            <!-- ВСТАВЬ ССЫЛКУ НА ФАЙЛ / КАНАЛ С ПРИЗОМ НИЖЕ -->
-            <a href="https://nere.st/l/tg" class="btn">КАНАЛ С СОФТОМ/ЧИТОМ</a>
+            <p>Задание успешно. Теперь подпишитесь на основной канал с софтом.</p>
+            <!-- ССЫЛКА НА ТВОЙ КАНАЛ -->
+            <a href="https://nere.st/l/tg" class="btn">ПЕРЕЙТИ В КАНАЛ</a>
         </div>
 
     </div>
 
     <script>
         function go(s) {
+            // Скрываем все шаги и показываем нужный
             document.querySelectorAll('.step').forEach(x => x.classList.remove('active'));
             document.getElementById('step' + s).classList.add('active');
         }
 
         function startCheck() {
-            // Переключаем на экран загрузки
-            go(3);
-            
-            const bar = document.getElementById('bar');
-            const log = document.getElementById('log-text');
-            const status = document.getElementById('status-text');
-
-            // Запускаем анимацию полоски
-            setTimeout(() => { bar.style.width = '100%'; }, 100);
-
-            // Меняем надписи для "реалистичности"
-            setTimeout(() => { log.innerText = "Синхронизация бота Telegram..."; }, 1500);
-            setTimeout(() => { log.innerText = "Проверка выполнения условий..."; }, 3000);
-            
-            // Через 4.5 секунды показываем финал
+            // Переключаем на экран загрузки через небольшую паузу
             setTimeout(() => {
-                go(4);
-            }, 4500);
+                go(3);
+                const bar = document.getElementById('bar');
+                const log = document.getElementById('log-text');
+                
+                // Запускаем анимацию полоски
+                setTimeout(() => { bar.style.width = '100%'; }, 100);
+
+                // Имитация процесса
+                setTimeout(() => { log.innerText = "Синхронизация с сервером Telegram..."; }, 1500);
+                setTimeout(() => { log.innerText = "Проверка подписки на бота..."; }, 3000);
+                
+                // Через 4.5 секунды перекидываем на финал
+                setTimeout(() => {
+                    go(4);
+                }, 4500);
+            }, 500);
         }
     </script>
 
