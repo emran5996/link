@@ -3,161 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Доступ к боту</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Доступ</title>
     <style>
-        /* ОСНОВНОЙ СТИЛЬ (БЕЛАЯ ТЕМА) */
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(180deg, #FFFFFF 0%, #F0F2F5 100%);
-            color: #1c1e21;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { font-family: -apple-system, system-ui, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #fff; width: 90%; max-width: 380px; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; }
+        h1 { font-size: 22px; margin-bottom: 10px; }
+        p { color: #666; font-size: 15px; margin-bottom: 25px; }
+        
+        /* Кнопки */
+        .btn { display: block; text-decoration: none; padding: 16px; border-radius: 14px; font-weight: 600; margin-bottom: 12px; color: #fff; transition: 0.2s; border: none; cursor: pointer; }
+        .btn-1 { background: linear-gradient(135deg, #0088cc, #00a2ed); }
+        .btn-2 { background: linear-gradient(135deg, #6e8efb, #a777e3); }
+        .btn-fin { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .btn:active { transform: scale(0.97); }
 
-        .container {
-            background: #ffffff;
-            width: 90%;
-            max-width: 420px;
-            padding: 40px 25px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            text-align: center;
-            animation: fadeIn 0.6s ease-out;
-        }
+        /* Шаги */
+        .step { display: none; }
+        .active { display: block; animation: fade 0.4s; }
+        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 { font-size: 26px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; }
-        p { font-size: 16px; color: #65676b; line-height: 1.5; margin-bottom: 30px; }
-
-        /* КНОПКИ С ГРАДИЕНТАМИ */
-        .btn {
-            display: block;
-            text-decoration: none;
-            padding: 18px;
-            border-radius: 16px;
-            font-weight: 600;
-            font-size: 17px;
-            margin-bottom: 15px;
-            transition: all 0.2s ease;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        /* Синий градиент для первого бота */
-        .btn-blue {
-            background: linear-gradient(135deg, #0088cc 0%, #00a2ed 100%);
-            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
-        }
-
-        /* Фиолетовый/Розовый градиент для второго бота */
-        .btn-purple {
-            background: linear-gradient(135deg, #6e8efb 0%, #a777e3 100%);
-            box-shadow: 0 4px 15px rgba(110, 142, 251, 0.3);
-        }
-
-        /* Зеленый для финала */
-        .btn-green {
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-        }
-
-        .btn:active { transform: scale(0.96); }
-
-        /* ШАГИ */.step { display: none; }
-        .active { display: block; }
-
-        /* ЗАГРУЗКА */
-        .loader-wrap {
-            background: #f0f2f5;
-            height: 14px;
-            border-radius: 10px;
-            width: 100%;
-            margin: 25px 0;
-            overflow: hidden;
-        }
-        .loader-fill {
-            background: #0088cc;
-            height: 100%;
-            width: 0%;
-            transition: width 4.5s linear;
-        }
-
-        #log-text { font-size: 14px; color: #8e8e8e; font-weight: 500; }
+        /* Прогресс-бар */
+        .track { background: #eee; height: 10px; border-radius: 5px; margin: 20px 0; overflow: hidden; }
+        .bar { background: #0088cc; height: 100%; width: 0%; transition: width 4s linear; }
+        #log { font-size: 13px; color: #999; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-
-        <!-- ШАГ 1: ВЫБОР (ГЛАВНЫЙ) -->
-        <div id="step1" class="step active">
-            <h1>АКТИВАЦИЯ ДОСТУПА</h1>
-            <p>Чтобы продолжить, перейдите в любого свободного бота из списка ниже:</p>
-            
-            <a href="https://t.me/banditplaybot?start=video8066351" target="_blank" class="btn btn-blue" onclick="startProcess()">
-                💎 ПЕРЕЙТИ В БОТА #1
-            </a>
-
-            <a href="https://t.me/ССЫЛКА_НА_БОТА_2" target="_blank" class="btn btn-purple" onclick="startProcess()">
-                🔥 ПЕРЕЙТИ В БОТА #2
-            </a>
-        </div>
-
-        <!-- ШАГ 2: ПРОВЕРКА (ФЕЙК) -->
-        <div id="step2" class="step">
-            <h1 id="status-text">ПРОВЕРКА...</h1>
-            <div class="loader-wrap">
-                <div id="bar" class="loader-fill"></div>
-            </div>
-            <p id="log-text">Инициализация защищенного соединения...</p>
-        </div>
-
-        <!-- ШАГ 3: ФИНАЛ -->
-        <div id="step4" class="step">
-            <h1 style="color: #2ecc71;">ДОСТУП ОТКРЫТ! ✅</h1>
-            <p>Проверка завершена успешно. Весь софт и инструкции доступны в основном канале по кнопке ниже.</p>
-            <a href="https://nere.st/l/tg" class="btn btn-green">ЗАБРАТЬ ЧИТЫ / СОФТ</a>
-        </div>
-
+<div class="card">
+    <!-- ЭКРАН 1: ВЫБОР -->
+    <div id="s1" class="step active">
+        <h1>АКТИВАЦИЯ</h1>
+        <p>Для старта перейдите в любого бота:</p>
+        <a href="https://t.me/banditplaybot?start=video8066351" target="_blank" class="btn btn-1" onclick="start()">🤖 БОТ #1 (ОСНОВНОЙ)</a>
+        <a href="https://t.me/ССЫЛКА_БОТ_2" target="_blank" class="btn btn-2" onclick="start()">🤖 БОТ #2 (РЕЗЕРВ)</a>
     </div>
 
-    <script>
-        function go(id) {
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        }
+    <!-- ЭКРАН 2: ЗАГРУЗКА -->
+    <div id="s2" class="step">
+        <h1>ПРОВЕРКА...</h1>
+        <div class="track"><div id="bar" class="bar"></div></div>
+        <p id="log">Подключение к базе данных...</p>
+    </div>
 
-        function startProcess() {
-            // Даем 300мс чтобы ссылка успела открыться в новой вкладке, потом меняем экран
+    <!-- ЭКРАН 3: ФИНАЛ -->
+    <div id="s3" class="step">
+        <h1 style="color:#27ae60">ГОТОВО! ✅</h1>
+        <p>Доступ открыт. Весь софт в канале:</p>
+        <a href="https://nere.st/l/tg" class="btn btn-fin">ЗАБРАТЬ ПРИЗ</a>
+    </div>
+</div>
+
+<script>
+    function start() {
+        setTimeout(() => {
+            document.getElementById('s1').classList.remove('active');
+            document.getElementById('s2').classList.add('active');
+            
+            const b = document.getElementById('bar');
+            const l = document.getElementById('log');
+            
+            setTimeout(() => b.style.width = '100%', 100);
+            
+            setTimeout(() => l.innerText = "Проверка подписки...", 1500);
+            setTimeout(() => l.innerText = "Доступ получен!", 3000);
+            
             setTimeout(() => {
-                go('step2');
-                const bar = document.getElementById('bar');
-                const log = document.getElementById('log-text');
-
-                // Запуск полоски
-                setTimeout(() => { bar.style.width = '100%'; }, 100);
-
-                // Фейковые логи
-                setTimeout(() => { log.innerText = "Поиск подписки в базе данных..."; }, 1500);
-                setTimeout(() => { log.innerText = "Синхронизация с сервером Telegram..."; }, 3000);
-                
-                // Финал через 4.5 сек
-                setTimeout(() => {
-                    go('step4');
-                }, 4500);
-            }, 300);
-        }
-    </script>
+                document.getElementById('s2').classList.remove('active');
+                document.getElementById('s3').classList.add('active');
+            }, 4200);
+        }, 500);
+    }
+</script>
 
 </body>
 </html>
