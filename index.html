@@ -3,144 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ПЕРЕХОД В КАНАЛ</title>
+    <title>Emr1k_client</title>
+    <!-- Подключаем иконки для красивого значка Внимание -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { box-sizing: border-box; }
-        body {
-            margin: 0; padding: 0;
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at top right, #1a1a2e, #07070a);
-            color: #ffffff;
-            display: flex; align-items: center; justify-content: center;
-            min-height: 100vh;
+        /* --- ОСНОВНЫЕ СТИЛИ И ЦВЕТА --- */
+        :root {
+            --main-bg: radial-gradient(circle at top, #1e0044, #0b001a); /* Глубокий фиолетово-синий */
+            --card-bg: rgba(25, 12, 45, 0.9); /* Фон карточки */
+            --accent-color: #a73af0; /* Яркий фиолетовый */
+            --secondary-color: #4a00e0; /* Синий */
+            --btn-gradient: linear-gradient(90deg, #a73af0, #6100ed); /* Градиент кнопок */
+            --border-style: 1px solid rgba(255, 255, 255, 0.15); /* Обводка элементов */
+            --text-red: #ff4d4d; /* Цвет для предупреждений */
         }
 
-        .card {
-            width: 92%; max-width: 440px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 35px;
-            padding: 35px;
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--main-bg);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Переливающийся фон на заднем плане */
+        body::after {
+            content: "";
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(167, 58, 240, 0.05), transparent);
+            animation: rotateBg 12s linear infinite;
+            z-index: -1;
+        }
+        @keyframes rotateBg {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- КОНТЕЙНЕР КАРТОЧКИ --- */
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: var(--card-bg);
+            border: var(--border-style);
+            border-radius: 40px; /* Сильное закругление как на фото */
+            padding: 35px 25px;
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            position: relative;
         }
 
-        .prize-img {
-            width: 100%; height: 180px;
-            object-fit: cover; border-radius: 20px;
+        /* Скрытие слайдов */
+        .slide { display: none; flex-direction: column; align-items: center; }
+                .slide.active { display: flex; animation: fadeIn 0.5s ease forwards; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ЭЛЕМЕНТЫ --- */
+        .product-img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: var(--border-style);
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
         }
 
-        h1 { font-size: 26px; font-weight: 800; margin-bottom: 15px; letter-spacing: -0.5px; }
-        p { font-size: 15px; color: #a1a1aa; line-height: 1.6; margin-bottom: 25px; }
+        h1 { font-size: 26px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; }
+        h2 { font-size: 20px; font-weight: 600; margin-bottom: 15px; }
+        p { font-size: 15px; opacity: 0.8; line-height: 1.4; margin-bottom: 20px; }
 
-        /* КНОПКИ */
+        /* Кнопки */
         .btn {
-            display: block; width: 100%; padding: 18px;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            color: #ffffff; text-decoration: none;
-            border-radius: 20px; font-size: 17px; font-weight: 700;
-            border: none; cursor: pointer;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            padding: 18px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 20px;
+            background: var(--btn-gradient);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(167, 58, 240, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4); }
 
-        /* ПРЕДУПРЕЖДЕНИЕ */
-        .warning-box {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 15px;
-            padding: 15px; margin-bottom: 25px;
-            display: flex; align-items: center; text-align: left;
+        .btn:hover { transform: scale(1.03); filter: brightness(1.1); }
+        .btn:active { transform: scale(0.98); }
+
+        .btn.disabled {
+            background: #333;
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
         }
-        .warning-box span { color: #ef4444; font-size: 13px; font-weight: 600; line-height: 1.4; }
 
-        /* ЭКРАН ЗАГРУЗКИ (ФЕЙК ПРОВЕРКА) */
-        .loader-container { width: 100%; background: rgba(255,255,255,0.1); height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; }
-        .loader-bar { width: 0%; height: 100%; background: #6366f1; transition: width 4s linear; }
-        .checking-text { font-size: 13px; color: #6366f1; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        /* Блок Внимание */
+        .attention-box {
+            border: 1px solid var(--text-red);
+            background: rgba(255, 77, 77, 0.08);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: left;
+        }
+        .attention-box i { color: var(--text-red); font-size: 22px; }
+        .attention-box span { color: var(--text-red); font-size: 13px; font-weight: 500; }
 
-        /* УПРАВЛЕНИЕ ЭКРАНАМИ */
-        .step { display: none; animation: fadeIn 0.5s ease; }
-        .active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* Полоска загрузки */
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: var(--border-style);
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--btn-gradient);
+            transition: width 0.1s linear;
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        
-        <!-- ШАГ 1: ПРИВЕТСТВИЕ -->
-        <div id="step1" class="step active">
-            <img src="https://i.ytimg.com/vi/OaYfNpJz0j8/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDsgVihyMA8=&amp;rs=AOn4CLCnjbR-L9z9AEJKjWFbJPyx_sfgeQ" class="prize-img" alt="Reward">
-            <h1>ХОТИТЕ ЗАБРАТЬ СОФТ?</h1>
-            <p>Нажмите кнопку, чтобы начать процесс получения.</p>
-            <button class="btn" onclick="go(2)">ПОЛУЧИТЬ СОФТ/ЧИТ!</button>
-        </div>
+<div class="container">
 
-        <!-- ШАГ 2: УСЛОВИЯ + ВНИМАНИЕ -->
-        <div id="step2" class="step">
-            <h1>Проверка личности</h1>
-            <p>Системе необходимо убедиться, что вы выполнили обязательное задание.</p>
-            
-            <div class="warning-box">
-                <span>⚠️ ВНИМАНИЕ: Если вы не запустите бота и не выполните все начальные задания в боте(обязательно), ссылка на скачивание будет заблокирована навсегда!</span>
-            </div>
-
-            <!-- ВСТАВЬ ССЫЛКУ НА СВОЕГО БОТА НИЖЕ -->
-            <a href= "https://t.me/banditplaybot?start=video8066351" target="_blank" class="btn" onclick="startCheck()">ПЕРЕЙТИ В БОТА</a>
-        </div>
-
-        <!-- ШАГ 3: ФЕЙК ЗАГРУЗКА -->
-        <div id="step3" class="step">
-            <h1 id="status-text">ПРОВЕРКА...</h1>
-            <div class="loader-container">
-                <div id="bar" class="loader-bar"></div>
-            </div>
-            <p id="log-text">Поиск аккаунта в базе данных...</p>
-        </div>
-
-        <!-- ШАГ 4: ФИНАЛ -->
-        <div id="step4" class="step">
-            <h1>Доступ открыт! ✅</h1>
-            <p>Задание успешно. Вас должно перенести в канал с читом по кнопке ниже.</p>
-            <!-- ВСТАВЬ ССЫЛКУ НА ФАЙЛ / КАНАЛ С ПРИЗОМ НИЖЕ -->
-            <a href="https://nere.st/l/tg" class="btn">КАНАЛ С СОФТОМ/ЧИТОМ</a>
-        </div>
-
+    <!-- СЛАЙД 1: ПРИВЕТСТВИЕ -->
+    <div id="slide1" class="slide active">
+        <!-- ВСТАВЬТЕ ССЫЛКУ НА КАРТИНКУ ПРОДУКТА НИЖЕ -->
+        <img src="https://i.imgur.com/8QWvG9n.png" alt="Продукт" class="product-img">
+        <h1>ХОТИТЕ ЗАБРАТЬ СОФТ?</h1>
+        <p>Нажмите кнопку ниже, чтобы начать автоматический процесс получения.</p>
+        <button class="btn" onclick="nextSlide(2)">ПОЛУЧИТЬ СОФТ/ЧИТ!</button>
     </div>
 
-    <script>
-        function go(s) {
-            document.querySelectorAll('.step').forEach(x => x.classList.remove('active'));
-            document.getElementById('step' + s).classList.add('active');
+    <!-- СЛАЙД 2: ЗАДАНИЯ -->
+    <div id="slide2" class="slide">
+        <h2>ПОЛУЧЕНИЕ ПРОДУКТА</h2>
+        <p>Для завершения нужно выполнить 2 простых шага:</p>
+        
+        <!-- ВСТАВЬТЕ ССЫЛКУ НА БОТА В href -->
+        <a href="https://t.me/ВАШ_БОТ" target="_blank" class="btn" id="btn-task1" onclick="completeTask(1)">1. СОЗДАТЬ ЧЕЛОВЕКА</a>
+        
+        <!-- ВСТАВЬТЕ ССЫЛКУ НА КАНАЛ В href -->
+        <a href="https://t.me/ВАШ_КАНАЛ" target="_blank" class="btn" id="btn-task2" onclick="completeTask(2)">2. ПОДПИСАТЬСЯ</a>
+
+        <div class="attention-box">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>Внимание: если вы не подпишетесь или отпишетесь от канала, ссылка будет заблокирована.</span>
+        </div>
+
+        <button class="btn disabled" id="continue-btn" disabled onclick="nextSlide(3)">ПРОВЕРИТЬ ВЫПОЛНЕНИЕ</button>
+    </div>
+
+    <!-- СЛАЙД 3: ИМИТАЦИЯ ПРОВЕРКИ -->
+    <div id="slide3" class="slide">
+        <h2>ИДЕТ ПРОВЕРКА...</h2>
+        <p>Синхронизация с базой данных Telegram.</p>
+        <div class="progress-container">
+            <div class="progress-bar" id="bar"></div>
+        </div>
+        <p style="font-size: 12px; opacity: 0.6;" id="loader-text">Проверка подписки...</p>
+    </div>
+
+    <!-- СЛАЙД 4: ФИНАЛ -->
+    <div id="slide4" class="slide">
+        <h1 style="color: #00ff88;">ПОЗДРАВЛЯЕМ!</h1>
+        <p>Проверка прошла успешно. Вы можете забрать свой продукт прямо сейчас.</p>
+        <!-- ВСТАВЬТЕ ССЫЛКУ НА ФАЙЛ/ПРОГРАММУ В href -->
+        <a href="https://ВАША_ССЫЛКА_НА_СОФТ" class="btn">ПОЛУЧИТЬ ПРИЗ</a>
+    </div>
+
+</div>
+
+<script>
+    let task1 = false;
+    let task2 = false;
+
+    // Переключение слайдов
+    function nextSlide(n) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById('slide' + n).classList.add('active');
+
+        if (n === 3) {
+            runLoader();
         }
+    }
 
-        function startCheck() {
-            // Переключаем на экран загрузки
-            go(3);
-            
-            const bar = document.getElementById('bar');
-            const log = document.getElementById('log-text');
-            const status = document.getElementById('status-text');
+    // Логика нажатия на кнопки заданий
+    function completeTask(n) {
+        if (n === 1) task1 = true;
+        if (n === 2) task2 = true;
 
-            // Запускаем анимацию полоски
-            setTimeout(() => { bar.style.width = '100%'; }, 100);
-
-            // Меняем надписи для "реалистичности"
-            setTimeout(() => { log.innerText = "Синхронизация бота Telegram..."; }, 1500);
-            setTimeout(() => { log.innerText = "Проверка выполнения условий..."; }, 3000);
-            
-            // Через 4.5 секунды показываем финал
-            setTimeout(() => {
-                go(4);
-            }, 4500);
+        if (task1 && task2) {
+            const btn = document.getElementById('continue-btn');
+            btn.classList.remove('disabled');
+            btn.disabled = false;
         }
-    </script>
+    }
+
+    // Имитация загрузки (4-5 секунд)
+    function runLoader() {
+        const bar = document.getElementById('bar');
+        const text = document.getElementById('loader-text');
+        let width = 0;
+        
+        const interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    nextSlide(4);
+                }, 500);
+            } else {
+                width++;
+                bar.style.width = width + '%';
+                
+                if (width == 30) text.innerText = "Поиск ID в базе...";
+                if (width == 60) text.innerText = "Проверка статуса подписки...";
+                if (width == 90) text.innerText = "Доступ подтвержден!";
+            }
+        }, 45); // 45ms * 100 = 4.5 секунды
+    }
+</script>
 
 </body>
 </html>
