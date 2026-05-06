@@ -9,25 +9,9 @@
 
 body {
     margin: 0;
-    font-family: Arial;
-    background: radial-gradient(circle at top, #0a0a0f, #000);
-    color: white;
-    overflow: hidden;
-}
-
-/* ⚡ ЧАСТИЦЫ (молнии) */
-.particle {
-    position: absolute;
-    width: 2px;
-    height: 20px;
-    background: linear-gradient(#6a00ff, transparent);
-    opacity: 0.5;
-    animation: fall linear infinite;
-}
-
-@keyframes fall {
-    from {transform: translateY(-100px);}
-    to {transform: translateY(110vh);}
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #0a0a0f, #000000 80%);
+    color: #ffffff;
 }
 
 /* СЛАЙДЫ */
@@ -38,18 +22,39 @@ body {
     align-items: center;
 }
 
-.active { display: flex; }
+.active {
+    display: flex;
+}
 
 /* КАРТОЧКА */
 .card {
-    background: rgba(255,255,255,0.03);
+    background: rgba(255,255,255,0.04);
     padding: 30px;
     border-radius: 25px;
-    border: 1px solid rgba(140,0,255,0.3);
-    box-shadow: 0 0 40px rgba(140,0,255,0.2);
+    border: 1px solid rgba(140,0,255,0.25);
+    box-shadow: 0 0 40px rgba(140,0,255,0.15);
     text-align: center;
     width: 90%;
     max-width: 400px;
+}
+
+/* ПЛАВНОЕ ПОЯВЛЕНИЕ */
+.fade {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.delay1 { animation-delay: 0.2s; }
+.delay2 { animation-delay: 0.4s; }
+.delay3 { animation-delay: 0.6s; }
+.delay4 { animation-delay: 0.8s; }
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* КНОПКИ */
@@ -61,24 +66,20 @@ body {
     border: none;
     cursor: pointer;
     font-size: 16px;
-    transition: transform 0.15s ease, box-shadow 0.2s;
+    transition: 0.25s ease;
 }
 
-.btn:active {
-    transform: scale(0.96);
+/* ПЛАВНЫЙ HOVER */
+.btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
 }
 
-/* ПУЛЬС */
-@keyframes pulse {
-    0% {box-shadow: 0 0 10px #6a00ff;}
-    50% {box-shadow: 0 0 30px #9b00ff;}
-    100% {box-shadow: 0 0 10px #6a00ff;}
-}
-
+/* СТИЛИ */
 .btn-purple {
     background: linear-gradient(45deg,#6a00ff,#9b00ff);
     color: white;
-    animation: pulse 2s infinite;
+    box-shadow: 0 0 20px rgba(140,0,255,0.4);
 }
 
 .btn-red {
@@ -96,12 +97,12 @@ img {
     width: 100%;
     border-radius: 15px;
     margin-bottom: 15px;
-    box-shadow: 0 0 20px #6a00ff;
+    box-shadow: 0 0 20px rgba(140,0,255,0.3);
 }
 
 /* WARNING */
 .warning {
-    border: 1px solid red;
+    border: 1px solid rgba(255,0,0,0.5);
     padding: 10px;
     border-radius: 10px;
     margin: 10px 0;
@@ -126,7 +127,7 @@ img {
 /* ОНЛАЙН */
 .online {
     font-size: 14px;
-    color: #aaa;
+    color: #cccccc;
     margin-bottom: 10px;
 }
 
@@ -135,32 +136,23 @@ img {
 
 <body>
 
-<!-- ⚡ ЧАСТИЦЫ -->
-<script>
-for(let i=0;i<25;i++){
-    let p=document.createElement("div");
-    p.className="particle";
-    p.style.left=Math.random()*100+"%";
-    p.style.animationDuration=(Math.random()*3+2)+"s";
-    document.body.appendChild(p);
-}
-</script>
-
 <!-- 🔊 ЗВУК -->
 <audio id="clickSound" src="https://www.myinstants.com/media/sounds/mouse-click.mp3"></audio>
 
 <!-- СЛАЙД 1 -->
 <div class="slide active">
 <div class="card">
-<div class="online" id="online">Онлайн: 120</div>
 
-<h1>ПОЛУЧИ ДОСТУП</h1>
+<div class="online fade delay1" id="online">Онлайн: 120</div>
 
-<img src="ССЫЛКА_НА_КАРТИНКУ">
+<h1 class="fade delay2">ПОЛУЧИ ДОСТУП</h1>
 
-<button class="btn btn-purple" onclick="go(1)">
+<img src="ССЫЛКА_НА_КАРТИНКУ" class="fade delay3">
+
+<button class="btn btn-purple fade delay4" onclick="go(1)">
 Продолжить
 </button>
+
 </div>
 </div>
 
@@ -168,15 +160,25 @@ for(let i=0;i<25;i++){
 <div class="slide">
 <div class="card">
 
-<h2>Выполни действия</h2>
+<h2 class="fade delay1">Выполни действия</h2>
 
-<div class="warning">⚠️ Выполни все шаги</div>
+<div class="warning fade delay2">⚠️ Выполни все шаги</div>
 
-<button class="btn btn-red" onclick="done(this,'https://t.me/ССЫЛКА_БОТА','b')">Бот</button>
-<button class="btn btn-red" onclick="done(this,'https://t.me/КАНАЛ1','c1')">Подписаться</button>
-<button class="btn btn-red" onclick="done(this,'https://t.me/КАНАЛ2','c2')">Подписаться</button>
+<button class="btn btn-red fade delay2" onclick="done(this,'https://t.me/ССЫЛКА_БОТА','b')">
+Перейти в бота
+</button>
 
-<button class="btn btn-green" onclick="check()">Проверить</button>
+<button class="btn btn-red fade delay3" onclick="done(this,'https://t.me/КАНАЛ1','c1')">
+Подписаться
+</button>
+
+<button class="btn btn-red fade delay4" onclick="done(this,'https://t.me/КАНАЛ2','c2')">
+Подписаться
+</button>
+
+<button class="btn btn-green fade delay4" onclick="check()">
+Проверить
+</button>
 
 </div>
 </div>
@@ -185,9 +187,9 @@ for(let i=0;i<25;i++){
 <div class="slide">
 <div class="card">
 
-<h2>Проверка...</h2>
+<h2 class="fade">Подготовка доступа...</h2>
 
-<div class="progress">
+<div class="progress fade delay1">
 <div class="bar" id="bar"></div>
 </div>
 
@@ -198,9 +200,9 @@ for(let i=0;i<25;i++){
 <div class="slide">
 <div class="card">
 
-<h2>Готово</h2>
+<h2 class="fade">Готово</h2>
 
-<button class="btn btn-purple" onclick="window.location.href='ССЫЛКА_ПРОДУКТА'">
+<button class="btn btn-purple fade delay1" onclick="window.location.href='ССЫЛКА_ПРОДУКТА'">
 Получить
 </button>
 
@@ -251,11 +253,11 @@ setTimeout(()=>go(3),500);
 }
 },60);
 }else{
-alert("Сделай все");
+alert("Сделай все действия");
 }
 }
 
-/* 👥 ОНЛАЙН */
+/* ОНЛАЙН */
 let online=120;
 setInterval(()=>{
 online+=Math.floor(Math.random()*3-1);
