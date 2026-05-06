@@ -9,21 +9,25 @@
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #0a0a0f, #000000 80%);
+    font-family: Arial;
+    background: radial-gradient(circle at top, #0a0a0f, #000);
     color: white;
+    overflow: hidden;
 }
 
-/* АНИМАЦИИ */
-@keyframes fadeUp {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
+/* ⚡ ЧАСТИЦЫ (молнии) */
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(#6a00ff, transparent);
+    opacity: 0.5;
+    animation: fall linear infinite;
 }
 
-@keyframes pulse {
-    0% {box-shadow: 0 0 10px rgba(140,0,255,0.4);}
-    50% {box-shadow: 0 0 25px rgba(140,0,255,0.8);}
-    100% {box-shadow: 0 0 10px rgba(140,0,255,0.4);}
+@keyframes fall {
+    from {transform: translateY(-100px);}
+    to {transform: translateY(110vh);}
 }
 
 /* СЛАЙДЫ */
@@ -32,121 +36,98 @@ body {
     height: 100vh;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
 }
 
-.active {
-    display: flex;
-}
+.active { display: flex; }
 
 /* КАРТОЧКА */
 .card {
     background: rgba(255,255,255,0.03);
-    border-radius: 25px;
     padding: 30px;
-    border: 1px solid rgba(140, 0, 255, 0.2);
-    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    border: 1px solid rgba(140,0,255,0.3);
+    box-shadow: 0 0 40px rgba(140,0,255,0.2);
+    text-align: center;
+    width: 90%;
     max-width: 400px;
-    width: 100%;
-    box-shadow: 0 0 30px rgba(140, 0, 255, 0.15);
-    animation: fadeUp 0.6s ease;
 }
 
 /* КНОПКИ */
 .btn {
-    margin-top: 15px;
+    width: 100%;
     padding: 15px;
+    margin-top: 12px;
     border-radius: 15px;
     border: none;
-    font-size: 16px;
     cursor: pointer;
-    transition: 0.3s;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.6s ease;
+    font-size: 16px;
+    transition: transform 0.15s ease, box-shadow 0.2s;
 }
 
-/* ЗАДЕРЖКА ПОЯВЛЕНИЯ */
-.delay1 { animation-delay: 0.2s; }
-.delay2 { animation-delay: 0.4s; }
-.delay3 { animation-delay: 0.6s; }
-.delay4 { animation-delay: 0.8s; }
-
-/* БЛИК */
-.btn::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
-    transition: 0.5s;
+.btn:active {
+    transform: scale(0.96);
 }
 
-.btn:hover::after {
-    left: 100%;
+/* ПУЛЬС */
+@keyframes pulse {
+    0% {box-shadow: 0 0 10px #6a00ff;}
+    50% {box-shadow: 0 0 30px #9b00ff;}
+    100% {box-shadow: 0 0 10px #6a00ff;}
 }
 
-/* СТИЛИ КНОПОК */
 .btn-purple {
-    background: linear-gradient(45deg, #5f00ff, #9b00ff);
-    box-shadow: 0 0 15px rgba(140,0,255,0.5);
+    background: linear-gradient(45deg,#6a00ff,#9b00ff);
+    color: white;
     animation: pulse 2s infinite;
 }
 
-.btn-green {
-    background: linear-gradient(45deg, #00c853, #00e676);
-    box-shadow: 0 0 10px rgba(0,255,100,0.4);
-}
-
 .btn-red {
-    background: linear-gradient(45deg, #ff1744, #ff5252);
-    box-shadow: 0 0 10px rgba(255,0,80,0.4);
+    background: linear-gradient(45deg,#ff1744,#ff5252);
+    color: white;
 }
 
-/* НАЖАТИЕ */
-.btn:active {
-    transform: scale(0.95);
+.btn-green {
+    background: linear-gradient(45deg,#00c853,#00e676);
+    color: white;
+}
+
+/* КАРТИНКА */
+img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 20px #6a00ff;
 }
 
 /* WARNING */
 .warning {
-    margin-top: 15px;
-    padding: 12px;
-    border: 1px solid rgba(255,0,0,0.5);
-    border-radius: 12px;
+    border: 1px solid red;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px 0;
     color: #ff6b6b;
-    box-shadow: 0 0 10px rgba(255,0,0,0.2);
-}
-
-/* КАРТИНКА */
-.product-img {
-    width: 100%;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 20px rgba(140,0,255,0.3);
 }
 
 /* ПРОГРЕСС */
 .progress {
     width: 100%;
     height: 20px;
-    background: rgba(255,255,255,0.05);
+    background: #111;
     border-radius: 10px;
     overflow: hidden;
-    margin-top: 20px;
 }
 
-.progress-bar {
+.bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #00c6ff, #0072ff);
-    box-shadow: 0 0 15px rgba(0,150,255,0.6);
-    transition: width 0.2s;
+    background: linear-gradient(90deg,#00c6ff,#0072ff);
+}
+
+/* ОНЛАЙН */
+.online {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 10px;
 }
 
 </style>
@@ -154,129 +135,132 @@ body {
 
 <body>
 
+<!-- ⚡ ЧАСТИЦЫ -->
+<script>
+for(let i=0;i<25;i++){
+    let p=document.createElement("div");
+    p.className="particle";
+    p.style.left=Math.random()*100+"%";
+    p.style.animationDuration=(Math.random()*3+2)+"s";
+    document.body.appendChild(p);
+}
+</script>
+
+<!-- 🔊 ЗВУК -->
+<audio id="clickSound" src="https://www.myinstants.com/media/sounds/mouse-click.mp3"></audio>
+
 <!-- СЛАЙД 1 -->
 <div class="slide active">
-    <div class="card">
-        <h1>ПОЛУЧИ ДОСТУП</h1>
+<div class="card">
+<div class="online" id="online">Онлайн: 120</div>
 
-        <!-- ВСТАВЬ КАРТИНКУ -->
-        <img src="ССЫЛКА_НА_КАРТИНКУ" class="product-img">
+<h1>ПОЛУЧИ ДОСТУП</h1>
 
-        <p>Нажмите кнопку ниже</p>
+<img src="ССЫЛКА_НА_КАРТИНКУ">
 
-        <button class="btn btn-purple delay1" onclick="nextSlide(2)">
-            Продолжить
-        </button>
-    </div>
+<button class="btn btn-purple" onclick="go(1)">
+Продолжить
+</button>
+</div>
 </div>
 
 <!-- СЛАЙД 2 -->
 <div class="slide">
-    <div class="card">
+<div class="card">
 
-        <h2>Выполните действия</h2>
+<h2>Выполни действия</h2>
 
-        <div class="warning">
-            ⚠️ Выполните все шаги
-        </div>
+<div class="warning">⚠️ Выполни все шаги</div>
 
-        <!-- БОТ -->
-        <button class="btn btn-red delay1" onclick="markDone(this, 'https://t.me/ССЫЛКА_БОТА', 'bot')">
-            Перейти в бота
-        </button>
+<button class="btn btn-red" onclick="done(this,'https://t.me/ССЫЛКА_БОТА','b')">Бот</button>
+<button class="btn btn-red" onclick="done(this,'https://t.me/КАНАЛ1','c1')">Подписаться</button>
+<button class="btn btn-red" onclick="done(this,'https://t.me/КАНАЛ2','c2')">Подписаться</button>
 
-        <!-- КАНАЛ 1 -->
-        <button class="btn btn-red delay2" onclick="markDone(this, 'https://t.me/ССЫЛКА_КАНАЛА1', 'channel1')">
-            Подписаться
-        </button>
+<button class="btn btn-green" onclick="check()">Проверить</button>
 
-        <!-- КАНАЛ 2 (НОВЫЙ) -->
-        <button class="btn btn-red delay3" onclick="markDone(this, 'https://t.me/ССЫЛКА_КАНАЛА2', 'channel2')">
-            Подписаться
-        </button>
-
-        <button class="btn btn-green delay4" onclick="checkTasks()">
-            Проверить
-        </button>
-
-    </div>
+</div>
 </div>
 
 <!-- СЛАЙД 3 -->
 <div class="slide">
-    <div class="card">
+<div class="card">
 
-        <h2>Подготовка доступа...</h2>
+<h2>Проверка...</h2>
 
-        <div class="progress">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
 
-    </div>
+</div>
 </div>
 
 <!-- СЛАЙД 4 -->
 <div class="slide">
-    <div class="card">
+<div class="card">
 
-        <h2>Готово</h2>
+<h2>Готово</h2>
 
-        <button class="btn btn-purple" onclick="window.location.href='ССЫЛКА_НА_ПРОДУКТ'">
-            Получить
-        </button>
+<button class="btn btn-purple" onclick="window.location.href='ССЫЛКА_ПРОДУКТА'">
+Получить
+</button>
 
-    </div>
+</div>
 </div>
 
 <script>
 
-let slides = document.querySelectorAll('.slide');
-let current = 0;
+let slides=document.querySelectorAll('.slide');
+let cur=0;
 
-function nextSlide(num) {
-    slides[current].classList.remove('active');
-    current = num - 1;
-    slides[current].classList.add('active');
+function clickSound(){
+document.getElementById("clickSound").play();
 }
 
-let bot = false;
-let ch1 = false;
-let ch2 = false;
-
-function markDone(btn, link, type) {
-    window.open(link, "_blank");
-
-    btn.classList.remove('btn-red');
-    btn.classList.add('btn-green');
-
-    if(type === 'bot') bot = true;
-    if(type === 'channel1') ch1 = true;
-    if(type === 'channel2') ch2 = true;
+function go(n){
+clickSound();
+slides[cur].classList.remove('active');
+cur=n;
+slides[cur].classList.add('active');
 }
 
-function checkTasks() {
-    if (bot && ch1 && ch2) {
-        nextSlide(3);
-        startProgress();
-    } else {
-        alert("Выполни все действия");
-    }
+let b=false,c1=false,c2=false;
+
+function done(btn,link,type){
+clickSound();
+window.open(link);
+
+btn.classList.remove('btn-red');
+btn.classList.add('btn-green');
+
+if(type=="b")b=true;
+if(type=="c1")c1=true;
+if(type=="c2")c2=true;
 }
 
-function startProgress() {
-    let bar = document.getElementById("progressBar");
-    let width = 0;
-
-    let interval = setInterval(() => {
-        width += 2;
-        bar.style.width = width + "%";
-
-        if (width >= 100) {
-            clearInterval(interval);
-            setTimeout(() => nextSlide(4), 400);
-        }
-    }, 80);
+function check(){
+clickSound();
+if(b&&c1&&c2){
+go(2);
+let w=0;
+let i=setInterval(()=>{
+w+=2;
+bar.style.width=w+"%";
+if(w>=100){
+clearInterval(i);
+setTimeout(()=>go(3),500);
 }
+},60);
+}else{
+alert("Сделай все");
+}
+}
+
+/* 👥 ОНЛАЙН */
+let online=120;
+setInterval(()=>{
+online+=Math.floor(Math.random()*3-1);
+document.getElementById("online").innerText="Онлайн: "+online;
+},2000);
 
 </script>
 
