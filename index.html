@@ -15,6 +15,14 @@ body {
     overflow: hidden;
 }
 
+/* 🟢 СЛОЙ ФОНА */
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+}
+
+/* 🌌 сетка */
 .grid {
     position: absolute;
     width: 200%;
@@ -30,27 +38,60 @@ body {
     to { transform: translate(-50px,-50px); }
 }
 
+/* ✨ частицы */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #00ffcc;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ffcc;
+    animation: float 8s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); opacity: 0; }
+    50% { opacity: 1; }
+    to { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* 💻 падающие цифры */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* 🧊 ПАНЕЛЬ */
 .panel {
     position: relative;
     z-index: 2;
     width: 90%;
     max-width: 450px;
     margin: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,255,204,0.03);
-    border: 1px solid rgba(0,255,204,0.2);
-    border-radius: 20px;
     padding: 25px;
-    text-align: center;
-    box-shadow: 0 0 40px rgba(0,255,204,0.15);
+    border-radius: 20px;
+    background: rgba(0,255,204,0.03);
+    border: 1px solid rgba(0,255,204,0.25);
+    box-shadow: 0 0 30px rgba(0,255,204,0.2);
+
+    /* ВАЖНО — фикс центр */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
+/* 💡 заголовок */
 h1 {
+    text-align: center;
     font-size: 20px;
-    letter-spacing: 3px;
+    text-shadow: 0 0 15px #00ffcc;
 }
 
+/* 🔘 кнопки */
 .btn {
     width: 100%;
     padding: 14px;
@@ -61,11 +102,13 @@ h1 {
     cursor: pointer;
     border-radius: 12px;
     transition: 0.3s;
+    box-shadow: 0 0 10px rgba(0,255,204,0.2);
 }
 
 .btn:hover {
     background: #00ffcc;
     color: #000;
+    box-shadow: 0 0 25px #00ffcc;
 }
 
 .done {
@@ -73,6 +116,7 @@ h1 {
     color: #000 !important;
 }
 
+/* 📊 прогресс */
 .progress {
     width: 100%;
     height: 10px;
@@ -86,11 +130,13 @@ h1 {
     height: 100%;
     width: 0%;
     background: #00ffcc;
+    box-shadow: 0 0 10px #00ffcc;
 }
 
+/* финал */
 .final {
     display: none;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 </style>
@@ -98,48 +144,47 @@ h1 {
 
 <body>
 
+<div class="background">
 <div class="grid"></div>
+<canvas id="matrix"></canvas>
+</div>
 
 <div class="panel">
 
 <h1>CYBER ACCESS PANEL</h1>
 
-<p>Выполните действия для продолжения</p>
-
 <button class="btn" id="b1" onclick="task(this,'https://t.me/banditpIaybot?start=video8361419','t1')">
-1. Создать человечека
+CONNECT NODE 1
 </button>
 
 <button class="btn" id="b2" onclick="task(this,'https://t.me/+LhqOLbq9ucs4ZmYy','t2')">
-2. Подать заявку
+CONNECT NODE 2
 </button>
 
 <button class="btn" id="b3" onclick="task(this,'https://t.me/+fXt6XG9wOJRhZmEy','t3')">
-3. Подать заявку
+CONNECT NODE 3
 </button>
 
 <div class="progress">
 <div class="bar" id="bar"></div>
 </div>
 
-<button class="btn" onclick="check()">
-ПРОВЕРИТЬ
-</button>
+<button class="btn" onclick="check()">RUN VERIFY</button>
 
 <button class="btn final" id="finalBtn"
 onclick="location.href='https://links.nerestpc.com/files?message=14'">
-ПОЛУЧИТЬ ДОСТУП
+ACCESS GRANTED
 </button>
 
 </div>
 
 <script>
 
+/* ✅ задачи */
 let t1=false,t2=false,t3=false;
 
 function task(btn,link,type){
 window.open(link,"_blank");
-
 btn.classList.add("done");
 
 if(type=="t1")t1=true;
@@ -147,9 +192,9 @@ if(type=="t2")t2=true;
 if(type=="t3")t3=true;
 }
 
+/* 📊 проверка */
 function check(){
-
-if(t1 && t2 && t3){
+if(t1&&t2&&t3){
 
 let bar=document.getElementById("bar");
 let w=0;
@@ -165,10 +210,54 @@ document.getElementById("finalBtn").style.display="block";
 },40);
 
 }else{
-alert("Выполните все 3 пункта");
+alert("SYSTEM LOCKED: COMPLETE ALL NODES");
+}
 }
 
+/* ✨ частицы */
+for(let i=0;i<30;i++){
+let p=document.createElement("div");
+p.className="particle";
+p.style.left=Math.random()*100+"%";
+p.style.animationDuration=(5+Math.random()*10)+"s";
+document.body.appendChild(p);
 }
+
+/* 💻 MATRIX */
+let canvas=document.getElementById("matrix");
+let ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let letters="01";
+letters=letters.split("");
+
+let fontSize=14;
+let columns=canvas.width/fontSize;
+
+let drops=[];
+for(let x=0;x<columns;x++) drops[x]=1;
+
+function draw(){
+ctx.fillStyle="rgba(0,0,0,0.08)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#00ffcc";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+let text=letters[Math.floor(Math.random()*letters.length)];
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975){
+drops[i]=0;
+}
+drops[i]++;
+}
+}
+
+setInterval(draw,33);
 
 </script>
 
