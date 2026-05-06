@@ -6,36 +6,39 @@
     <title>Emr1k_client</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Цветовая палитра */
-            --color-primary-start: #6a11cb; /* Фиолетовый */
-            --color-primary-end: #2575fc;   /* Синий */
-            --color-button-start: #8e2de2;  /* Более насыщенный фиолетовый */
-            --color-button-end: #4a00e0;    /* Более темный сине-фиолетовый */
+            /* Цветовая палитра, максимально приближенная к референсу */
+            --color-bg-dark-start: #1D1A3B; /* Очень темный фиолетово-синий */
+            --color-bg-dark-end: #2E3A5F;   /* Темный синий */
+            --color-content-bg: rgba(0, 0, 0, 0.4); /* Полупрозрачный черный для контента */
+            --color-border-light: rgba(255, 255, 255, 0.15); /* Едва заметная светлая обводка */
+            --color-shadow-light: rgba(255, 255, 255, 0.05); /* Легкое свечение */
             --color-text-white: #ffffff;
-            --color-warning-red: rgba(255, 0, 0, 0.7);
-            --color-warning-bg: rgba(255, 0, 0, 0.2);
-            --color-progress-start: #4facfe;
-            --color-progress-end: #00f2fe;
-            --color-shadow-dark: rgba(0, 0, 0, 0.3);
-            --color-glow-primary: rgba(106, 17, 203, 0.5);
-            --color-glow-button: rgba(142, 45, 226, 0.6);
-            --color-glow-warning: rgba(255, 0, 0, 0.5);
+            --color-button-primary-start: #8e2de2; /* Фиолетовый градиент кнопки */
+            --color-button-primary-end: #4a00e0;   /* Темно-фиолетовый */
+            --color-button-action-start: #f093fb; /* Розово-красный градиент для "Подписаться" */
+            --color-button-action-end: #f35672;
+            --color-button-next-start: #2af598; /* Зелено-синий градиент для "Проверить" */
+            --color-button-next-end: #009efd;
+            --color-warning-red: #ff3333; /* Красный для предупреждения */
+            --color-warning-bg: rgba(255, 51, 51, 0.15); /* Полупрозрачный красный фон */
+            --color-progress-fill-start: #4facfe; /* Синий градиент для прогресса */
+            --color-progress-fill-end: #00f2fe;
         }
 
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--color-primary-start) 0%, var(--color-primary-end) 100%);
+            background: linear-gradient(135deg, var(--color-bg-dark-start) 0%, var(--color-bg-dark-end) 100%);
             color: var(--color-text-white);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden; /* Скрываем любые скроллбары */
             position: relative;
         }
 
@@ -44,65 +47,54 @@
             flex-direction: column;
             width: 100%;
             max-width: 600px;
-            text-align: center;
-            padding: 20px;
             box-sizing: border-box;
+            /* Без padding здесь, пусть content-wrapper сам отступает */
         }
 
-        .slide {
-            min-height: 100vh;
-            display: flex;
+        .slide {            display: none; /* Все слайды скрыты по умолчанию */
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
-            position: absolute;
-            top: 0;
-            left: 0;
+            min-height: 100vh; /* Каждый слайд занимает всю высоту экрана */
             width: 100%;
-            background: inherit; /* Наследует фон body */
+            text-align: center;
+            /* Не наследуем background, чтобы каждый слайд был над фоном body */
+            transition: opacity 0.5s ease-in-out; /* Плавный переход при смене слайдов */
         }
 
         .slide.active {
-            opacity: 1;
-            visibility: visible;
-                        position: relative;
+            display: flex; /* Активный слайд показываем */
+            opacity: 1; /* Для плавности перехода */
         }
 
         .content-wrapper {
             padding: 30px 20px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 25px; /* Более выраженное скругление */
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Неоновая обводка */
-            backdrop-filter: blur(15px); /* Увеличенный радиус размытия */
+            background-color: var(--color-content-bg);
+            border-radius: 20px; /* Скругление углов */
+            border: 1px solid var(--color-border-light); /* Очень тонкая и светлая обводка */
+            backdrop-filter: blur(15px); /* Эффект размытия фона */
             -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 0 25px var(--color-glow-primary); /* Свечение */
-            margin: 20px; /* Небольшой внешний отступ */
-            width: calc(100% - 40px); /* Учет margin */
-            max-width: 500px; /* Ограничение ширины */
+            box-shadow: 0 0 25px var(--color-shadow-light); /* Едва заметное свечение */
+            margin: 20px; /* Отступ от краев экрана */
+            width: calc(100% - 40px); /* Чтобы контент-враппер не выходил за границы */
+            max-width: 500px; /* Ограничение максимальной ширины */
         }
 
         h1, h2 {
-            font-size: 2.8em; /* Немного увеличен шрифт */
-            margin-bottom: 10px; /* Уменьшен отступ */
+            font-size: 2.8em;
+            margin-bottom: 10px;
             line-height: 1.1;
             font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Темная тень для контраста */
+            color: var(--color-text-white); /* Белый текст для заголовков */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Тень для объема */
         }
 
         h1 {
-            font-size: 3.2em; /* Крупнее основной заголовок */
+            font-size: 3.2em;
         }
 
         h2 {
-            font-size: 2.2em; /* Меньше, чем H1 */
-            background: none;
-            -webkit-text-fill-color: initial;
-            background-clip: initial;
-            color: var(--color-text-white);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            font-size: 2.2em;
         }
 
         p {
@@ -115,40 +107,41 @@
 
         .description-text {
             font-size: 1.2em;
-            margin-bottom: 40px; /* Увеличен отступ */
+            margin-bottom: 40px;
+            font-weight: 500;
         }
 
         .product-image-container {
-            margin: 25px auto; /* Увеличены отступы */
+            margin: 25px auto;
             max-width: 95%;
-            border: 3px solid var(--color-text-white);
-            border-radius: 18px; /* Более выраженное скругление */
+            border: 2px solid var(--color-border-light); /* Тонкая белая обводка */
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 8px 20px var(--color-shadow-dark); /* Более выраженная тень */
+            box-shadow: 0 5px 15px var(--color-shadow-dark);
         }
 
         .product-image {
             display: block;
             width: 100%;
             height: auto;
-            border-radius: 15px; /* Небольшой радиус внутри рамки */
+            border-radius: 16px; /* Чуть меньше, чем у контейнера */
         }
 
         .cta-button, .action-button {
             display: inline-block;
-            padding: 18px 35px; /* Увеличенные размеры кнопки */
-            font-size: 1.3em; /* Увеличен шрифт */
+            padding: 18px 35px;
+            font-size: 1.3em;
             font-weight: 700;
             text-decoration: none;
             color: var(--color-text-white);
-            background: linear-gradient(90deg, var(--color-button-start) 0%, var(--color-button-end) 100%);
+            background: linear-gradient(90deg, var(--color-button-primary-start) 0%, var(--color-button-primary-end) 100%);
             border: none;
-            border-radius: 35px; /* Сильно скругленные края */
+            border-radius: 35px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px var(--color-glow-button); /* Усиленное свечение */
+            box-shadow: 0 8px 25px rgba(142, 45, 226, 0.4); /* Мягкое свечение */
             outline: none;
-            margin-top: 25px; /* Увеличен отступ */
+            margin-top: 25px;
             position: relative;
             overflow: hidden;
             z-index: 1;
@@ -161,79 +154,81 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.25) 0%, transparent 50%); /* Более яркое свечение */
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.15) 0%, transparent 50%); /* Блик при наведении */
             opacity: 0;
-            transition: opacity 0.4s ease; /* Более долгий переход */
+            transition: opacity 0.3s ease;
             z-index: -1;
         }
 
         .cta-button:hover, .action-button:hover {
-            transform: translateY(-4px); /* Более ощутимый эффект поднятия */
-            box-shadow: 0 12px 30px var(--color-glow-button); /* Усиленная тень при ховере */
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(142, 45, 226, 0.6); /*
+            Чуть сильнее свечение */
         }
 
         .cta-button:hover::before, .action-button:hover::before {
             opacity: 1;
         }
 
-        .warning-box {background-color: var(--color-warning-bg);
-            border: 2px solid var(--color-warning-red);
-            padding: 18px 25px; /* Увеличены размеры */
+        .warning-box {
+            background-color: var(--color-warning-bg);
+            border: 1px solid var(--color-warning-red); /* Тонкая красная обводка */
+            padding: 18px 25px;
             border-radius: 18px;
-            margin: 25px auto; /* Увеличены отступы */
-            max-width: 85%; /* Увеличенная ширина */
+            margin: 25px auto;
+            max-width: 85%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px; /* Отступ между иконкой и текстом */
+            gap: 12px;
             font-size: 1.05em;
-            box-shadow: 0 0 18px var(--color-glow-warning);
+            box-shadow: 0 0 18px rgba(255, 51, 51, 0.3); /* Мягкое красное свечение */
         }
 
         .warning-icon {
-            font-size: 1.8em; /* Крупнее иконка */
+            font-size: 1.8em;
         }
 
         .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 18px; /* Увеличен отступ между кнопками */
+            gap: 18px;
             margin-top: 30px;
         }
 
         .action-button {
-            background: linear-gradient(90deg, #f093fb 0%, #f35672 100%); /* Розово-красный градиент */
-            box-shadow: 0 8px 25px rgba(243, 86, 114, 0.7); /* Скорректирована тень */
+            background: linear-gradient(90deg, var(--color-button-action-start) 0%, var(--color-button-action-end) 100%);
+            box-shadow: 0 8px 25px rgba(243, 86, 114, 0.4);
         }
 
         .action-button:hover {
-            box-shadow: 0 12px 30px rgba(243, 86, 114, 0.9);
+            box-shadow: 0 10px 30px rgba(243, 86, 114, 0.6);
         }
 
         .next-slide-button {
-            margin-top: 35px; /* Увеличен отступ */
-            background: linear-gradient(90deg, #2af598 0%, #009efd 100%); /* Зелено-синий градиент */
-            box-shadow: 0 8px 25px rgba(0, 158, 253, 0.7);
+            margin-top: 35px;
+            background: linear-gradient(90deg, var(--color-button-next-start) 0%, var(--color-button-next-end) 100%);
+            box-shadow: 0 8px 25px rgba(0, 158, 253, 0.4);
         }
 
         .next-slide-button:hover {
-            box-shadow: 0 12px 30px rgba(0, 158, 253, 0.9);
+            box-shadow: 0 10px 30px rgba(0, 158, 253, 0.6);
         }
 
         .progress-bar-container {
-            width: 85%; /* Увеличенная ширина */
-            max-width: 450px; /* Увеличенная максимальная ширина */
-            margin: 35px auto; /* Увеличены отступы */
+            width: 85%;
+            max-width: 450px;
+            margin: 35px auto;
             background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 35px; /* Сильное скругление */
+            border-radius: 35px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             overflow: hidden;
             position: relative;
-            height: 55px; /* Увеличенная высота */
+            height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.15em; /* Увеличен шрифт */
+            font-size: 1.15em;
             padding: 0 15px;
             box-sizing: border-box;
         }
@@ -244,10 +239,10 @@
             position: absolute;
             top: 0;
             left: 0;
-            background: linear-gradient(90deg, var(--color-progress-start) 0%, var(--color-progress-end) 100%);
+            background: linear-gradient(90deg, var(--color-progress-fill-start) 0%, var(--color-progress-fill-end) 100%);
             transform: scaleX(0);
             transform-origin: left;
-            transition: transform 4.5s ease-in-out; /* Немного увеличена длительность */
+            transition: transform 4.5s ease-in-out;
             border-radius: 35px;
             display: flex;
             align-items: center;
@@ -257,17 +252,13 @@
         .progress-text {
             position: relative;
             z-index: 1;
-            font-weight: 600; /* Немного жирнее */
-            text-shadow: 0 0 8px rgba(0,0,0,0.4); /* Более выраженная тень */
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(0,0,0,0.4);
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.8em;
-            }
-            h2 {
-                font-size: 1.9em;
-            }
+            h1 { font-size: 2.8em; }
+            h2 { font-size: 1.9em; }
             .content-wrapper {
                 padding: 25px 15px;
                 margin: 15px;
@@ -276,7 +267,11 @@
             .warning-box {
                 max-width: 95%;
                 margin: 20px auto;
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
             }
+            .warning-icon { font-size: 1.5em; }
             .progress-bar-container {
                 width: 95%;
                 margin: 25px auto;
@@ -294,55 +289,113 @@
 
         <!-- Слайд 1 -->
         <section id="slide-1" class="slide active">
-        </div>
+            <div class="content-wrapper">
+                <div class="greeting-box">
+                <h1>ХОТИТЕ ЗАБРАТЬ</h1>
+                    <h1>СОФТ?</h1>
+                </div>
+                <div class="product-image-container">
+                    <!-- Вставьте сюда ссылку на вашу картинку продукта -->
+                    <img src="https://via.placeholder.com/500x300" alt="Product Image" class="product-image">
+                </div>
+                <p class="description-text">Нажмите кнопку, чтобы начать процесс получения.</p>
+                <button class="cta-button" onclick="scrollToNextSlide()">ПОЛУЧИТЬ СОФТ/ЧИТ!</button>
+            </div>
+        </section>
+
+        <!-- Слайд 2 -->
+        <section id="slide-2" class="slide">
+            <div class="content-wrapper">
+                <h2>Чтобы получить продукт,</h2>
+                <p>Вам нужно подписаться на наш канал.</p>
+                <div class="warning-box">
+                    <span class="warning-icon">⚠️</span>
+                    <p>
+                        <strong>Внимание!</strong> Если вы отпишетесь от канала, ссылка будет заблокирована.
+                    </p>
+                </div>
+                <div class="action-buttons">
+                    <!-- Кнопка 1: Переход к боту -->
+                    <!-- Вставьте сюда ссылку на вашего бота -->
+                    <a href="https://t.me/your_bot_username" class="action-button bot-button" target="_blank">Перейти в БОТА</a>
+
+                    <!-- Кнопка 2: Подписаться на канал -->
+                    <!-- Вставьте сюда ссылку на ваш Telegram-канал -->
+                    <a href="https://t.me/your_telegram_channel" class="action-button subscribe-button" target="_blank">Подписаться</a>
+
+                    <!-- Кнопка 3: Дублирующая кнопка "Подписаться" -->
+                    <!-- Вставьте сюда ссылку на ваш Telegram-channel -->
+                    <a href="https://t.me/your_telegram_channel" class="action-button subscribe-button" target="_blank">Подписаться</a>
+                </div>
+                 <button class="cta-button next-slide-button" onclick="startVerification()">Проверить подписку</button>
+            </div>
+        </section>
+
+        <!-- Слайд 3 -->
+        <section id="slide-3" class="slide">
+            <div class="content-wrapper">
+                <h2>Проверка подписки...</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill"></div>
+                    <p class="progress-text">Выполняются задания. Пожалуйста, подождите.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Слайд 4 -->
+        <section id="slide-4" class="slide">
+            <div class="content-wrapper">
+                <h1>Поздравляем!</h1>
+                <p>Вы успешно прошли проверку.</p>
+                <button class="cta-button" onclick="getPrize()">Получить приз</button>
+            </div>
         </section>
 
     </div>
 
     <script>
-        // Переменные для слайдов
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
 
-        // Функция для перехода к следующему слайду
         function scrollToNextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide++;
-            if (currentSlide < slides.length) {
+            // Проверяем, что следующий слайд существует
+            if (currentSlide + 1 < slides.length) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide++;
                 slides[currentSlide].classList.add('active');
-            } else {
-                currentSlide = slides.length - 1; // Остаемся на последнем слайде
             }
+            // Если это последний слайд, ничего не делаем или обрабатываем иначе
         }
 
-        // Функция для запуска имитации проверки подписки
         function startVerification() {
-            // Скрываем текущий слайд и переходим на слайд 3 (Проверка)
+            // Скрываем текущий слайд и переходим на слайд 3 (индекс 2)
             slides[currentSlide].classList.remove('active');
-            currentSlide = 2; // Индекс слайда 3
+            currentSlide = 2; // Переключаемся на слайд проверки
             slides[currentSlide].classList.add('active');
 
-            // Имитация заполнения полоски прогресса
-            const progressBarFill = document.querySelector('.progress-bar-fill');
+            const progressBarFill = document.querySelector('#slide-3 .progress-bar-fill');
             if (progressBarFill) {
-                progressBarFill.style.transform = 'scaleX(1)'; // Заполняем на 100%
-            } else {
-                console.error("Элемент .progress-bar-fill не найден!");
+                // Сбрасываем прогресс перед началом, если он уже был заполнен
+                progressBarFill.style.transition = 'none';
+                progressBarFill.style.transform = 'scaleX(0)';
+                
+                // Запускаем анимацию заполнения после короткой задержки, чтобы transition сработал
+                setTimeout(() => {
+                    progressBarFill.style.transition = 'transform 4.5s ease-in-out';
+                    progressBarFill.style.transform = 'scaleX(1)'; // Заполняем на 100%
+                }, 50); // Небольшая задержка
             }
 
-            // Через 4.5 секунды переходим на слайд 4 (Получение приза)
+            // Через 4.5 секунды (равно длительности анимации) переходим на слайд 4
             setTimeout(() => {
-                if (currentSlide < slides.length) { 
+                if (currentSlide === 2) { // Убедимся, что мы все еще на слайде 3
                     slides[currentSlide].classList.remove('active');
-                    currentSlide = 3; // Индекс слайда 4
-                    if (currentSlide < slides.length) {
-                        slides[currentSlide].classList.add('active');
-                    }
+                    currentSlide = 3; // Индекс слайда 4 (получение приза)
+                    slides[currentSlide].classList.add('active');
                 }
-            }, 4500); // 4.5 секунды (4 секунды анимации + небольшой буфер)
+            }, 4500); // 4.5 секунды
         }
 
-        // Функция для получения приза
         function getPrize() {
             // ВАЖНО: Замените 'YOUR_FINAL_LINK_HERE' на реальную ссылку, куда должен перейти пользователь
             const finalLink = 'YOUR_FINAL_LINK_HERE'; // <-- Вставьте сюда вашу финальную ссылку!
