@@ -3,154 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Emr1k_client</title>
+<title>CYBER PANEL</title>
 
 <style>
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #0a0a0f, #000);
-    color: #fff;
+    font-family: Arial;
+    background: radial-gradient(circle at top, #05060a, #000);
+    color: #00ffcc;
     overflow: hidden;
 }
 
-/* 🌌 ЧАСТИЦЫ */
-.particle {
+.grid {
     position: absolute;
-    border-radius: 50%;
-    opacity: 0.3;
-    background: radial-gradient(circle, #8a2be2, transparent);
-    animation: float linear infinite;
+    width: 200%;
+    height: 200%;
+    background-image: linear-gradient(rgba(0,255,204,0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,255,204,0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: move 20s linear infinite;
 }
 
-@keyframes float {
-    from { transform: translateY(100vh); }
-    to { transform: translateY(-10vh); }
+@keyframes move {
+    from { transform: translate(0,0); }
+    to { transform: translate(-50px,-50px); }
 }
 
-/* СЛАЙДЫ */
-.slide {
-    display: none;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-}
-
-.active { display: flex; }
-
-/* КАРТОЧКА */
-.card {
-    background: rgba(255,255,255,0.04);
-    padding: 30px;
-    border-radius: 25px;
-    border: 1px solid rgba(140,0,255,0.25);
-    box-shadow: 0 0 40px rgba(140,0,255,0.15);
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-}
-
-/* ✨ FADE */
-.fade {
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeIn 0.6s forwards;
-}
-
-.delay1 { animation-delay: .2s; }
-.delay2 { animation-delay: .4s; }
-.delay3 { animation-delay: .6s; }
-.delay4 { animation-delay: .8s; }
-
-@keyframes fadeIn {
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* 🔘 КНОПКИ */
-.btn {
-    width: 100%;
-    padding: 15px;
-    margin-top: 12px;
-    border-radius: 17px;
-    border: 1px solid rgba(255,255,255,0.6); /* БЕЛАЯ ОБВОДКА */
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.25s ease;
+.panel {
     position: relative;
+    z-index: 2;
+    width: 90%;
+    max-width: 450px;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,255,204,0.03);
+    border: 1px solid rgba(0,255,204,0.2);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0,255,204,0.15);
 }
 
-/* 💫 ПУЛЬС ВСЕМ КНОПКАМ */
-@keyframes softPulse {
-    0% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
-    50% { box-shadow: 0 0 20px rgba(255,255,255,0.6); }
-    100% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+h1 {
+    font-size: 20px;
+    letter-spacing: 3px;
 }
 
 .btn {
-    animation: softPulse 2.5s infinite;
-}
-
-/* HOVER */
-.btn:hover {
-    transform: translateY(-2px);
-    border-color: #fff;
-}
-
-/* ЦВЕТА */
-.btn-purple {
-    background: linear-gradient(45deg,#6a00ff,#9b00ff);
-    color: #fff;
-}
-
-.btn-red {
-    background: linear-gradient(45deg,#ff1744,#ff5252);
-    color: #fff;
-}
-
-.btn-green {
-    background: linear-gradient(45deg,#00c853,#00e676);
-    color: #fff;
-}
-
-/* КАРТИНКА */
-img {
     width: 100%;
-    border-radius: 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 0 20px rgba(140,0,255,0.3);
-}
-
-/* WARNING */
-.warning {
-    border: 1px solid rgba(255,0,0,0.5);
-    padding: 10px;
+    padding: 14px;
+    margin-top: 10px;
+    background: transparent;
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+    cursor: pointer;
     border-radius: 12px;
-    margin: 10px 0;
-    color: #ff6b6b;
+    transition: 0.3s;
 }
 
-/* ПРОГРЕСС */
+.btn:hover {
+    background: #00ffcc;
+    color: #000;
+}
+
+.done {
+    background: #00ffcc !important;
+    color: #000 !important;
+}
+
 .progress {
     width: 100%;
-    height: 20px;
+    height: 10px;
     background: #111;
     border-radius: 10px;
     overflow: hidden;
+    margin-top: 15px;
 }
 
 .bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg,#00c6ff,#0072ff);
+    background: #00ffcc;
 }
 
-/* 👥 ОНЛАЙН */
-.online {
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: #fff;
-    text-shadow: 0 0 10px #fff, 0 0 20px #9b00ff;
+.final {
+    display: none;
+    margin-top: 15px;
 }
 
 </style>
@@ -158,138 +98,77 @@ img {
 
 <body>
 
-<!-- 🌌 ЧАСТИЦЫ -->
-<script>
-for(let i=0;i<20;i++){
-    let p=document.createElement("div");
-    p.className="particle";
-    let size=Math.random()*6+4;
-    p.style.width=size+"px";
-    p.style.height=size+"px";
-    p.style.left=Math.random()*100+"%";
-    p.style.animationDuration=(Math.random()*10+10)+"s";
-    document.body.appendChild(p);
-}
-</script>
+<div class="grid"></div>
 
-<!-- СЛАЙД 1 -->
-<div class="slide active">
-<div class="card">
+<div class="panel">
 
-<div class="online fade delay1" id="online"></div>
+<h1>CYBER ACCESS PANEL</h1>
 
-<h1 class="fade delay2">ПОЛУЧИТЬ ДОСТУП К ЧИТУ/СОФТУ???</h1>
+<p>Выполните действия для продолжения</p>
 
-<img src="i.ytimg.com/vi/OaYfNpJz0j8/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDsgVihyMA8=&amp;rs=AOn4CLCnjbR-L9z9AEJKjWFbJPyx_sfgeQ" class="fade delay3">
-<button class="btn btn-purple fade delay4" onclick="go(1)">
-    ЗАБРАТЬ СОФТ/ЧИТ
+<button class="btn" id="b1" onclick="task(this,'https://t.me/banditpIaybot?start=video8361419','t1')">
+1. Создать человечека
 </button>
 
-</div>
-</div>
-
-<!-- СЛАЙД 2 -->
-<div class="slide">
-<div class="card">
-
-<h2 class="fade delay1">Выполните Действия⚡️</h2>
-
-<div class="warning fade delay2">⚠️ЕСЛИ ВЫ НЕ ВЫПОЛНИТЕ ЗАДАНИЯ, ИЛИ ОТПИШИТЕСЬ ОТКАНАЛОВ ТО СОФТ БУДЕТ ЗАБЛОКИРОВАН ДЛЯ ВАС🔴</div>
-
-<button class="btn btn-red fade delay2" onclick="done(this,'https://t.me/banditpIaybot?start=video8361419','b')">
-1.СОЗДАТЬ ЧЕЛОВЕЧЕКА👈
+<button class="btn" id="b2" onclick="task(this,'https://t.me/+LhqOLbq9ucs4ZmYy','t2')">
+2. Подать заявку
 </button>
 
-<button class="btn btn-red fade delay3" onclick="done(this,'https://t.me/+LhqOLbq9ucs4ZmYy','c1')">
-2.ПОДАТЬ ЗАЯВКУ👈
+<button class="btn" id="b3" onclick="task(this,'https://t.me/+fXt6XG9wOJRhZmEy','t3')">
+3. Подать заявку
 </button>
 
-<button class="btn btn-red fade delay4" onclick="done(this,'https://t.me/+fXt6XG9wOJRhZmEy','c2')">
-3.ПОДАТЬ ЗАЯВКУ👈
-</button>
-
-<button class="btn btn-green fade delay4" onclick="check()">
-ПРОВЕРИТЬ ВЫПОЛНЕНИЕ✅
-</button>
-
-</div>
-</div>
-
-<!-- СЛАЙД 3 -->
-<div class="slide">
-<div class="card">
-
-<h2 class="fade">✨Подготовка ключа...</h2>
-
-<div class="progress fade delay1">
+<div class="progress">
 <div class="bar" id="bar"></div>
 </div>
 
-</div>
-</div>
-
-<!-- СЛАЙД 4 -->
-<div class="slide">
-<div class="card">
-
-<h2 class="fade">👇Готово👇</h2>
-
-<button class="btn btn-purple fade delay1" onclick="window.location.href='https://links.nerestpc.com/files?message=14'">
-ЗАБРАТЬ СОФТ⚡️
+<button class="btn" onclick="check()">
+ПРОВЕРИТЬ
 </button>
 
-</div>
+<button class="btn final" id="finalBtn"
+onclick="location.href='https://links.nerestpc.com/files?message=14'">
+ПОЛУЧИТЬ ДОСТУП
+</button>
+
 </div>
 
 <script>
 
-let slides=document.querySelectorAll('.slide');
-let cur=0;
+let t1=false,t2=false,t3=false;
 
-function go(n){
-slides[cur].classList.remove('active');
-cur=n;
-slides[cur].classList.add('active');
-}
+function task(btn,link,type){
+window.open(link,"_blank");
 
-let b=false,c1=false,c2=false;
+btn.classList.add("done");
 
-function done(btn,link,type){
-window.open(link);
-
-btn.classList.remove('btn-red');
-btn.classList.add('btn-green');
-
-if(type=="b")b=true;
-if(type=="c1")c1=true;
-if(type=="c2")c2=true;
+if(type=="t1")t1=true;
+if(type=="t2")t2=true;
+if(type=="t3")t3=true;
 }
 
 function check(){
-if(b&&c1&&c2){
-go(2);
+
+if(t1 && t2 && t3){
+
+let bar=document.getElementById("bar");
 let w=0;
+
 let i=setInterval(()=>{
 w+=2;
 bar.style.width=w+"%";
+
 if(w>=100){
 clearInterval(i);
-setTimeout(()=>go(3),500);
+document.getElementById("finalBtn").style.display="block";
 }
-},60);
+},40);
+
 }else{
-alert("🔴ВЫ НЕ ВЫПОЛНИЛИ УСЛОВИЯ🔴");
-}
-}
-
-/* 👥 ОНЛАЙН */
-function updateOnline(){
-let num=Math.floor(Math.random()*(247-50+1))+50;
-document.getElementById("online").innerText="ЧЕЙЧАС ОНЛАЙН 36 ЧЕЛОВЕК;
+alert("Выполните все 3 пункта");
 }
 
-updateOnline();
-setInterval(updateOnline,2000);
+}
 
 </script>
 
