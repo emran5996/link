@@ -67,25 +67,39 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* КНОПКИ */
+/* 🔘 КНОПКИ */
 .btn {
     width: 100%;
     padding: 15px;
     margin-top: 12px;
     border-radius: 15px;
-    border: none;
+    border: 1px solid rgba(255,255,255,0.6); /* БЕЛАЯ ОБВОДКА */
     cursor: pointer;
     font-size: 16px;
-    transition: .2s;
+    transition: 0.25s ease;
+    position: relative;
 }
 
+/* 💫 ПУЛЬС ВСЕМ КНОПКАМ */
+@keyframes softPulse {
+    0% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+    50% { box-shadow: 0 0 20px rgba(255,255,255,0.6); }
+    100% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+}
+
+.btn {
+    animation: softPulse 2.5s infinite;
+}
+
+/* HOVER */
 .btn:hover {
     transform: translateY(-2px);
+    border-color: #fff;
 }
 
+/* ЦВЕТА */
 .btn-purple {
     background: linear-gradient(45deg,#6a00ff,#9b00ff);
-    box-shadow: 0 0 20px rgba(140,0,255,0.4);
     color: #fff;
 }
 
@@ -136,7 +150,7 @@ img {
     font-size: 14px;
     margin-bottom: 10px;
     color: #fff;
-    text-shadow: 0 0 10px #9b00ff, 0 0 20px #6a00ff;
+    text-shadow: 0 0 10px #fff, 0 0 20px #9b00ff;
 }
 
 </style>
@@ -144,7 +158,7 @@ img {
 
 <body>
 
-<!-- 🌌 СОЗДАНИЕ ЧАСТИЦ -->
+<!-- 🌌 ЧАСТИЦЫ -->
 <script>
 for(let i=0;i<20;i++){
     let p=document.createElement("div");
@@ -157,12 +171,6 @@ for(let i=0;i<20;i++){
     document.body.appendChild(p);
 }
 </script>
-
-<!-- 🔊 ЗВУК -->
-<!-- 🔧 ЗАМЕНИ ССЫЛКУ НА СВОЙ ЗВУК -->
-<audio id="clickSound" preload="auto">
-<source src="ССЫЛКА_НА_ЗВУК" type="audio/mpeg">
-</audio>
 
 <!-- СЛАЙД 1 -->
 <div class="slide active">
@@ -239,16 +247,7 @@ for(let i=0;i<20;i++){
 let slides=document.querySelectorAll('.slide');
 let cur=0;
 
-let sound=document.getElementById("clickSound");
-
-/* 🔊 мгновенный звук */
-function playSound(){
-    sound.currentTime = 0;
-    sound.play().catch(()=>{});
-}
-
 function go(n){
-playSound();
 slides[cur].classList.remove('active');
 cur=n;
 slides[cur].classList.add('active');
@@ -257,7 +256,6 @@ slides[cur].classList.add('active');
 let b=false,c1=false,c2=false;
 
 function done(btn,link,type){
-playSound();
 window.open(link);
 
 btn.classList.remove('btn-red');
@@ -269,7 +267,6 @@ if(type=="c2")c2=true;
 }
 
 function check(){
-playSound();
 if(b&&c1&&c2){
 go(2);
 let w=0;
@@ -286,7 +283,7 @@ alert("Сделай все действия");
 }
 }
 
-/* 👥 ОНЛАЙН РАНДОМ */
+/* 👥 ОНЛАЙН */
 function updateOnline(){
 let num=Math.floor(Math.random()*(247-50+1))+50;
 document.getElementById("online").innerText="Сейчас онлайн: "+num;
