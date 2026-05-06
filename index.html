@@ -4,24 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emr1k_client</title>
-    <!-- Подключаем шрифты Inter от Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Общие стили */
+        :root {
+            /* Цветовая палитра */
+            --color-primary-start: #6a11cb; /* Фиолетовый */
+            --color-primary-end: #2575fc;   /* Синий */
+            --color-button-start: #8e2de2;  /* Более насыщенный фиолетовый */
+            --color-button-end: #4a00e0;    /* Более темный сине-фиолетовый */
+            --color-text-white: #ffffff;
+            --color-warning-red: rgba(255, 0, 0, 0.7);
+            --color-warning-bg: rgba(255, 0, 0, 0.2);
+            --color-progress-start: #4facfe;
+            --color-progress-end: #00f2fe;
+            --color-shadow-dark: rgba(0, 0, 0, 0.3);
+            --color-glow-primary: rgba(106, 17, 203, 0.5);
+            --color-glow-button: rgba(142, 45, 226, 0.6);
+            --color-glow-warning: rgba(255, 0, 0, 0.5);
+        }
+
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            /* Основной фон сайта - фиолетово-синий градиент */
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: #ffffff;
+            background: linear-gradient(135deg, var(--color-primary-start) 0%, var(--color-primary-end) 100%);
+            color: var(--color-text-white);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden; /* Убираем горизонтальный скролл */
+            overflow-x: hidden;
             position: relative;
         }
 
@@ -29,13 +43,12 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 600px; /* Ограничение ширины для мобильного вида */
+            max-width: 600px;
             text-align: center;
             padding: 20px;
             box-sizing: border-box;
         }
 
-        /* Стили для каждого слайда */
         .slide {
             min-height: 100vh;
             display: flex;
@@ -45,58 +58,51 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
-            position: absolute; /* Позволяет слайдам накладываться друг на друга */
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            /* Повторяем фон для каждого слайда, чтобы переход был плавным */
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); 
+            background: inherit; /* Наследует фон body */
         }
 
-        /* Активный слайд становится видимым */
         .slide.active {
             opacity: 1;
             visibility: visible;
-            position: relative; /* Активный слайд занимает место в потоке */
+                        position: relative;
         }
 
-        /* Обёртка контента со стилизацией как на картинке */
         .content-wrapper {
             padding: 30px 20px;
-            background-color: rgba(0, 0, 0, 0.3); /* Полупрозрачный фон */
-            border-radius: 20px; /* Скругленные углы */
-                        border: 2px solid rgba(255, 255, 255, 0.2); /* Неоновая белая обводка */
-            backdrop-filter: blur(10px); /* Эффект размытия фона */
-            -webkit-backdrop-filter: blur(10px); /* Для совместимости с Safari */
-            box-shadow: 0 0 20px rgba(106, 17, 203, 0.5); /* Фиолетовое свечение */
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 25px; /* Более выраженное скругление */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Неоновая обводка */
+            backdrop-filter: blur(15px); /* Увеличенный радиус размытия */
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 0 25px var(--color-glow-primary); /* Свечение */
+            margin: 20px; /* Небольшой внешний отступ */
+            width: calc(100% - 40px); /* Учет margin */
+            max-width: 500px; /* Ограничение ширины */
         }
 
-        /* Заголовки H1 и H2 */
         h1, h2 {
-            font-size: 2.5em;
-            margin-bottom: 15px;
-            line-height: 1.2;
-            /* Текстовый градиент и тень для H1 как на примере */
-            background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
-            -webkit-background-clip: text; /* Для применения градиента к тексту */
-            -webkit-text-fill-color: transparent; /* Делаем текст прозрачным, чтобы видеть градиент */
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Легкая тень для обводки текста */
+            font-size: 2.8em; /* Немного увеличен шрифт */
+            margin-bottom: 10px; /* Уменьшен отступ */
+            line-height: 1.1;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Темная тень для контраста */
         }
 
         h1 {
-            font-size: 3em;
-            font-weight: 700;
+            font-size: 3.2em; /* Крупнее основной заголовок */
         }
 
         h2 {
-            font-weight: 700;
-            color: #ffffff; /* Убираем градиент для h2, чтобы был читабельнее */
+            font-size: 2.2em; /* Меньше, чем H1 */
             background: none;
             -webkit-text-fill-color: initial;
             background-clip: initial;
-            text-shadow: 0 0 8px rgba(255,255,255,0.3); /* Белая тень для h2 */
+            color: var(--color-text-white);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         p {
@@ -104,54 +110,50 @@
             margin-bottom: 25px;
             line-height: 1.5;
             opacity: 0.9;
+            font-weight: 500;
         }
 
         .description-text {
             font-size: 1.2em;
-            font-weight: 500;
-            margin-bottom: 35px;
+            margin-bottom: 40px; /* Увеличен отступ */
         }
 
-        /* Контейнер для картинки продукта с обводкой */
         .product-image-container {
-            margin: 20px auto;
-            max-width: 90%; /* Ограничение ширины картинки */
-            border: 3px solid #ffffff; /* Белая обводка картинки */
-            border-radius: 15px; /* Скругленные углы */
-            overflow: hidden; /* Чтобы картинка не вылезала за радиус */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень */
+            margin: 25px auto; /* Увеличены отступы */
+            max-width: 95%;
+            border: 3px solid var(--color-text-white);
+            border-radius: 18px; /* Более выраженное скругление */
+            overflow: hidden;
+            box-shadow: 0 8px 20px var(--color-shadow-dark); /* Более выраженная тень */
         }
 
         .product-image {
             display: block;
             width: 100%;
             height: auto;
-            border-radius: 12px; /* Небольшой радиус внутри рамки */
+            border-radius: 15px; /* Небольшой радиус внутри рамки */
         }
 
-        /* Стили для кнопок */
         .cta-button, .action-button {
             display: inline-block;
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 18px 35px; /* Увеличенные размеры кнопки */
+            font-size: 1.3em; /* Увеличен шрифт */
             font-weight: 700;
             text-decoration: none;
-            color: #ffffff;
-            /* Основной фиолетовый градиент для кнопок */
-            background: linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%); 
+            color: var(--color-text-white);
+            background: linear-gradient(90deg, var(--color-button-start) 0%, var(--color-button-end) 100%);
             border: none;
-            border-radius: 30px; /* Сильно скругленные края */
+            border-radius: 35px; /* Сильно скругленные края */
             cursor: pointer;
-            transition: all 0.3s ease; /* Плавный переход для ховера */
-            box-shadow: 0 5px 20px rgba(142, 45, 226, 0.6); /* Тень кнопки */
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px var(--color-glow-button); /* Усиленное свечение */
             outline: none;
-            margin-top: 20px;
-            position: relative; /* Для псевдоэлемента обводки */
-            overflow: hidden; /* Чтобы псевдоэлемент не вылезал */
-            z-index: 1; /* Чтобы кнопка была выше фона */
+            margin-top: 25px; /* Увеличен отступ */
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
 
-        /* Псевдоэлемент для неонового свечения при наведении */
         .cta-button::before, .action-button::before {
             content: '';
             position: absolute;
@@ -159,190 +161,80 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.25) 0%, transparent 50%); /* Более яркое свечение */
             opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1; /* Под кнопкой */
+            transition: opacity 0.4s ease; /* Более долгий переход */
+            z-index: -1;
         }
 
         .cta-button:hover, .action-button:hover {
-            transform: translateY(-3px); /* Легкий эффект поднятия */
-            box-shadow: 0 8px 25px rgba(142, 45, 226, 0
-                        border: 2px solid rgba(255, 255, 255, 0.2); /* Неоновая белая обводка */
-            backdrop-filter: blur(10px); /* Эффект размытия фона */
-            -webkit-backdrop-filter: blur(10px); /* Для совместимости с Safari */
-            box-shadow: 0 0 20px rgba(106, 17, 203, 0.5); /* Фиолетовое свечение */
-        }
-
-        /* Заголовки H1 и H2 */
-        h1, h2 {
-            font-size: 2.5em;
-            margin-bottom: 15px;
-            line-height: 1.2;
-            /* Текстовый градиент и тень для H1 как на примере */
-            background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
-            -webkit-background-clip: text; /* Для применения градиента к тексту */
-            -webkit-text-fill-color: transparent; /* Делаем текст прозрачным, чтобы видеть градиент */
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Легкая тень для обводки текста */
-        }
-
-        h1 {
-            font-size: 3em;
-            font-weight: 700;
-        }
-
-        h2 {
-            font-weight: 700;
-            color: #ffffff; /* Убираем градиент для h2, чтобы был читабельнее */
-            background: none;
-            -webkit-text-fill-color: initial;
-            background-clip: initial;
-            text-shadow: 0 0 8px rgba(255,255,255,0.3); /* Белая тень для h2 */
-        }
-
-        p {
-            font-size: 1.1em;
-            margin-bottom: 25px;
-            line-height: 1.5;
-            opacity: 0.9;
-        }
-
-        .description-text {
-            font-size: 1.2em;
-            font-weight: 500;
-            margin-bottom: 35px;
-        }
-
-        /* Контейнер для картинки продукта с обводкой */
-        .product-image-container {
-            margin: 20px auto;
-            max-width: 90%; /* Ограничение ширины картинки */
-            border: 3px solid #ffffff; /* Белая обводка картинки */
-            border-radius: 15px; /* Скругленные углы */
-            overflow: hidden; /* Чтобы картинка не вылезала за радиус */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень */
-        }
-
-        .product-image {
-            display: block;
-            width: 100%;
-            height: auto;
-            border-radius: 12px; /* Небольшой радиус внутри рамки */
-        }
-
-        /* Стили для кнопок */
-        .cta-button, .action-button {
-            display: inline-block;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            font-weight: 700;
-            text-decoration: none;
-            color: #ffffff;
-            /* Основной фиолетовый градиент для кнопок */
-            background: linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%); 
-            border: none;
-            border-radius: 30px; /* Сильно скругленные края */
-            cursor: pointer;
-            transition: all 0.3s ease; /* Плавный переход для ховера */
-            box-shadow: 0 5px 20px rgba(142, 45, 226, 0.6); /* Тень кнопки */
-            outline: none;
-            margin-top: 20px;
-            position: relative; /* Для псевдоэлемента обводки */
-            overflow: hidden; /* Чтобы псевдоэлемент не вылезал */
-            z-index: 1; /* Чтобы кнопка была выше фона */
-        }
-
-        /* Псевдоэлемент для неонового свечения при наведении */
-        .cta-button::before, .action-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1; /* Под кнопкой */
-        }
-
-        .cta-button:hover, .action-button:hover {
-            transform: translateY(-3px); /* Легкий эффект поднятия */
-            box-shadow: 0 8px 25px rgba(142, 45, 226, 0.8); /* У
-            силенная тень */
+            transform: translateY(-4px); /* Более ощутимый эффект поднятия */
+            box-shadow: 0 12px 30px var(--color-glow-button); /* Усиленная тень при ховере */
         }
 
         .cta-button:hover::before, .action-button:hover::before {
-            opacity: 1; /* Появление свечения */
+            opacity: 1;
         }
 
-        /* Стили для 2-го слайда: "Внимание" блок */
-        .warning-box {
-            background-color: rgba(255, 0, 0, 0.2); /* Красный полупрозрачный фон */
-            border: 2px solid rgba(255, 0, 0, 0.7); /* Красная обводка */
-            padding: 15px 20px;
-            border-radius: 15px;
-            margin: 20px auto;
-            max-width: 80%;
+        .warning-box {background-color: var(--color-warning-bg);
+            border: 2px solid var(--color-warning-red);
+            padding: 18px 25px; /* Увеличены размеры */
+            border-radius: 18px;
+            margin: 25px auto; /* Увеличены отступы */
+            max-width: 85%; /* Увеличенная ширина */
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-size: 1em;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); /* Красное свечение */
+            gap: 12px; /* Отступ между иконкой и текстом */
+            font-size: 1.05em;
+            box-shadow: 0 0 18px var(--color-glow-warning);
         }
 
         .warning-icon {
-            font-size: 1.5em; /* Размер иконки "Внимание" */
+            font-size: 1.8em; /* Крупнее иконка */
         }
 
         .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 15px; /* Отступы между кнопками */
-            margin-top: 25px;
+            gap: 18px; /* Увеличен отступ между кнопками */
+            margin-top: 30px;
         }
 
-        /* Цвет для кнопок действия на 2-м слайде */
         .action-button {
             background: linear-gradient(90deg, #f093fb 0%, #f35672 100%); /* Розово-красный градиент */
-            box-shadow: 0 5px 20px rgba(243, 86, 114, 0.6);
+            box-shadow: 0 8px 25px rgba(243, 86, 114, 0.7); /* Скорректирована тень */
         }
 
         .action-button:hover {
-            box-shadow: 0 8px 25px rgba(243, 86, 114, 0.8);
+            box-shadow: 0 12px 30px rgba(243, 86, 114, 0.9);
         }
 
-        /* Цвет для кнопки "Проверить подписку" */
         .next-slide-button {
-            margin-top: 30px;
+            margin-top: 35px; /* Увеличен отступ */
             background: linear-gradient(90deg, #2af598 0%, #009efd 100%); /* Зелено-синий градиент */
-            box-shadow: 0 5px 20px rgba(0, 158, 253, 0.6);
+            box-shadow: 0 8px 25px rgba(0, 158, 253, 0.7);
         }
 
         .next-slide-button:hover {
-            box-shadow: 0 8px 25px rgba(0, 158, 253, 0.8);
+            box-shadow: 0 12px 30px rgba(0, 158, 253, 0.9);
         }
 
-        /* Стили для 3-го слайда: полоса проверки */
         .progress-bar-container {
-            width: 80%;
-            max-width: 400px;
-            margin: 30px auto;
-            background-color: rgba(255, 255, 255, 0.1); /* Фон полосы */
-            border-radius: 30px;
+            width: 85%; /* Увеличенная ширина */
+            max-width: 450px; /* Увеличенная максимальная ширина */
+            margin: 35px auto; /* Увеличены отступы */
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 35px; /* Сильное скругление */
             border: 1px solid rgba(255, 255, 255, 0.3);
             overflow: hidden;
             position: relative;
-            height: 50px;
+            height: 55px; /* Увеличенная высота */
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            font-size: 1.1em;
-            padding: 0 10px;
+            font-size: 1.15em; /* Увеличен шрифт */
+            padding: 0 15px;
             box-sizing: border-box;
         }
 
@@ -352,110 +244,57 @@
             position: absolute;
             top: 0;
             left: 0;
-            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); /* Синий градиент заполнения */
-            transform: scaleX(0); /* Начальное состояние - 0% заполнения */
-            transform-origin: left; /* Анимация идет слева направо */
-            transition: transform 4s ease-in-out; /* Длительность анимации заполнения */
-            border-radius: 30px;
+            background: linear-gradient(90deg, var(--color-progress-start) 0%, var(--color-progress-end) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 4.5s ease-in-out; /* Немного увеличена длительность */
+            border-radius: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .progress-text {
-            position: relative; /* Чтобы текст был поверх полосы */
+            position: relative;
             z-index: 1;
-            font-weight: 500;
-            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+            font-weight: 600; /* Немного жирнее */
+            text-shadow: 0 0 8px rgba(0,0,0,0.4); /* Более выраженная тень */
         }
 
-        /* Адаптивность для мобильных устройств */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2.5em;
+                font-size: 2.8em;
             }
             h2 {
-                font-size: 1.8em;
+                font-size: 1.9em;
             }
             .content-wrapper {
-                padding: 20px 15px;
+                padding: 25px 15px;
+                margin: 15px;
+                width: calc(100% - 30px);
             }
             .warning-box {
                 max-width: 95%;
-                flex-direction: column; /* На маленьких экранах текст может переноситься */
-                gap: 5px;
+                margin: 20px auto;
             }
             .progress-bar-container {
                 width: 95%;
+                margin: 25px auto;
+            }
+            .cta-button, .action-button {
+                padding: 15px 25px;
+                font-size: 1.1em;
             }
         }
     </style>
 </head>
 <body>
-<div class="container">
 
-        <!-- Слайд 1: Приветствие и представление продукта -->
+    <div class="container">
+
+        <!-- Слайд 1 -->
         <section id="slide-1" class="slide active">
-            <div class="content-wrapper">
-                <div class="greeting-box">
-                    <h1>ХОТИТЕ ЗАБРАТЬ</h1>
-                    <h1>СОФТ?</h1>
-                </div>
-                <div class="product-image-container">
-                    <!-- Вставьте сюда ссылку на вашу картинку продукта -->
-                    <img src="https://via.placeholder.com/500x300" alt="Product Image" class="product-image">
-                </div>
-                <p class="description-text">Нажмите кнопку, чтобы начать процесс получения.</p>
-                <button class="cta-button" onclick="scrollToNextSlide()">ПОЛУЧИТЬ СОФТ/ЧИТ!</button>
-            </div>
-        </section>
-
-        <!-- Слайд 2: Условия получения и призыв к действию -->
-        <section id="slide-2" class="slide">
-            <div class="content-wrapper">
-                <h2>Чтобы получить продукт,</h2>
-                <p>Вам нужно подписаться на наш канал.</p>
-                <div class="warning-box">
-                    <span class="warning-icon">⚠️</span>
-                    <p>
-                        <strong>Внимание!</strong> Если вы отпишетесь от канала, ссылка будет заблокирована.
-                    </p>
-                </div>
-                <div class="action-buttons">
-                    <!-- Кнопка 1: Переход к боту -->
-                    <!-- Вставьте сюда ссылку на вашего бота -->
-                    <a href="https://t.me/your_bot_username" class="action-button bot-button" target="_blank">Перейти в БОТА</a>
-
-                    <!-- Кнопка 2: Подписаться на канал -->
-                    <!-- Вставьте сюда ссылку на ваш Telegram-канал -->
-                    <a href="https://t.me/your_telegram_channel" class="action-button subscribe-button" target="_blank">Подписаться</a>
-
-                    <!-- Кнопка 3: Дублирующая кнопка "Подписаться" -->
-                    <!-- Вставьте сюда ссылку на ваш Telegram-канал -->
-                    <a href="https://t.me/your_telegram_channel" class="action-button subscribe-button" target="_blank">Подписаться</a>
-                </div>
-                 <button class="cta-button next-slide-button" onclick="startVerification()">Проверить подписку</button>
-            </div>
-        </section>
-
-        <!-- Слайд 3: Имитация проверки подписки -->
-        <section id="slide-3" class="slide">
-            <div class="content-wrapper">
-                <h2>Проверка подписки...</h2>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill"></div>
-                    <p class="progress-text">Выполняются задания. Пожалуйста, подождите.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Слайд 4: Выигрыш и кнопка для получения приза -->
-        <section id="slide-4" class="slide">
-            <div class="content-wrapper">
-                <h1>Поздравляем!</h1>
-                <p>Вы успешно прошли проверку.</p>
-                <button class="cta-button" onclick="getPrize()">Получить приз</button>
-            </div>
+        </div>
         </section>
 
     </div>
@@ -467,16 +306,12 @@
 
         // Функция для перехода к следующему слайду
         function scrollToNextSlide() {
-            // Удаляем класс 'active' с текущего слайда, чтобы его скрыть
             slides[currentSlide].classList.remove('active');
-            currentSlide++; // Переходим к следующему слайду
+            currentSlide++;
             if (currentSlide < slides.length) {
-                // Добавляем класс 'active' к новому слайду,
-                чтобы его показать
                 slides[currentSlide].classList.add('active');
             } else {
-                // Если достигли последнего слайда, остаемся на нем
-                currentSlide = slides.length - 1; 
+                currentSlide = slides.length - 1; // Остаемся на последнем слайде
             }
         }
 
@@ -487,7 +322,7 @@
             currentSlide = 2; // Индекс слайда 3
             slides[currentSlide].classList.add('active');
 
-            // Имитируем заполнение полоски прогресса
+            // Имитация заполнения полоски прогресса
             const progressBarFill = document.querySelector('.progress-bar-fill');
             if (progressBarFill) {
                 progressBarFill.style.transform = 'scaleX(1)'; // Заполняем на 100%
@@ -504,14 +339,11 @@
                         slides[currentSlide].classList.add('active');
                     }
                 }
-            }, 4500); // 4.5 секунды
+            }, 4500); // 4.5 секунды (4 секунды анимации + небольшой буфер)
         }
 
         // Функция для получения приза
         function getPrize() {
-            // Здесь вы можете добавить код, который будет выполняться при нажатии на кнопку "Получить приз"
-            // Например, перенаправление на другую страницу или открытие ссылки в новом окне.
-
             // ВАЖНО: Замените 'YOUR_FINAL_LINK_HERE' на реальную ссылку, куда должен перейти пользователь
             const finalLink = 'YOUR_FINAL_LINK_HERE'; // <-- Вставьте сюда вашу финальную ссылку!
 
