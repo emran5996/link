@@ -1,4 +1,4 @@
-Я<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="utf-8" />
@@ -6,143 +6,144 @@
 <title>Emr1k_client</title>
 <style>
   :root{
-    --page-bg: radial-gradient(1200px 600px at 50% 20%, rgba(28,22,36,0.75), #07060a 40%, #030203 100%);
-    --card-bg: linear-gradient(180deg, rgba(255,255,255,0.017), rgba(255,255,255,0.006));
-    --card-edge: rgba(255,255,255,0.06);
-    --soft-shadow: 0 30px 60px rgba(2,4,10,0.8);
-    --accent-grad: linear-gradient(90deg,#8b5cf6 0%, #6ee7ff 100%);
-    --btn-grad: linear-gradient(90deg,#7c3aed 0%,#a855f7 40%,#6ee7ff 100%);
-    --text-main: #f6f7fb;
-    --text-muted: #9aa1b3;
-    --radius-page: 26px;
+    --page-bg: radial-gradient(1200px 600px at 50% 20%, rgba(18,14,28,0.85), #06050a 40%, #030203 100%);
+    --card-bg: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(0,0,0,0.12));
+    --accent1:#7c3aed; --accent2:#a855f7; --accent3:#4dd0e1;
+    --btn-grad: linear-gradient(90deg, var(--accent1) 0%, var(--accent2) 55%, var(--accent3) 100%);
+    --text-main:#f4f6fb; --text-muted:#9aa1b8;
+    --card-radius:28px;
   }
-  html,body{height:100%;margin:0;font-family:Inter, "Helvetica Neue", Arial; background:var(--page-bg); color:var(--text-main); -webkit-font-smoothing:antialiased;}
-  .wrap{max-width:720px;margin:36px auto;padding:28px;border-radius:28px; background:transparent; display:flex;flex-direction:column; gap:28px;}
+  html,body{height:100%;margin:0;background:var(--page-bg);font-family:Inter, "Helvetica Neue", Arial, sans-serif;color:var(--text-main);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:36px auto;padding:24px;display:flex;flex-direction:column;gap:20px;}
   .card{
-    border-radius:28px;
-    background: linear-gradient(180deg, rgba(10,10,12,0.95), rgba(20,18,28,0.92));
-    padding:34px;
-    box-shadow: var(--soft-shadow);
+    border-radius:var(--card-radius);
+    background: linear-gradient(180deg, rgba(12,12,16,0.9), rgba(20,18,28,0.94));
+    padding:28px;
+    box-shadow: 0 30px 60px rgba(3,6,18,0.6);
     border:1px solid rgba(255,255,255,0.03);
-    position:relative;
-    overflow:hidden;
+    position:relative;overflow:visible;
   }
-  .card::before{
-    content:"";
-    position:absolute; inset:0; pointer-events:none;
-    border-radius:28px;
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.03) inset;
+  /* Заголовок сверху */
+  .title{
+    text-align:center;font-weight:800;font-size:36px;line-height:1.02;letter-spacing:0.6px;color:var(--text-main);
+    text-transform:uppercase;margin:6px 0 18px;
+    text-shadow: 0 6px 20px rgba(124,58,237,0.12), 0 2px 6px rgba(0,0,0,0.6);
   }
+  .subtitle{ text-align:center;color:var(--text-muted);font-size:15px;max-width:78%;margin:8px auto 18px;}
+  /* Блок с картинкой теперь под заголовком, изображение центрировано */
   .product-frame{
     width:100%;
-    height:240px;
-    border-radius:22px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
-    display:flex;align-items:center;justify-content:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     padding:18px;
-    box-shadow: 0 18px 40px rgba(3,6,20,0.6);
-    border:1px solid rgba(255,255,255,0.04);
+    border-radius:18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(0,0,0,0.18));
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 18px 40px rgba(3,6,20,0.5), 0 0 40px rgba(124,58,237,0.06) inset;
+    overflow:hidden;
+  }
+  .product-wrap{
+    width:92%;
+    max-width:680px;
+    border-radius:14px;
+    padding:6px;
+    background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    border: 2px solid rgba(255,255,255,0.03);
+    position:relative;
+  }
+  .product-wrap::after{
+    content:"";
+    position:absolute;inset:0;border-radius:12px;
+    box-shadow: 0 8px 30px rgba(124,58,237,0.08);
+    pointer-events:none;
   }
   .product-frame img{
-    width:92%;
-    height:100%;
+    width:100%;
+    height:220px;
     object-fit:cover;
-    border-radius:16px;
+    border-radius:10px;
     display:block;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    border:6px solid rgba(0,0,0,0.25);
+    border:6px solid rgba(0,0,0,0.28);
+    background:#000;
   }
-  .title{
-    margin-top:22px;
-    text-align:center;
-    font-weight:800;
-    font-size:44px;
-    line-height:1.02;
-    letter-spacing:0.6px;
-    color:var(--text-main);
-    text-transform:uppercase;
-  }
-  .subtitle{
-    margin-top:12px;
-    text-align:center;
-    color:var(--text-muted);
-    font-size:16px;
-    max-width:74%;
-    margin-left:auto;margin-right:auto;
-  }
+  /* CTA */
   .cta-wrap{display:flex;justify-content:center;margin-top:22px;}
   .cta{
     width:86%;
     max-width:520px;
     height:72px;
-    border-radius:34px;
-    border:1px solid rgba(255,255,255,0.06);
+    border-radius:36px;
     background:var(--btn-grad);
     color:white;
     font-weight:800;
     font-size:20px;
     letter-spacing:0.6px;
-    box-shadow: 0 14px 40px rgba(120,63,249,0.18), 0 6px 18px rgba(0,0,0,0.6);
+    display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
+    border:1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 12px 40px rgba(124,58,237,0.18), 0 6px 18px rgba(0,0,0,0.6), 0 0 30px rgba(110,231,255,0.05) inset;
     cursor:pointer;
-    display:inline-flex;align-items:center;justify-content:center;
-    text-decoration:none;
+    transition:transform 0.12s ease, box-shadow 0.12s ease;
+    position:relative;overflow:visible;
   }
-  .panel{border-radius:18px;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.006), rgba(255,255,255,0.004));border:1px solid rgba(255,255,255,0.03);}
-  .notice{margin-top:12px;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;gap:12px;align-items:flex-start;background:linear-gradient(90deg, rgba(139,92,246,0.04), rgba(34,211,238,0.02));}
-  .notice .warn{color:#ff6b6b;font-weight:700;font-size:14px;}
-  .conditions{margin-top:10px;color:var(--text-muted);font-size:14px;border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,0.02);
-  background:rgba(0,0,0,0.18);}
-  .small-buttons{display:flex;gap:12px;justify-content:center;margin-top:18px;flex-wrap:wrap;}
-  .small-btn{
-    min-width:160px;height:52px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);
-    background:linear-gradient(180deg, rgba(255,255,255,0.016), rgba(255,255,255,0.004));
-    color:var(--text-main);font-weight:700;cursor:pointer;padding:8px 12px;
-    box-shadow: 0 8px 20px rgba(2,4,10,0.6);
+  .cta:active{ transform:translateY(2px); }
+  .cta::before{
+    content:"";
+    position:absolute;left:-30%;top:-30%;width:160%;height:160%;background:radial-gradient(closest-side, rgba(255,255,255,0.04), transparent 40%);opacity:0.6;filter:blur(18px);mix-blend-mode:screen;pointer-events:none;
   }
+  /* маленькие панели */
+  .panel{border-radius:14px;padding:16px;background:linear-gradient(180deg, rgba(255,255,255,0.006), rgba(255,255,255,0.002));border:1px solid rgba(255,255,255,0.03);}
+  .notice{margin-top:12px;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;gap:12px;align-items:flex-start;background:linear-gradient(90deg, rgba(124,58,237,0.04), rgba(34,211,238,0.02));}
+  .small-buttons{display:flex;gap:12px;justify-content:center;margin-top:14px;flex-wrap:wrap;}
+  .small-btn{min-width:150px;height:50px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg, rgba(255,255,255,0.014), rgba(255,255,255,0.002));color:var(--text-main);font-weight:700;cursor:pointer;padding:8px 12px;box-shadow:0 8px 20px rgba(2,4,10,0.6);}
   .small-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.05);}
   .check-box{margin-top:20px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.006), rgba(255,255,255,0.002));}
-  .progress{height:18px;background:rgba(255,255,255,0.03);border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.02);}
-  .progress .bar{height:100%;width:0%;background:var(--accent-grad);transition:width 0.2s linear;}
-  .win-title{text-align:center;font-size:28px;font-weight:800;margin-top:8px;}
-  .get-prize{display:block;margin:22px auto 0 auto;width:60%;height:62px;border-radius:32px;background:var(--accent-grad);color:white;text-align:center;line-height:62px;font-weight:800;border:1px solid rgba(255,255,255,0.06);box-shadow:0 12px 36px rgba(110,231,255,0.08);}
+  .progress{height:14px;background:rgba(255,255,255,0.03);border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,0.02);}
+  .progress .bar{height:100%;width:0%;background:linear-gradient(90deg, rgba(124,58,237,1) 0%, rgba(168,85,247,1) 60%, rgba(77,208,225,1) 100%);transition:width 0.25s linear;box-shadow:0 6px 18px rgba(124,58,237,0.12) inset;}
+  .get-prize{display:block;margin:22px auto 0 auto;width:60%;height:62px;border-radius:32px;background:linear-gradient(90deg, #5b21b6 0%, #7c3aed 40%, #4dd0e1 100%);color:white;text-align:center;line-height:62px;font-weight:800;border:1px solid rgba(255,255,255,0.06);box-shadow:0 12px 36px rgba(124,58,237,0.18), 0 0 40px rgba(77,208,225,0.06) inset;}
   @media (max-width:420px){
-    .title{font-size:32px;}
-    .product-frame{height:180px;}
+    .title{font-size:28px;}
+    .product-frame img{height:160px;}
     .cta{height:62px;font-size:18px}
+    .product-wrap{width:100%;}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="card" id="slide1">
-    <div class="product-frame">
-      <img id="prodImg" src="<<<СЮДА_ССЫЛКА_НА_КАРТИНКУ>>>" alt="product">
-    </div>
     <div class="title" id="greeting">ХОТИТЕ ЗАБРАТЬ СОФТ?</div>
-    <div class="subtitle" id="subtitle">Нажмите кнопку, чтобы начать процесс получения. (Замените текст по желанию)</div>
+    <div class="product-frame">
+      <div class="product-wrap">
+        <img id="prodImg" src="<<<СЮДА_ССЫЛКА_НА_КАРТИНКУ>>>" alt="product">
+      </div>
+    </div>
+    <div class="subtitle" id="subtitle">Нажмите кнопку, чтобы начать процесс получения.</div>
     <div class="cta-wrap">
       <a id="toSlide2" class="cta">ПОЛУЧИТЬ СОФТ/ЧИТ!</a>
     </div>
   </div>
+
   <div class="card" id="slide2" style="display:none;">
     <div class="panel">
       <div style="font-weight:800;font-size:20px;text-align:center;">Чтобы получить продукт — подпишитесь на канал</div>
       <div class="notice">
-        <div class="warn">⚠ Внимание</div>
-        <div style="flex:1;color:var(--text-muted);font-size:14px;">Вам нужно подписаться на канал и перейти в бота. Если вы не подпишитесь или отпишетесь — ссылка будет заблокирована. (Замените текст условий здесь)</div>
+        <div style="font-weight:700;color:#ffcc66;">⚠</div>
+        <div style="flex:1;color:var(--text-muted);font-size:14px;">Вам нужно подписаться на канал и перейти в бота. Если вы не подпишитесь или отпишетесь — ссылка будет заблокирована.</div>;
       </div>
-      <div class="conditions" id="conditionsText">
+      <div class="conditions" id="conditionsText" style="margin-top:12px;color:var(--text-muted);font-size:14px;border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,0.02);background:rgba(0,0,0,0.14);">
         <<<ВСТАВЬТЕ_УСЛОВИЯ_ЗДЕСЬ>>>
       </div>
       <div class="small-buttons">
         <button class="small-btn" id="btnCreate">Создать человека</button>
-        <button class="small-btn ghost" id="btnBot">Подписаться</button>
-        <button class="small-btn ghost" id="btnChannel">Подписаться</button>
+        <button class="small-btn ghost" id="btnBot">Перейти в бота</button>
+        <button class="small-btn ghost" id="btnChannel">Перейти в канал</button>
       </div>
-      <div style="text-align:center;margin-top:12px;color:var(--text-muted);font-size:13px;">После перехода в бота и подписки система начн
-    ёт проверку.</div>
+      <div style="text-align:center;margin-top:12px;color:var(--text-muted);font-size:13px;">После перехода в бота и подписки система начнёт проверку.</div>
     </div>
   </div>
+
   <div class="card" id="slide3" style="display:none;">
     <div style="text-align:center;font-weight:700;font-size:18px;">Идёт проверка заданий...</div>
     <div class="check-box">
@@ -152,14 +153,16 @@
       <div style="margin-top:10px;text-align:center;color:var(--text-muted);" id="progressText">Подождите, проверка займёт ~4-5 секунд</div>
     </div>
   </div>
+
   <div class="card" id="slide4" style="display:none;">
     <div style="text-align:center;">
-      <div class="win-title">Поздравляем!</div>
+      <div style="font-size:28px;font-weight:800;margin-top:8px;">Поздравляем!</div>
       <div style="color:var(--text-muted);margin-top:8px;">Вы успешно прошли проверку. Нажмите, чтобы получить приз.</div>
       <a id="getPrize" class="get-prize">Получить приз</a>
     </div>
   </div>
 </div>
+
 <script>
 const slide1 = document.getElementById('slide1');
 const slide2 = document.getElementById('slide2');
@@ -168,24 +171,22 @@ const slide4 = document.getElementById('slide4');
 document.getElementById('toSlide2').addEventListener('click', ()=>{ showSlide(2); });
 let clicked = {create:false, bot:false, channel:false};
 document.getElementById('btnCreate').addEventListener('click', ()=>{
-  clicked.create = true;
-  markButton(document.getElementById('btnCreate'));
+  clicked.create = true; markButton(document.getElementById('btnCreate'));
 });
 document.getElementById('btnBot').addEventListener('click', ()=>{
-  clicked.bot = true;
-  markButton(document.getElementById('btnBot'));
-  /* Пример: window.open('https://t.me/YourBot','_blank') */
+  clicked.bot = true; markButton(document.getElementById('btnBot'));
+  // window.open('https://t.me/YourBot','_blank');
 });
 document.getElementById('btnChannel').addEventListener('click', ()=>{
-  clicked.channel = true;
-  markButton(document.getElementById('btnChannel'));
-  /* Пример: window.open('https://t.me/YourChannel','_blank') */
+  clicked.channel = true; markButton(document.getElementById('btnChannel'));
+  // window.open('https://t.me/YourChannel','_blank');
 });
 function markButton(el){
-  el.style.opacity = '0.85';
-  el.style.transform = 'translateY(-2px)';
+  el.style.opacity = '0.9';
+  el.style.transform = 'translateY(-3px)';
+  el.style.boxShadow = '0 8px 26px rgba(124,58,237,0.12)';
   if(clicked.create && clicked.bot && clicked.channel){
-    setTimeout(()=>{ startFakeCheck(); }, 600);
+    setTimeout(()=>{ startFakeCheck(); }, 500);
   }
 }
 function startFakeCheck(){
@@ -199,20 +200,17 @@ function startFakeCheck(){
   const inc = 100/steps;
   const iv = setInterval(()=>{
     t += inc;
-    if(t>100) t = 100;
+    if(t>100) t=100;
     bar.style.width = t+'%';
     txt.textContent = 'Проверка заданий: '+Math.round(t)+'%';
-    if(t>=100){ clearInterval(iv); setTimeout(()=>{ showSlide(4); }, 500); }
+    if(t>=100){ clearInterval(iv); setTimeout(()=>{ showSlide(4); }, 600); }
   }, step);
 }
 document.getElementById('getPrize').addEventListener('click', ()=>{
   alert('Замените этот обработчик на выдачу ссылки/файла.');
 });
 function showSlide(n){
-  slide1.style.display = 'none';
-  slide2.style.display = 'none';
-  slide3.style.display = 'none';
-  slide4.style.display = 'none';
+  slide1.style.display='none'; slide2.style.display='none'; slide3.style.display='none'; slide4.style.display='none';
   if(n===1) slide1.style.display='block';
   if(n===2) slide2.style.display='block';
   if(n===3) slide3.style.display='block';
@@ -221,3 +219,4 @@ function showSlide(n){
 </script>
 </body>
 </html>
+      
