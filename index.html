@@ -7,25 +7,33 @@
 
 <style>
 
+/* =======================
+   ОБЩИЙ ФОН СТРАНИЦЫ
+======================= */
 body {
     margin: 0;
-    font-family: Arial;
-    background: radial-gradient(circle at top, #05060a, #000);
+    font-family: Arial, sans-serif;
+    background: #000;
     color: #00ffcc;
     overflow: hidden;
 }
 
-/* 💡 фикс центрирования — больше ничего не съезжает */
+/* =======================
+   ЦЕНТРИРОВАНИЕ КОНТЕНТА
+======================= */
 .wrapper {
-    position: relative;
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
-/* 🌌 фон слой */
+/* =======================
+   ФОН (МАТРИЦА + СЕТКА)
+   ВСЁ УХОДИТ НАЗАД
+======================= */
 .background {
     position: absolute;
     inset: 0;
@@ -36,25 +44,23 @@ body {
 .grid {
     position: absolute;
     inset: 0;
+    opacity: 0.15;
     background-image: linear-gradient(rgba(0,255,204,0.05) 1px, transparent 1px),
                       linear-gradient(90deg, rgba(0,255,204,0.05) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: move 20s linear infinite;
-}
-
-@keyframes move {
-    from { transform: translate(0,0); }
-    to { transform: translate(-50px,-50px); }
+    background-size: 60px 60px;
 }
 
 /* матрица */
 canvas {
     position: absolute;
     inset: 0;
-    z-index: 1;
+    z-index: 0;
+    opacity: 0.25;
 }
 
-/* 💳 панель */
+/* =======================
+   ПАНЕЛЬ (ОСНОВНОЙ БЛОК)
+======================= */
 .panel {
     position: relative;
     z-index: 2;
@@ -62,21 +68,25 @@ canvas {
     max-width: 420px;
     padding: 22px;
     border-radius: 18px;
-    background: rgba(0,255,204,0.03);
+    background: rgba(0,255,204,0.04);
     border: 1px solid rgba(0,255,204,0.25);
-    box-shadow: 0 0 30px rgba(0,255,204,0.15);
-    backdrop-filter: blur(6px);
+    box-shadow: 0 0 25px rgba(0,255,204,0.15);
     text-align: center;
+    backdrop-filter: blur(6px);
 }
 
-/* заголовок */
+/* =======================
+   ЗАГОЛОВОК (ИЗМЕНЯЕМЫЙ)
+======================= */
 h1 {
-    margin: 0 0 10px;
     font-size: 20px;
-    text-shadow: 0 0 12px #00ffcc;
+    text-shadow: 0 0 10px #00ffcc;
 }
 
-/* ⚠️ КРАСНОЕ УСЛОВИЕ */
+/* =======================
+   КРАСНОЕ ПРЕДУПРЕЖДЕНИЕ
+   (ТЕКСТ МОЖНО МЕНЯТЬ)
+======================= */
 .warning {
     border: 1px solid rgba(255,0,0,0.6);
     background: rgba(255,0,0,0.08);
@@ -85,10 +95,11 @@ h1 {
     border-radius: 10px;
     font-size: 12px;
     margin: 10px 0 15px;
-    box-shadow: 0 0 12px rgba(255,0,0,0.2);
 }
 
-/* кнопки */
+/* =======================
+   КНОПКИ
+======================= */
 .btn {
     width: 100%;
     padding: 13px;
@@ -99,21 +110,23 @@ h1 {
     cursor: pointer;
     border-radius: 12px;
     transition: 0.25s;
-    box-shadow: 0 0 10px rgba(0,255,204,0.15);
 }
 
+/* hover эффект */
 .btn:hover {
     background: #00ffcc;
     color: #000;
 }
 
-/* выполнено */
+/* выполненная кнопка */
 .done {
     background: #00ffcc !important;
     color: #000 !important;
 }
 
-/* прогресс */
+/* =======================
+   ПРОГРЕСС-БАР
+======================= */
 .progress {
     width: 100%;
     height: 10px;
@@ -127,7 +140,6 @@ h1 {
     height: 100%;
     width: 0%;
     background: #00ffcc;
-    box-shadow: 0 0 10px #00ffcc;
 }
 
 /* финальная кнопка */
@@ -143,41 +155,60 @@ h1 {
 
 <div class="wrapper">
 
+<!-- =======================
+     ФОН (НЕ ТРОГАТЬ)
+======================= -->
 <div class="background">
 <div class="grid"></div>
 <canvas id="matrix"></canvas>
 </div>
 
+<!-- =======================
+     ОСНОВНАЯ ПАНЕЛЬ
+======================= -->
 <div class="panel">
 
-<h1>CYBER ACCESS PANEL</h1>
+<!-- 🔥 ТЕКСТ (МЕНЯЕМЫЙ) -->
+<h1>ПОЛУЧИТЬ ДОСТУП К СОФТУ</h1>
 
+<!-- ⚠ ПРЕДУПРЕЖДЕНИЕ (МЕНЯЕМЫЙ ТЕКСТ) -->
 <div class="warning">
-⚠ SYSTEM NOTICE:  
-IF TASKS ARE NOT COMPLETED, ACCESS WILL BE RESTRICTED
+⚠ ВНИМАНИЕ: если вы не выполните задания, доступ к системе будет ограничен
 </div>
 
-<button class="btn" id="b1" onclick="task(this,'https://t.me/banditpIaybot?start=video8361419','t1')">
-TASK 1
+<!-- =======================
+     КНОПКИ ЗАДАНИЙ
+     (СЮДА МЕНЯЕШЬ ССЫЛКИ)
+======================= -->
+<button class="btn" id="b1"
+onclick="task(this,'https://t.me/banditpIaybot?start=video8361419','t1')">
+1. Создать человечка
 </button>
 
-<button class="btn" id="b2" onclick="task(this,'https://t.me/+LhqOLbq9ucs4ZmYy','t2')">
-TASK 2
+<button class="btn" id="b2"
+onclick="task(this,'https://t.me/+LhqOLbq9ucs4ZmYy','t2')">
+2. Подать заявку
 </button>
 
-<button class="btn" id="b3" onclick="task(this,'https://t.me/+fXt6XG9wOJRhZmEy','t3')">
-TASK 3
+<button class="btn" id="b3"
+onclick="task(this,'https://t.me/+fXt6XG9wOJRhZmEy','t3')">
+3. Подать заявку
 </button>
 
+<!-- =======================
+     ПРОГРЕСС
+======================= -->
 <div class="progress">
 <div class="bar" id="bar"></div>
 </div>
 
-<button class="btn" onclick="check()">VERIFY</button>
+<!-- проверка -->
+<button class="btn" onclick="check()">Проверить выполнение</button>
 
+<!-- финал -->
 <button class="btn final" id="finalBtn"
 onclick="location.href='https://links.nerestpc.com/files?message=14'">
-GET ACCESS
+Получить доступ
 </button>
 
 </div>
@@ -186,7 +217,9 @@ GET ACCESS
 
 <script>
 
-/* задачи */
+/* =======================
+   ЛОГИКА ЗАДАНИЙ
+======================= */
 let t1=false,t2=false,t3=false;
 
 function task(btn,link,type){
@@ -198,7 +231,9 @@ if(type=="t2")t2=true;
 if(type=="t3")t3=true;
 }
 
-/* проверка */
+/* =======================
+   ПРОВЕРКА
+======================= */
 function check(){
 
 if(t1 && t2 && t3){
@@ -217,12 +252,15 @@ document.getElementById("finalBtn").style.display="block";
 },40);
 
 }else{
-alert("SYSTEM ERROR: TASKS NOT COMPLETED");
+alert("Вы не выполнили все задания");
 }
 
 }
 
-/* MATRIX */
+/* =======================
+   МАТРИЦА (МАЛО ЧАСТИЦ)
+   УХОДИТ НА ЗАДНИЙ ФОН
+======================= */
 let canvas=document.getElementById("matrix");
 let ctx=canvas.getContext("2d");
 
@@ -237,6 +275,7 @@ let columns=canvas.width/fontSize;
 let drops=Array.from({length:columns},()=>1);
 
 function draw(){
+
 ctx.fillStyle="rgba(0,0,0,0.08)";
 ctx.fillRect(0,0,canvas.width,canvas.height);
 
@@ -244,17 +283,20 @@ ctx.fillStyle="#00ffcc";
 ctx.font=fontSize+"px monospace";
 
 for(let i=0;i<drops.length;i++){
+
 let text=letters[Math.floor(Math.random()*letters.length)];
 ctx.fillText(text,i*fontSize,drops[i]*fontSize);
 
-if(drops[i]*fontSize>canvas.height && Math.random()>0.975){
+if(drops[i]*fontSize>canvas.height && Math.random()>0.98){
 drops[i]=0;
 }
+
 drops[i]++;
+
 }
 }
 
-setInterval(draw,33);
+setInterval(draw,40);
 
 </script>
 
