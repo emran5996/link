@@ -10,8 +10,23 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #0a0a0f, #000000 80%);
-    color: #ffffff;
+    background: radial-gradient(circle at top, #0a0a0f, #000);
+    color: #fff;
+    overflow: hidden;
+}
+
+/* 🌌 ЧАСТИЦЫ */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.3;
+    background: radial-gradient(circle, #8a2be2, transparent);
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-10vh); }
 }
 
 /* СЛАЙДЫ */
@@ -22,9 +37,7 @@ body {
     align-items: center;
 }
 
-.active {
-    display: flex;
-}
+.active { display: flex; }
 
 /* КАРТОЧКА */
 .card {
@@ -38,23 +51,20 @@ body {
     max-width: 400px;
 }
 
-/* ПЛАВНОЕ ПОЯВЛЕНИЕ */
+/* ✨ FADE */
 .fade {
     opacity: 0;
     transform: translateY(10px);
-    animation: fadeIn 0.6s ease forwards;
+    animation: fadeIn 0.6s forwards;
 }
 
-.delay1 { animation-delay: 0.2s; }
-.delay2 { animation-delay: 0.4s; }
-.delay3 { animation-delay: 0.6s; }
-.delay4 { animation-delay: 0.8s; }
+.delay1 { animation-delay: .2s; }
+.delay2 { animation-delay: .4s; }
+.delay3 { animation-delay: .6s; }
+.delay4 { animation-delay: .8s; }
 
 @keyframes fadeIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* КНОПКИ */
@@ -66,30 +76,27 @@ body {
     border: none;
     cursor: pointer;
     font-size: 16px;
-    transition: 0.25s ease;
+    transition: .2s;
 }
 
-/* ПЛАВНЫЙ HOVER */
 .btn:hover {
     transform: translateY(-2px);
-    opacity: 0.9;
 }
 
-/* СТИЛИ */
 .btn-purple {
     background: linear-gradient(45deg,#6a00ff,#9b00ff);
-    color: white;
     box-shadow: 0 0 20px rgba(140,0,255,0.4);
+    color: #fff;
 }
 
 .btn-red {
     background: linear-gradient(45deg,#ff1744,#ff5252);
-    color: white;
+    color: #fff;
 }
 
 .btn-green {
     background: linear-gradient(45deg,#00c853,#00e676);
-    color: white;
+    color: #fff;
 }
 
 /* КАРТИНКА */
@@ -124,11 +131,12 @@ img {
     background: linear-gradient(90deg,#00c6ff,#0072ff);
 }
 
-/* ОНЛАЙН */
+/* 👥 ОНЛАЙН */
 .online {
     font-size: 14px;
-    color: #cccccc;
     margin-bottom: 10px;
+    color: #fff;
+    text-shadow: 0 0 10px #9b00ff, 0 0 20px #6a00ff;
 }
 
 </style>
@@ -136,14 +144,31 @@ img {
 
 <body>
 
+<!-- 🌌 СОЗДАНИЕ ЧАСТИЦ -->
+<script>
+for(let i=0;i<20;i++){
+    let p=document.createElement("div");
+    p.className="particle";
+    let size=Math.random()*6+4;
+    p.style.width=size+"px";
+    p.style.height=size+"px";
+    p.style.left=Math.random()*100+"%";
+    p.style.animationDuration=(Math.random()*10+10)+"s";
+    document.body.appendChild(p);
+}
+</script>
+
 <!-- 🔊 ЗВУК -->
-<audio id="clickSound" src="https://www.myinstants.com/media/sounds/mouse-click.mp3"></audio>
+<!-- 🔧 ЗАМЕНИ ССЫЛКУ НА СВОЙ ЗВУК -->
+<audio id="clickSound" preload="auto">
+<source src="ССЫЛКА_НА_ЗВУК" type="audio/mpeg">
+</audio>
 
 <!-- СЛАЙД 1 -->
 <div class="slide active">
 <div class="card">
 
-<div class="online fade delay1" id="online">Онлайн: 120</div>
+<div class="online fade delay1" id="online"></div>
 
 <h1 class="fade delay2">ПОЛУЧИ ДОСТУП</h1>
 
@@ -214,12 +239,16 @@ img {
 let slides=document.querySelectorAll('.slide');
 let cur=0;
 
-function clickSound(){
-document.getElementById("clickSound").play();
+let sound=document.getElementById("clickSound");
+
+/* 🔊 мгновенный звук */
+function playSound(){
+    sound.currentTime = 0;
+    sound.play().catch(()=>{});
 }
 
 function go(n){
-clickSound();
+playSound();
 slides[cur].classList.remove('active');
 cur=n;
 slides[cur].classList.add('active');
@@ -228,7 +257,7 @@ slides[cur].classList.add('active');
 let b=false,c1=false,c2=false;
 
 function done(btn,link,type){
-clickSound();
+playSound();
 window.open(link);
 
 btn.classList.remove('btn-red');
@@ -240,7 +269,7 @@ if(type=="c2")c2=true;
 }
 
 function check(){
-clickSound();
+playSound();
 if(b&&c1&&c2){
 go(2);
 let w=0;
@@ -257,12 +286,14 @@ alert("Сделай все действия");
 }
 }
 
-/* ОНЛАЙН */
-let online=120;
-setInterval(()=>{
-online+=Math.floor(Math.random()*3-1);
-document.getElementById("online").innerText="Онлайн: "+online;
-},2000);
+/* 👥 ОНЛАЙН РАНДОМ */
+function updateOnline(){
+let num=Math.floor(Math.random()*(247-50+1))+50;
+document.getElementById("online").innerText="Сейчас онлайн: "+num;
+}
+
+updateOnline();
+setInterval(updateOnline,2000);
 
 </script>
 
