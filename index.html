@@ -6,39 +6,49 @@
     <title>Emr1k_client</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Цветовая палитра, максимально приближенная к референсу */
-            --color-bg-dark-start: #1D1A3B; /* Очень темный фиолетово-синий */
-            --color-bg-dark-end: #2E3A5F;   /* Темный синий */
-            --color-content-bg: rgba(0, 0, 0, 0.4); /* Полупрозрачный черный для контента */
-            --color-border-light: rgba(255, 255, 255, 0.15); /* Едва заметная светлая обводка */
-            --color-shadow-light: rgba(255, 255, 255, 0.05); /* Легкое свечение */
-            --color-text-white: #ffffff;
-            --color-button-primary-start: #8e2de2; /* Фиолетовый градиент кнопки */
-            --color-button-primary-end: #4a00e0;   /* Темно-фиолетовый */
-            --color-button-action-start: #f093fb; /* Розово-красный градиент для "Подписаться" */
-            --color-button-action-end: #f35672;
-            --color-button-next-start: #2af598; /* Зелено-синий градиент для "Проверить" */
-            --color-button-next-end: #009efd;
-            --color-warning-red: #ff3333; /* Красный для предупреждения */
-            --color-warning-bg: rgba(255, 51, 51, 0.15); /* Полупрозрачный красный фон */
-            --color-progress-fill-start: #4facfe; /* Синий градиент для прогресса */
-            --color-progress-fill-end: #00f2fe;
+            /* Обновленная цветовая палитра для максимального соответствия */
+            --color-bg-deep-start: #100C1F; /* Очень темный, почти черный */
+            --color-bg-deep-end: #1C1938;   /* Глубокий темно-фиолетовый */
+            --color-content-bg-alpha: rgba(0, 0, 0, 0.5); /* Более темный полупрозрачный фон для контента */
+            
+            --color-border-glow-light: rgba(255, 255, 255, 0.3); /* Обводка элементов: полупрозрачная белая */
+            --color-glow-main: rgba(140, 0, 255, 0.4); /* Основное фиолетовое свечение */
+            --color-glow-white: rgba(255, 255, 255, 0.2); /* Легкое белое свечение */
+
+            --color-button-main-start: #7A00B7; /* Основной градиент кнопки: фиолетовый */
+            --color-button-main-end: #4C007C;   /* Темно-фиолетовый */
+            --color-button-action-start: #FF0077; /* Градиент "Подписаться": ярко-розовый */
+            --color-button-action-end: #CC0060;   /* Темно-розовый */
+            --color-button-check-start: #00E676; /* Градиент "Проверить": ярко-зеленый */
+            --color-button-check-end: #00B35C;   /* Темно-зеленый */
+
+            --color-warning-text: #FF4D4D; /* Красный текст предупреждения */
+            --color-warning-bg-alpha: rgba(255, 77, 77, 0.15); /* Фон предупреждения */
+            --color-warning-border: #FF4D4D; /* Обводка предупреждения */
+            --color-warning-glow: rgba(255, 77, 77, 0.5); /* Свечение предупреждения */
+
+            --color-progress-start: #00C2FF; /* Градиент прогресс-бара: голубой */
+            --color-progress-end: #0077FF;   /* Синий */
+            --color-progress-glow: rgba(0, 194, 255, 0.4); /* Свечение прогресс-бара */
+
+            --font-main: 'Inter', sans-serif;
         }
 
         body {
             margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--color-bg-dark-start) 0%, var(--color-bg-dark-end) 100%);
+            font-family: var(--font-main);
+            background: linear-gradient(135deg, var(--color-bg-deep-start) 0%, var(--color-bg-deep-end) 100%);
             color: var(--color-text-white);
             display: flex;
-            justify-content: center;
-            align-items: center;
+                        justify-content: center;
+            align-items: flex-start; /* Начинаем сверху, если контент длинный */
             min-height: 100vh;
-            overflow: hidden; /* Скрываем любые скроллбары */
+            overflow-x: hidden; /* Запрещаем горизонтальную прокрутку */
+            overflow-y: auto; /* Разрешаем вертикальную прокрутку для body, если контент-враппер не помещается */
             position: relative;
         }
 
@@ -46,191 +56,206 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 600px;
+            max-width: 650px; /* Увеличенная максимальная ширина */
             box-sizing: border-box;
-            /* Без padding здесь, пусть content-wrapper сам отступает */
+            padding: 20px; /* Отступы для контейнера */
         }
 
-        .slide {            display: none; /* Все слайды скрыты по умолчанию */
+        .slide {
+            display: none; /* Все слайды скрыты по умолчанию */
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Каждый слайд занимает всю высоту экрана */
+            min-height: calc(100vh - 40px); /* Чтобы слайд занимал почти весь экран, с учетом padding container */
             width: 100%;
             text-align: center;
-            /* Не наследуем background, чтобы каждый слайд был над фоном body */
-            transition: opacity 0.5s ease-in-out; /* Плавный переход при смене слайдов */
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
         }
 
         .slide.active {
             display: flex; /* Активный слайд показываем */
-            opacity: 1; /* Для плавности перехода */
+            opacity: 1;
         }
 
         .content-wrapper {
-            padding: 30px 20px;
-            background-color: var(--color-content-bg);
-            border-radius: 20px; /* Скругление углов */
-            border: 1px solid var(--color-border-light); /* Очень тонкая и светлая обводка */
-            backdrop-filter: blur(15px); /* Эффект размытия фона */
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 0 25px var(--color-shadow-light); /* Едва заметное свечение */
-            margin: 20px; /* Отступ от краев экрана */
-            width: calc(100% - 40px); /* Чтобы контент-враппер не выходил за границы */
-            max-width: 500px; /* Ограничение максимальной ширины */
+            background-color: var(--color-content-bg-alpha);
+            border-radius: 25px; /* Более скругленные углы */
+            border: 2px solid var(--color-border-glow-light); /* Более заметная обводка */
+            backdrop-filter: blur(20px); /* Усиленное размытие */
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 0 40px var(--color-glow-main); /* Яркое фиолетовое свечение */
+            padding: 35px 25px; /* Увеличенные отступы внутри */
+            width: 100%;
+            max-width: 550px; /* Ограничение ширины контент-враппера */
+            box-sizing: border-box;
+            margin: 0 auto; /* Центрирование */
         }
 
         h1, h2 {
-            font-size: 2.8em;
-            margin-bottom: 10px;
+            font-family: var(--font-main);
+            font-weight: 800; /* Более жирный шрифт */
+            color: var(--color-text-white);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.7); /* Более выраженная тень */
+            margin-bottom: 12px; /* Меньший отступ */
             line-height: 1.1;
-            font-weight: 700;
-            color: var(--color-text-white); /* Белый текст для заголовков */
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Тень для объема */
         }
 
         h1 {
-            font-size: 3.2em;
+            font-size: 3.5em; /* Очень крупный шрифт для заголовка 1 */
+            letter-spacing: -0.02em; /* Небольшой отрицательный межбуквенный интервал */
         }
 
         h2 {
-            font-size: 2.2em;
+            font-size: 2.5em; /* Крупный шрифт для заголовка 2 */
         }
 
         p {
-            font-size: 1.1em;
-            margin-bottom: 25px;
+            font-size: 1.2em; /* Увеличенный шрифт для текста */
+            font-weight: 500;
+            margin-bottom: 30px; /* Увеличенный отступ */
             line-height: 1.5;
             opacity: 0.9;
-            font-weight: 500;
         }
 
         .description-text {
-            font-size: 1.2em;
-            margin-bottom: 40px;
-            font-weight: 500;
+            font-size: 1.3em; /* Ещё крупнее для описания */
+            margin-bottom: 45px; /* Большой отступ */
+            font-weight: 600;
         }
 
         .product-image-container {
-            margin: 25px auto;
-            max-width: 95%;
-            border: 2px solid var(--color-border-light); /* Тонкая белая обводка */
-            border-radius: 18px;
+            margin: 30px auto; /* Увеличенные отступы */
+            max-width: 90%;
+            border: 3px solid var(--color-border-glow-light); /* Заметная обводка изображения */
+            border-radius: 20px; /* Скругление изображения */
             overflow: hidden;
-            box-shadow: 0 5px 15px var(--color-shadow-dark);
+            box-shadow: 0 0 30px var(--color-glow-white); /* Белое свечение вокруг изображения */
         }
 
         .product-image {
             display: block;
             width: 100%;
             height: auto;
-            border-radius: 16px; /* Чуть меньше, чем у контейнера */
+            border-radius: 17px; /* Чуть меньше, чем у контейнера */
         }
 
         .cta-button, .action-button {
             display: inline-block;
-            padding: 18px 35px;
-            font-size: 1.3em;
+            padding: 20px 40px; /* Увеличенный размер кнопок */
+            font-size: 1.4em; /* Крупный шрифт на кнопках */
             font-weight: 700;
             text-decoration: none;
             color: var(--color-text-white);
-            background: linear-gradient(90deg, var(--color-button-primary-start) 0%, var(--color-button-primary-end) 100%);
+            background: linear-gradient(90deg, var(--color-button-main-start) 0%, var(--color-button-main-end) 100%);
             border: none;
-            border-radius: 35px;
+            border-radius: 40px; /* Сильно скругленные углы */
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(142, 45, 226, 0.4); /* Мягкое свечение */
+            box-shadow: 0 10px 35px var(--color-glow-main); /* Сильное свечение кнопки */
             outline: none;
             margin-top: 25px;
             position: relative;
             overflow: hidden;
             z-index: 1;
+            letter-spacing: 0.05em; /* Небольшой межбуквенный интервал */
         }
 
         .cta-button::before, .action-button::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
+            left: -100%; /* Начинаем сбоку для эффекта */
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.15) 0%, transparent 50%); /* Блик при наведении */
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%); /* Более заметный блик */
+            transition: left 0.4s ease-out; /* Анимация перемещения */
             z-index: -1;
         }
 
         .cta-button:hover, .action-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(142, 45, 226, 0.6); /*
-            Чуть сильнее свечение */
+            transform: translateY(-5px); /* Более выраженный эффект поднятия */
+            box-shadow: 0 15px 45px var(--color-glow-main); /* Усиленное свечение при наведении */
         }
 
         .cta-button:hover::before, .action-button:hover::before {
-            opacity: 1;
+            left: 100%; /* Блик "проходит" по кнопке */
         }
 
         .warning-box {
-            background-color: var(--color-warning-bg);
-            border: 1px solid var(--color-warning-red); /* Тонкая красная обводка */
-            padding: 18px 25px;
-            border-radius: 18px;
-            margin: 25px auto;
-            max-width: 85%;
+            background-color: var(--color-warning-bg-alpha);
+            border: 2px solid var(--color-warning-border); /* Заметная красная обводка */
+            padding: 20px 25px;
+            border-radius: 20px;
+            margin: 30px auto; /* Увеличенные отступы */
+            max-width: 90%;
             display: flex;
+            flex-direction: row; /* Иконка и текст в ряд */
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            font-size: 1.05em;
-            box-shadow: 0 0 18px rgba(255, 51, 51, 0.3); /* Мягкое красное свечение */
+            gap: 15px; /* Отступ между иконкой и текстом */
+            font-size: 1.15em;
+            box-shadow: 0 0 25px var(--color-warning-glow); /* Красное свечение */
+        }
+        .warning-box p {
+            margin-bottom: 0; /* Убираем лишний отступ у параграфа внутри бокса */
+            font-weight: 500;
         }
 
         .warning-icon {
-            font-size: 1.8em;
+            font-size: 2em; /* Крупнее иконка */
+            line-height: 1; /* Для центрирования */
         }
 
         .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 18px;
-            margin-top: 30px;
+            gap: 10px; /* Уменьшенный отступ между кнопками */
+            margin-top: 25px;
         }
 
         .action-button {
             background: linear-gradient(90deg, var(--color-button-action-start) 0%, var(--color-button-action-end) 100%);
-            box-shadow: 0 8px 25px rgba(243, 86, 114, 0.4);
+            box-shadow: 0 10px 35px rgba(255, 0, 119, 0.5); /* Розовое свечение */
+            padding: 18px 35px; /* Чуть меньше основной кнопки, но все еще крупная */
+            font-size: 1.3em;
+            border-radius: 35px;
         }
 
         .action-button:hover {
-            box-shadow: 0 10px 30px rgba(243, 86, 114, 0.6);
+            box-shadow: 0 15px 45px rgba(255, 0, 119, 0.7);
         }
 
         .next-slide-button {
-            margin-top: 35px;
-            background: linear-gradient(90deg, var(--color-button-next-start) 0%, var(--color-button-next-end) 100%);
-            box-shadow: 0 8px 25px rgba(0, 158, 253, 0.4);
+            margin-top: 30px; /* Отступ от нижних кнопок */
+            background: linear-gradient(90deg, var(--color-button-check-start) 0%, var(--color-button-check-end) 100%);
+            box-shadow: 0 10px 35px rgba(0, 230, 118, 0.5); /* Зеленое свечение */
+            padding: 20px 40px; /* Чуть больше, чем кнопки действий */
+            font-size: 1.4em;
         }
 
         .next-slide-button:hover {
-            box-shadow: 0 10px 30px rgba(0, 158, 253, 0.6);
+            box-shadow: 0 15px 45px rgba(0, 230, 118, 0.7);
         }
 
         .progress-bar-container {
-            width: 85%;
-            max-width: 450px;
-            margin: 35px auto;
+            width: 90%; /* Шире */
+            max-width: 500px;
+            margin: 40px auto; /* Увеличенные отступы */
             background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 35px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 40px; /* Сильное скругление */
+            border: 2px solid var(--color-border-glow-light); /* Заметная обводка */
             overflow: hidden;
             position: relative;
-            height: 55px;
+            height: 60px; /* Выше */
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.15em;
-            padding: 0 15px;
+            font-size: 1.25em; /* Крупнее текст */
+            padding: 0 20px;
             box-sizing: border-box;
+            box-shadow: 0 0 30px var(--color-progress-glow); /* Голубое свечение */
         }
 
         .progress-bar-fill {
@@ -239,47 +264,51 @@
             position: absolute;
             top: 0;
             left: 0;
-            background: linear-gradient(90deg, var(--color-progress-fill-start) 0%, var(--color-progress-fill-end) 100%);
+            background: linear-gradient(90deg, var(--color-progress-start) 0%, var(--color-progress-end) 100%);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 4.5s ease-in-out;
-            border-radius: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 40px;
         }
 
         .progress-text {
             position: relative;
             z-index: 1;
-            font-weight: 600;
-            text-shadow: 0 0 8px rgba(0,0,0,0.4);
+            font-weight: 700; /* Более жирный текст */
+            text-shadow: 0 0 10px rgba(0,0,0,0.6); /* Более выраженная тень */
         }
 
+        /* Адаптивность */
         @media (max-width: 768px) {
-            h1 { font-size: 2.8em; }
-            h2 { font-size: 1.9em; }
+            .container {
+                padding: 10px;
+            }
             .content-wrapper {
                 padding: 25px 15px;
-                margin: 15px;
-                width: calc(100% - 30px);
+                border-radius: 20px;
+            }
+            h1 { font-size: 2.8em; }
+            h2 { font-size: 2em; }
+            p { font-size: 1.1em; }
+            .description-text { font-size: 1.2em; }
+            .cta-button, .action-button, .next-slide-button {
+                padding: 16px 30px;
+                font-size: 1.2em;
+                border-radius: 35px;
             }
             .warning-box {
-                max-width: 95%;
-                margin: 20px auto;
-                flex-direction: column;
+                padding: 15px 20px;
+                font-size: 1em;
+                flex-direction: column; /* На узких экранах предупреждение может быть в столбик */
                 gap: 5px;
-                text-align: center;
             }
-            .warning-icon { font-size: 1.5em; }
+            .warning-icon { font-size: 1.8em; }
             .progress-bar-container {
-                width: 95%;
-                margin: 25px auto;
-            }
-            .cta-button, .action-button {
-                padding: 15px 25px;
+                height: 50px;
                 font-size: 1.1em;
+                border-radius: 30px;
             }
+            .progress-bar-fill { border-radius: 30px; }
         }
     </style>
 </head>
@@ -291,7 +320,7 @@
         <section id="slide-1" class="slide active">
             <div class="content-wrapper">
                 <div class="greeting-box">
-                <h1>ХОТИТЕ ЗАБРАТЬ</h1>
+                    <h1>ХОТИТЕ ЗАБРАТЬ</h1>
                     <h1>СОФТ?</h1>
                 </div>
                 <div class="product-image-container">
@@ -324,7 +353,7 @@
                     <a href="https://t.me/your_telegram_channel" class="action-button subscribe-button" target="_blank">Подписаться</a>
 
                     <!-- Кнопка 3: Дублирующая кнопка "Подписаться" -->
-                    <!-- Вставьте сюда ссылку на ваш Telegram-channel -->
+                    <!-- Вставьте сюда ссылку на ваш Telegram-канал -->
                     <a href="https://t.me/your_telegram_channel" class="action-button subscribe-button" target="_blank">Подписаться</a>
                 </div>
                  <button class="cta-button next-slide-button" onclick="startVerification()">Проверить подписку</button>
@@ -358,37 +387,31 @@
         let currentSlide = 0;
 
         function scrollToNextSlide() {
-            // Проверяем, что следующий слайд существует
             if (currentSlide + 1 < slides.length) {
                 slides[currentSlide].classList.remove('active');
                 currentSlide++;
                 slides[currentSlide].classList.add('active');
             }
-            // Если это последний слайд, ничего не делаем или обрабатываем иначе
         }
 
         function startVerification() {
-            // Скрываем текущий слайд и переходим на слайд 3 (индекс 2)
             slides[currentSlide].classList.remove('active');
             currentSlide = 2; // Переключаемся на слайд проверки
             slides[currentSlide].classList.add('active');
 
             const progressBarFill = document.querySelector('#slide-3 .progress-bar-fill');
             if (progressBarFill) {
-                // Сбрасываем прогресс перед началом, если он уже был заполнен
                 progressBarFill.style.transition = 'none';
                 progressBarFill.style.transform = 'scaleX(0)';
                 
-                // Запускаем анимацию заполнения после короткой задержки, чтобы transition сработал
                 setTimeout(() => {
                     progressBarFill.style.transition = 'transform 4.5s ease-in-out';
-                    progressBarFill.style.transform = 'scaleX(1)'; // Заполняем на 100%
-                }, 50); // Небольшая задержка
+                    progressBarFill.style.transform = 'scaleX(1)';
+                }, 50);
             }
 
-            // Через 4.5 секунды (равно длительности анимации) переходим на слайд 4
             setTimeout(() => {
-                if (currentSlide === 2) { // Убедимся, что мы все еще на слайде 3
+                if (currentSlide === 2) {
                     slides[currentSlide].classList.remove('active');
                     currentSlide = 3; // Индекс слайда 4 (получение приза)
                     slides[currentSlide].classList.add('active');
@@ -401,13 +424,12 @@
             const finalLink = 'YOUR_FINAL_LINK_HERE'; // <-- Вставьте сюда вашу финальную ссылку!
 
             if (finalLink && finalLink !== 'YOUR_FINAL_LINK_HERE') {
-                window.open(finalLink, '_blank'); // Открываем ссылку в новой вкладке
+                window.open(finalLink, '_blank');
             } else {
                 alert("Ссылка на приз пока не установлена. Пожалуйста, проверьте настройки.");
             }
         }
 
-        // Инициализация: делаем первый слайд активным при загрузке страницы
         document.addEventListener('DOMContentLoaded', () => {
             if (slides.length > 0) {
                 slides[0].classList.add('active');
