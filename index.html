@@ -12,17 +12,18 @@ body {
     font-family: Arial, sans-serif;
     background: radial-gradient(circle at top, #0a0a0f, #000000 80%);
     color: white;
-    overflow-x: hidden;
 }
 
-/* АНИМАЦИЯ ПОЯВЛЕНИЯ */
-.fade-in {
-    animation: fadeIn 0.6s ease forwards;
-}
-
-@keyframes fadeIn {
+/* АНИМАЦИИ */
+@keyframes fadeUp {
     from {opacity: 0; transform: translateY(20px);}
     to {opacity: 1; transform: translateY(0);}
+}
+
+@keyframes pulse {
+    0% {box-shadow: 0 0 10px rgba(140,0,255,0.4);}
+    50% {box-shadow: 0 0 25px rgba(140,0,255,0.8);}
+    100% {box-shadow: 0 0 10px rgba(140,0,255,0.4);}
 }
 
 /* СЛАЙДЫ */
@@ -50,7 +51,7 @@ body {
     max-width: 400px;
     width: 100%;
     box-shadow: 0 0 30px rgba(140, 0, 255, 0.15);
-    animation: fadeIn 0.7s ease;
+    animation: fadeUp 0.6s ease;
 }
 
 /* КНОПКИ */
@@ -65,9 +66,16 @@ body {
     width: 100%;
     position: relative;
     overflow: hidden;
+    animation: fadeUp 0.6s ease;
 }
 
-/* ЭФФЕКТ СВЕЧЕНИЯ */
+/* ЗАДЕРЖКА ПОЯВЛЕНИЯ */
+.delay1 { animation-delay: 0.2s; }
+.delay2 { animation-delay: 0.4s; }
+.delay3 { animation-delay: 0.6s; }
+.delay4 { animation-delay: 0.8s; }
+
+/* БЛИК */
 .btn::after {
     content: "";
     position: absolute;
@@ -83,9 +91,11 @@ body {
     left: 100%;
 }
 
+/* СТИЛИ КНОПОК */
 .btn-purple {
     background: linear-gradient(45deg, #5f00ff, #9b00ff);
     box-shadow: 0 0 15px rgba(140,0,255,0.5);
+    animation: pulse 2s infinite;
 }
 
 .btn-green {
@@ -98,8 +108,9 @@ body {
     box-shadow: 0 0 10px rgba(255,0,80,0.4);
 }
 
-.btn:hover {
-    transform: scale(1.05);
+/* НАЖАТИЕ */
+.btn:active {
+    transform: scale(0.95);
 }
 
 /* WARNING */
@@ -128,7 +139,6 @@ body {
     border-radius: 10px;
     overflow: hidden;
     margin-top: 20px;
-    border: 1px solid rgba(0,150,255,0.2);
 }
 
 .progress-bar {
@@ -146,15 +156,15 @@ body {
 
 <!-- СЛАЙД 1 -->
 <div class="slide active">
-    <div class="card fade-in">
+    <div class="card">
         <h1>ПОЛУЧИ ДОСТУП</h1>
 
-        <!-- 🔧 ВСТАВЬ ССЫЛКУ -->
+        <!-- ВСТАВЬ КАРТИНКУ -->
         <img src="ССЫЛКА_НА_КАРТИНКУ" class="product-img">
 
-        <p>Нажмите кнопку ниже чтобы продолжить</p>
+        <p>Нажмите кнопку ниже</p>
 
-        <button class="btn btn-purple" onclick="nextSlide(2)">
+        <button class="btn btn-purple delay1" onclick="nextSlide(2)">
             Продолжить
         </button>
     </div>
@@ -162,24 +172,30 @@ body {
 
 <!-- СЛАЙД 2 -->
 <div class="slide">
-    <div class="card fade-in">
+    <div class="card">
 
         <h2>Выполните действия</h2>
-        <p>Для получения доступа</p>
 
         <div class="warning">
-            ⚠️ Важно: выполните все шаги
+            ⚠️ Выполните все шаги
         </div>
 
-        <button class="btn btn-red" onclick="markDone(this, 'https://t.me/ССЫЛКА_БОТА')">
+        <!-- БОТ -->
+        <button class="btn btn-red delay1" onclick="markDone(this, 'https://t.me/ССЫЛКА_БОТА', 'bot')">
             Перейти в бота
         </button>
 
-        <button class="btn btn-red" onclick="markDone(this, 'https://t.me/ССЫЛКА_КАНАЛА')">
+        <!-- КАНАЛ 1 -->
+        <button class="btn btn-red delay2" onclick="markDone(this, 'https://t.me/ССЫЛКА_КАНАЛА1', 'channel1')">
             Подписаться
         </button>
 
-        <button class="btn btn-green" onclick="checkTasks()">
+        <!-- КАНАЛ 2 (НОВЫЙ) -->
+        <button class="btn btn-red delay3" onclick="markDone(this, 'https://t.me/ССЫЛКА_КАНАЛА2', 'channel2')">
+            Подписаться
+        </button>
+
+        <button class="btn btn-green delay4" onclick="checkTasks()">
             Проверить
         </button>
 
@@ -188,10 +204,9 @@ body {
 
 <!-- СЛАЙД 3 -->
 <div class="slide">
-    <div class="card fade-in">
+    <div class="card">
 
         <h2>Подготовка доступа...</h2>
-        <p>Пожалуйста подождите</p>
 
         <div class="progress">
             <div class="progress-bar" id="progressBar"></div>
@@ -202,10 +217,9 @@ body {
 
 <!-- СЛАЙД 4 -->
 <div class="slide">
-    <div class="card fade-in">
+    <div class="card">
 
-        <h2>Готово!</h2>
-        <p>Нажмите кнопку ниже</p>
+        <h2>Готово</h2>
 
         <button class="btn btn-purple" onclick="window.location.href='ССЫЛКА_НА_ПРОДУКТ'">
             Получить
@@ -225,25 +239,27 @@ function nextSlide(num) {
     slides[current].classList.add('active');
 }
 
-let botClicked = false;
-let channelClicked = false;
+let bot = false;
+let ch1 = false;
+let ch2 = false;
 
-function markDone(btn, link) {
+function markDone(btn, link, type) {
     window.open(link, "_blank");
 
     btn.classList.remove('btn-red');
     btn.classList.add('btn-green');
 
-    if (btn.innerText.includes("бота")) botClicked = true;
-    if (btn.innerText.includes("Подписаться")) channelClicked = true;
+    if(type === 'bot') bot = true;
+    if(type === 'channel1') ch1 = true;
+    if(type === 'channel2') ch2 = true;
 }
 
 function checkTasks() {
-    if (botClicked && channelClicked) {
+    if (bot && ch1 && ch2) {
         nextSlide(3);
         startProgress();
     } else {
-        alert("Сначала выполните все действия");
+        alert("Выполни все действия");
     }
 }
 
