@@ -195,6 +195,12 @@ onclick="task(this,'https://t.me/+fXt6XG9wOJRhZmEy','t3')">
 3. Подать заявку⚡️
 </button>
 
+<!-- 4 КНОПКА -->
+<button class="btn" id="b4"
+onclick="task(this,'https://t.me/+PvIDSa762gE0YjAy','t4')">
+4. Подать заявку⚡️
+</button>
+
 <!-- =======================
      ПРОГРЕСС
 ======================= -->
@@ -220,15 +226,17 @@ onclick="location.href='https://nere.st/l/tg'">
 /* =======================
    ЛОГИКА ЗАДАНИЙ
 ======================= */
-let t1=false,t2=false,t3=false;
-
 function task(btn,link,type){
+
 window.open(link,"_blank");
+
 btn.classList.add("done");
 
 if(type=="t1")t1=true;
 if(type=="t2")t2=true;
 if(type=="t3")t3=true;
+if(type=="t4")t4=true;
+
 }
 
 /* =======================
@@ -236,7 +244,7 @@ if(type=="t3")t3=true;
 ======================= */
 function check(){
 
-if(t1 && t2 && t3){
+if(t1 && t2 && t3 && t4){
 
 let bar=document.getElementById("bar");
 let w=0;
