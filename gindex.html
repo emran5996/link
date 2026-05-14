@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMR1K CLIENT</title>
+
+<style>
+
+/* =======================
+   ОБЩИЙ ФОН СТРАНИЦЫ
+======================= */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: #00ffcc;
+    overflow: hidden;
+}
+
+/* =======================
+   ЦЕНТРИРОВАНИЕ КОНТЕНТА
+======================= */
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* =======================
+   ФОН (МАТРИЦА + СЕТКА)
+   ВСЁ УХОДИТ НАЗАД
+======================= */
+.background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+/* сетка */
+.grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    background-image: linear-gradient(rgba(0,255,204,0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,255,204,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+}
+
+/* матрица */
+canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.25;
+}
+
+/* =======================
+   ПАНЕЛЬ (ОСНОВНОЙ БЛОК)
+======================= */
+.panel {
+    position: relative;
+    z-index: 2;
+    width: 90%;
+    max-width: 420px;
+    padding: 22px;
+    border-radius: 18px;
+    background: rgba(0,255,204,0.04);
+    border: 1px solid rgba(0,255,204,0.25);
+    box-shadow: 0 0 25px rgba(0,255,204,0.15);
+    text-align: center;
+    backdrop-filter: blur(6px);
+}
+
+/* =======================
+   ЗАГОЛОВОК (ИЗМЕНЯЕМЫЙ)
+======================= */
+h1 {
+    font-size: 20px;
+    text-shadow: 0 0 10px #00ffcc;
+}
+
+/* =======================
+   КРАСНОЕ ПРЕДУПРЕЖДЕНИЕ
+   (ТЕКСТ МОЖНО МЕНЯТЬ)
+======================= */
+.warning {
+    border: 1px solid rgba(255,0,0,0.6);
+    background: rgba(255,0,0,0.08);
+    color: #ff4d4d;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin: 10px 0 15px;
+}
+
+/* =======================
+   КНОПКИ
+======================= */
+.btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    background: transparent;
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+    cursor: pointer;
+    border-radius: 14px;
+    transition: 0.25s;
+}
+
+/* hover эффект */
+.btn:hover {
+    background: #00ffcc;
+    color: #000;
+}
+
+/* выполненная кнопка */
+.done {
+    background: #00ffcc !important;
+    color: #000 !important;
+}
+
+/* =======================
+   ПРОГРЕСС-БАР
+======================= */
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.bar {
+    height: 100%;
+    width: 0%;
+    background: #00ffcc;
+}
+
+/* финальная кнопка */
+.final {
+    display: none;
+    margin-top: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<!-- =======================
+     ФОН (НЕ ТРОГАТЬ)
+======================= -->
+<div class="background">
+<div class="grid"></div>
+<canvas id="matrix"></canvas>
+</div>
+
+<!-- =======================
+     ОСНОВНАЯ ПАНЕЛЬ
+======================= -->
+<div class="panel">
+
+<!-- 🔥 ТЕКСТ (МЕНЯЕМЫЙ) -->
+<h1>🧪ПОЛУЧИТЬ ДОСТУП К ЧИТУ НА СО2🧪</h1>
+
+<!-- ⚠ ПРЕДУПРЕЖДЕНИЕ (МЕНЯЕМЫЙ ТЕКСТ) -->
+<div class="warning">
+⚠️ВНИМАНИЕ: ЕСЛИ ВЫ ОТПИШИТЕСЬ ОТ КАНАЛОВ ФАЙЛ БУДЕТ ЗАБЛОКИРОВАН НАВСЕГДА!⚠️
+</div>
+
+<!-- =======================
+     КНОПКИ ЗАДАНИЙ
+     (СЮДА МЕНЯЕШЬ ССЫЛКИ)
+======================= -->
+<button class="btn" id="b1"
+onclick="task(this,'https://t.me/banditpIaybot?start=video8361419','t1')">
+1. Создать человечка⚡️
+</button>
+
+<button class="btn" id="b2"
+onclick="task(this,'https://t.me/+LhqOLbq9ucs4ZmYy','t2')">
+2. Подать заявку⚡️
+</button>
+
+<button class="btn" id="b3"
+onclick="task(this,'https://t.me/+fXt6XG9wOJRhZmEy','t3')">
+3. Подать заявку⚡️
+</button>
+
+<!-- 4 КНОПКА -->
+<button class="btn" id="b4"
+onclick="task(this,'https://t.me/+PvIDSa762gE0YjAy','t4')">
+4. Подать заявку⚡️
+</button>
+
+<!-- =======================
+     ПРОГРЕСС
+======================= -->
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<!-- проверка -->
+<button class="btn" onclick="check()">✔️Проверить Подписки✔️</button>
+
+<!-- финал -->
+<button class="btn final" id="finalBtn"
+onclick="location.href='https://nere.st/l/tg'">
+⚡️Получить Файл⚡️
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* =======================
+   ЛОГИКА ЗАДАНИЙ
+======================= */
+function task(btn,link,type){
+
+window.open(link,"_blank");
+
+btn.classList.add("done");
+
+if(type=="t1")t1=true;
+if(type=="t2")t2=true;
+if(type=="t3")t3=true;
+if(type=="t4")t4=true;
+
+}
+
+/* =======================
+   ПРОВЕРКА
+======================= */
+function check(){
+
+if(t1 && t2 && t3 && t4){
+
+let bar=document.getElementById("bar");
+let w=0;
+
+let i=setInterval(()=>{
+w+=2;
+bar.style.width=w+"%";
+
+if(w>=100){
+clearInterval(i);
+document.getElementById("finalBtn").style.display="block";
+}
+},40);
+
+}
+else
+{
+alert("🔴Вы не выполнили все задания🔴");
+}
+
+}
+
+/* =======================
+   МАТРИЦА (МАЛО ЧАСТИЦ)
+   УХОДИТ НА ЗАДНИЙ ФОН
+======================= */
+let canvas=document.getElementById("matrix");
+let ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let letters="01";
+letters=letters.split("");
+
+let fontSize=14;
+let columns=canvas.width/fontSize;
+let drops=Array.from({length:columns},()=>1);
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.08)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#00ffcc";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+
+let text=letters[Math.floor(Math.random()*letters.length)];
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize>canvas.height && Math.random()>0.98){
+drops[i]=0;
+}
+
+drops[i]++;
+
+}
+}
+
+setInterval(draw,40);
+
+</script>
+
+</body>
+</html>
