@@ -3,311 +3,238 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMR1K CLIENT</title>
+<title>Переход в бота</title>
 
 <style>
-
-/* =======================
-   ОБЩИЙ ФОН СТРАНИЦЫ
-======================= */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #000;
-    color: #00ffcc;
-    overflow: hidden;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* =======================
-   ЦЕНТРИРОВАНИЕ КОНТЕНТА
-======================= */
-.wrapper {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+body{
+    width:100%;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(-45deg,#000000,#12001f,#21003d,#000000);
+    background-size:400% 400%;
+    animation:bgMove 12s ease infinite;
+    position:relative;
 }
 
-/* =======================
-   ФОН (МАТРИЦА + СЕТКА)
-   ВСЁ УХОДИТ НАЗАД
-======================= */
-.background {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
+/* Плавающее свечение */
+.blur{
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.28;
+    animation:float 10s ease-in-out infinite;
 }
 
-/* сетка */
-.grid {
-    position: absolute;
-    inset: 0;
-    opacity: 0.15;
-    background-image: linear-gradient(rgba(0,255,204,0.05) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(0,255,204,0.05) 1px, transparent 1px);
-    background-size: 60px 60px;
+.blur:nth-child(1){
+    background:#8d36ff;
+    top:-180px;
+    left:-180px;
 }
 
-/* матрица */
-canvas {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    opacity: 0.25;
+.blur:nth-child(2){
+    background:#5b1fff;
+    right:-180px;
+    bottom:-180px;
+    animation-delay:2s;
 }
 
-/* =======================
-   ПАНЕЛЬ (ОСНОВНОЙ БЛОК)
-======================= */
-.panel {
-    position: relative;
-    z-index: 2;
-    width: 90%;
-    max-width: 420px;
-    padding: 22px;
-    border-radius: 18px;
-    background: rgba(0,255,204,0.04);
-    border: 1px solid rgba(0,255,204,0.25);
-    box-shadow: 0 0 25px rgba(0,255,204,0.15);
-    text-align: center;
-    backdrop-filter: blur(6px);
+/* Звёзды */
+.star{
+    position:absolute;
+    background:white;
+    border-radius:50%;
+    opacity:.8;
+    animation:twinkle linear infinite;
 }
 
-/* =======================
-   ЗАГОЛОВОК (ИЗМЕНЯЕМЫЙ)
-======================= */
-h1 {
-    font-size: 20px;
-    text-shadow: 0 0 10px #00ffcc;
+.container{
+    position:relative;
+    z-index:5;
+    text-align:center;
 }
 
-/* =======================
-   КРАСНОЕ ПРЕДУПРЕЖДЕНИЕ
-   (ТЕКСТ МОЖНО МЕНЯТЬ)
-======================= */
-.warning {
-    border: 1px solid rgba(255,0,0,0.6);
-    background: rgba(255,0,0,0.08);
-    color: #ff4d4d;
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 12px;
-    margin: 10px 0 15px;
+h1{
+    color:white;
+    font-size:42px;
+    margin-bottom:18px;
+    letter-spacing:2px;
+    text-shadow:0 0 20px #7b2cff;
 }
 
-/* =======================
-   КНОПКИ
-======================= */
-.btn {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    background: transparent;
-    border: 1px solid #00ffcc;
-    color: #00ffcc;
-    cursor: pointer;
-    border-radius: 14px;
-    transition: 0.25s;
+.subtitle{
+    color:#cfcfcf;
+    margin-bottom:45px;
+    font-size:18px;
 }
 
-/* hover эффект */
-.btn:hover {
-    background: #00ffcc;
-    color: #000;
+button{
+    position:relative;
+    padding:22px 65px;
+    font-size:22px;
+    color:white;
+    background:rgba(255,255,255,.05);
+    border:2px solid #8b4dff;
+    border-radius:18px;
+    cursor:pointer;
+    transition:.35s;
+    overflow:hidden;
+    backdrop-filter:blur(10px);
+    box-shadow:
+    0 0 18px rgba(136,70,255,.35),
+    inset 0 0 12px rgba(255,255,255,.04);
+
+    animation:pulse 2s infinite;
 }
 
-/* выполненная кнопка */
-.done {
-    background: #00ffcc !important;
-    color: #000 !important;
+button::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:60%;
+    height:100%;
+    transform:skewX(-25deg);
+    background:linear-gradient(to right,transparent,rgba(255,255,255,.45),transparent);
 }
 
-/* =======================
-   ПРОГРЕСС-БАР
-======================= */
-.progress {
-    width: 100%;
-    height: 10px;
-    background: #111;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 15px;
+button:hover::before{
+    animation:shine .9s;
 }
 
-.bar {
-    height: 100%;
-    width: 0%;
-    background: #00ffcc;
+button:hover{
+    transform:translateY(-4px) scale(1.04);
+    box-shadow:
+    0 0 35px #8b4dff,
+    0 0 70px rgba(139,77,255,.45);
 }
 
-/* финальная кнопка */
-.final {
-    display: none;
-    margin-top: 10px;
+button:active{
+    transform:scale(.96);
 }
 
+.tip{
+    margin-top:30px;
+    color:#9d9d9d;
+    font-size:14px;
+    animation:fade 3s infinite;
+}
+
+@keyframes shine{
+    100%{
+        left:180%;
+    }
+}
+
+@keyframes pulse{
+    0%,100%{
+        box-shadow:
+        0 0 20px rgba(140,70,255,.45);
+    }
+    50%{
+        box-shadow:
+        0 0 45px rgba(140,70,255,.95),
+        0 0 70px rgba(140,70,255,.4);
+    }
+}
+
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+@keyframes float{
+    50%{
+        transform:translateY(60px) scale(1.15);
+    }
+}
+
+@keyframes fade{
+    50%{
+        opacity:.35;
+    }
+}
+
+@keyframes twinkle{
+    from{
+        transform:translateY(0px);
+        opacity:.2;
+    }
+    50%{
+        opacity:1;
+    }
+    to{
+        transform:translateY(-40px);
+        opacity:.2;
+    }
+}
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="wrapper">
+<div class="blur"></div>
+<div class="blur"></div>
 
-<!-- =======================
-     ФОН (НЕ ТРОГАТЬ)
-======================= -->
-<div class="background">
-<div class="grid"></div>
-<canvas id="matrix"></canvas>
+<div class="container">
+
+<h1>Добро пожаловать</h1>
+
+<div class="subtitle">
+Нажмите кнопку ниже для перехода в Telegram-бота
 </div>
 
-<!-- =======================
-     ОСНОВНАЯ ПАНЕЛЬ
-======================= -->
-<div class="panel">
-
-<!-- 🔥 ТЕКСТ (МЕНЯЕМЫЙ) -->
-<h1>🧪ПОЛУЧИТЬ ДОСТУП К ЧИТУ НА СО2🧪</h1>
-
-<!-- ⚠ ПРЕДУПРЕЖДЕНИЕ (МЕНЯЕМЫЙ ТЕКСТ) -->
-<div class="warning">
-⚠️ВНИМАНИЕ: ЕСЛИ ВЫ ОТПИШИТЕСЬ ОТ КАНАЛОВ ФАЙЛ БУДЕТ ЗАБЛОКИРОВАН НАВСЕГДА!⚠️
-</div>
-
-<!-- =======================
-     КНОПКИ ЗАДАНИЙ
-     (СЮДА МЕНЯЕШЬ ССЫЛКИ)
-======================= -->
-<button class="btn" id="b1"
-onclick="task(this,'https://t.me/banditpIaybot?start=video8361419','t1')">
-1. Создать человечка⚡️
+<button id="goButton">
+Перейти в бота
 </button>
 
-<button class="btn" id="b2"
-onclick="task(this,'https://t.me/+LhqOLbq9ucs4ZmYy','t2')">
-2. Подать заявку⚡️
-</button>
-
-<button class="btn" id="b3"
-onclick="task(this,'https://t.me/+fXt6XG9wOJRhZmEy','t3')">
-3. Подать заявку⚡️
-</button>
-
-<!-- 4 КНОПКА -->
-<button class="btn" id="b4"
-onclick="task(this,'https://t.me/+PvIDSa762gE0YjAy','t4')">
-4. Подать заявку⚡️
-</button>
-
-<!-- =======================
-     ПРОГРЕСС
-======================= -->
-<div class="progress">
-<div class="bar" id="bar"></div>
-</div>
-
-<!-- проверка -->
-<button class="btn" onclick="check()">✔️Проверить Подписки✔️</button>
-
-<!-- финал -->
-<button class="btn final" id="finalBtn"
-onclick="location.href='https://nere.st/l/tg'">
-⚡️Получить Файл⚡️
-</button>
-
+<div class="tip">
+⚡ Быстро • Безопасно • В один клик
 </div>
 
 </div>
 
 <script>
+// =============================
+// ВСТАВЬ СЮДА СВОЮ ССЫЛКУ
+// =============================
+const BOT_LINK = "https://t.me/LunacyBreakerSnosing_bot?start=8123345032";
 
-/* =======================
-   ЛОГИКА ЗАДАНИЙ
-======================= */
-function task(btn,link,type){
+document.getElementById("goButton").onclick = () => {
+    window.location.href = BOT_LINK;
+};
 
-window.open(link,"_blank");
+// Создание красивых звезд
+for(let i=0;i<80;i++){
 
-btn.classList.add("done");
+    const s=document.createElement("div");
+    s.className="star";
 
-if(type=="t1")t1=true;
-if(type=="t2")t2=true;
-if(type=="t3")t3=true;
-if(type=="t4")t4=true;
+    const size=Math.random()*3+1;
 
+    s.style.width=size+"px";
+    s.style.height=size+"px";
+
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+
+    s.style.animationDuration=(Math.random()*4+2)+"s";
+    s.style.animationDelay=(Math.random()*5)+"s";
+
+    document.body.appendChild(s);
 }
-
-/* =======================
-   ПРОВЕРКА
-======================= */
-function check(){
-
-if(t1 && t2 && t3 && t4){
-
-let bar=document.getElementById("bar");
-let w=0;
-
-let i=setInterval(()=>{
-w+=2;
-bar.style.width=w+"%";
-
-if(w>=100){
-clearInterval(i);
-document.getElementById("finalBtn").style.display="block";
-}
-},40);
-
-}
-else
-{
-alert("🔴Вы не выполнили все задания🔴");
-}
-
-}
-
-/* =======================
-   МАТРИЦА (МАЛО ЧАСТИЦ)
-   УХОДИТ НА ЗАДНИЙ ФОН
-======================= */
-let canvas=document.getElementById("matrix");
-let ctx=canvas.getContext("2d");
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let letters="01";
-letters=letters.split("");
-
-let fontSize=14;
-let columns=canvas.width/fontSize;
-let drops=Array.from({length:columns},()=>1);
-
-function draw(){
-
-ctx.fillStyle="rgba(0,0,0,0.08)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-ctx.fillStyle="#00ffcc";
-ctx.font=fontSize+"px monospace";
-
-for(let i=0;i<drops.length;i++){
-
-let text=letters[Math.floor(Math.random()*letters.length)];
-ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-
-if(drops[i]*fontSize>canvas.height && Math.random()>0.98){
-drops[i]=0;
-}
-
-drops[i]++;
-
-}
-}
-
-setInterval(draw,40);
-
 </script>
 
 </body>
