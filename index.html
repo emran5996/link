@@ -16,7 +16,7 @@
 html {
     width: 100%;
     min-height: 100%;
-    background: #000000;
+    background: #000;
 }
 
 body {
@@ -38,58 +38,57 @@ body {
             #000000 75%
         );
 
+    color: white;
     position: relative;
 }
 
-/* Слабое фиолетовое свечение */
+/* Фиолетовое свечение */
 .glow {
     position: absolute;
     width: 350px;
     height: 350px;
+
     border-radius: 50%;
 
-    background: #5d16a8;
+    background: #6415a8;
     filter: blur(160px);
-    opacity: 0.10;
+    opacity: .10;
 
     pointer-events: none;
 }
 
+/* Основной блок */
 .container {
     position: relative;
     z-index: 2;
 
     width: 100%;
-    text-align: center;
-
     padding: 20px;
+
+    text-align: center;
 }
 
 h1 {
-    color: #ffffff;
-
     font-size: 40px;
-    font-weight: 700;
-
-    letter-spacing: 1px;
     margin-bottom: 15px;
 
+    letter-spacing: 1px;
+
     text-shadow:
-        0 0 15px rgba(135, 50, 255, 0.35);
+        0 0 15px rgba(135,50,255,.35);
 }
 
 .subtitle {
     color: #858585;
-
     font-size: 16px;
 
     margin-bottom: 35px;
 }
 
+/* Кнопки */
 .buttons {
     display: flex;
     flex-direction: column;
-
     align-items: center;
 
     gap: 18px;
@@ -99,12 +98,11 @@ button {
     position: relative;
 
     width: 280px;
-
     padding: 20px 30px;
 
-    color: #ffffff;
+    color: white;
 
-    background: rgba(15, 8, 22, 0.9);
+    background: rgba(15,8,22,.9);
 
     border: 1.5px solid #7d32c9;
     border-radius: 16px;
@@ -115,13 +113,10 @@ button {
     cursor: pointer;
 
     box-shadow:
-        0 0 15px rgba(125, 50, 201, 0.25),
-        inset 0 0 15px rgba(125, 50, 201, 0.05);
+        0 0 15px rgba(125,50,201,.25),
+        inset 0 0 15px rgba(125,50,201,.05);
 
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease;
+    transition: .25s;
 
     animation: pulse 2.5s ease-in-out infinite;
 
@@ -129,86 +124,170 @@ button {
 }
 
 button:nth-child(2) {
-    animation-delay: 0.5s;
-}
-
-/* Блик */
-button::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    left: -100%;
-
-    width: 60%;
-    height: 100%;
-
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,0.18),
-        transparent
-    );
-
-    transform: skewX(-25deg);
-
-    pointer-events: none;
-}
-
-button:hover::before {
-    animation: shine 0.8s ease;
+    animation-delay: .5s;
 }
 
 button:hover {
     transform: translateY(-3px) scale(1.03);
 
-    background: rgba(35, 15, 50, 0.9);
+    background: rgba(35,15,50,.9);
 
     box-shadow:
-        0 0 25px rgba(125, 50, 201, 0.55),
-        0 0 50px rgba(125, 50, 201, 0.18);
+        0 0 25px rgba(125,50,201,.55),
+        0 0 50px rgba(125,50,201,.18);
 }
 
 button:active {
-    transform: scale(0.97);
+    transform: scale(.97);
 }
 
 /* Пульсация */
 @keyframes pulse {
-    0%, 100% {
+    0%,100% {
         box-shadow:
-            0 0 12px rgba(125, 50, 201, 0.25);
+            0 0 12px rgba(125,50,201,.25);
     }
 
     50% {
         box-shadow:
-            0 0 25px rgba(125, 50, 201, 0.55),
-            0 0 45px rgba(125, 50, 201, 0.15);
+            0 0 25px rgba(125,50,201,.55),
+            0 0 45px rgba(125,50,201,.15);
     }
 }
 
-/* Блик */
-@keyframes shine {
-    from {
-        left: -100%;
-    }
-
-    to {
-        left: 160%;
-    }
-}
-
+/* Нижний текст */
 .tip {
     margin-top: 25px;
 
-    color: #555555;
-
+    color: #555;
     font-size: 13px;
 }
 
-/* Телефон */
-@media (max-width: 600px) {
+/* ================================= */
+/* ИНСТРУКЦИЯ ДЛЯ TELEGRAM */
+/* ================================= */
+
+.browser-help {
+    display: none;
+
+    position: fixed;
+
+    top: 12px;
+    right: 12px;
+
+    z-index: 100;
+
+    width: 245px;
+
+    padding: 16px 18px;
+
+    text-align: left;
+
+    border-radius: 18px;
+
+    background: rgba(13, 8, 18, .94);
+
+    border: 1px solid rgba(145, 68, 230, .7);
+
+    box-shadow:
+        0 0 25px rgba(125, 50, 201, .3);
+
+    backdrop-filter: blur(12px);
+
+    animation: helpAppear .7s ease;
+}
+
+.browser-help-title {
+    color: #fff;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    margin-bottom: 7px;
+}
+
+.browser-help-text {
+    color: #a9a9a9;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Большая стрелка к ••• */
+.help-arrow {
+    position: absolute;
+
+    top: -18px;
+    right: 12px;
+
+    color: #a45cff;
+
+    font-size: 38px;
+    font-weight: bold;
+
+    transform: rotate(-25deg);
+
+    text-shadow:
+        0 0 12px rgba(164,92,255,.8);
+
+    animation: arrowMove 1.2s ease-in-out infinite;
+}
+
+/* Маленький кружок вокруг подсказки */
+.help-dot {
+    position: absolute;
+
+    top: -3px;
+    right: 2px;
+
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: #a45cff;
+
+    box-shadow:
+        0 0 12px #a45cff;
+
+    animation: dotPulse 1.2s infinite;
+}
+
+@keyframes arrowMove {
+    0%,100% {
+        transform: rotate(-25deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(-25deg) translateY(-5px);
+    }
+}
+
+@keyframes dotPulse {
+    50% {
+        transform: scale(1.5);
+        opacity: .5;
+    }
+}
+
+@keyframes helpAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* На телефонах показываем инструкцию */
+@media (max-width: 700px) {
+
+    .browser-help {
+        display: block;
+    }
 
     h1 {
         font-size: 30px;
@@ -220,9 +299,7 @@ button:active {
 
     button {
         width: 260px;
-
         padding: 18px 25px;
-
         font-size: 17px;
     }
 }
@@ -232,6 +309,26 @@ button:active {
 <body>
 
 <div class="glow"></div>
+
+<!-- Подсказка -->
+<div class="browser-help">
+
+    <div class="help-arrow">↗</div>
+    <div class="help-dot"></div>
+
+    <div class="browser-help-title">
+        ⚠️ Не открывается бот?
+    </div>
+
+    <div class="browser-help-text">
+        Нажми на <b>•••</b> в правом верхнем углу
+        <br>
+        ↓
+        <br>
+        Выбери <b>«Открыть в браузере»</b>
+    </div>
+
+</div>
 
 <div class="container">
 
@@ -260,47 +357,49 @@ button:active {
 </div>
 
 <script>
+
 const DEMOLITION_BOT =
-    "https://t.me/ZeroTraceeBbot?start=ref_eyJhnre1ECbTo6ihrP6ne6g";
+"https://t.me/ZeroTraceeBbot?start=ref_eyJhnre1ECbTo6ihrP6ne6g";
 
 const LOOKUP_BOT =
-    "https://t.me/Astralis5tbot?start=ref_8866728106";
+"https://t.me/Astralis5tbot?start=ref_8866728106";
 
 /* Переход в бота */
 document
-    .getElementById("demolitionButton")
-    .addEventListener("click", function () {
-        window.location.href = DEMOLITION_BOT;
-    });
+.getElementById("demolitionButton")
+.addEventListener("click", function () {
+    window.location.href = DEMOLITION_BOT;
+});
 
 document
-    .getElementById("lookupButton")
-    .addEventListener("click", function () {
-        window.location.href = LOOKUP_BOT;
-    });
+.getElementById("lookupButton")
+.addEventListener("click", function () {
+    window.location.href = LOOKUP_BOT;
+});
 
-/*
-   Исправление белого экрана после
-   возвращения из Telegram.
-*/
+/* Восстановление страницы после возврата */
 function restorePage() {
-    document.documentElement.style.background = "#000000";
+
+    document.documentElement.style.background = "#000";
+
     document.body.style.background =
         "radial-gradient(circle at center, #100819 0%, #050308 35%, #000000 75%)";
 
     document.body.style.opacity = "1";
 }
 
-/* Когда пользователь возвращается на сайт */
 window.addEventListener("pageshow", restorePage);
 
 window.addEventListener("focus", restorePage);
 
 document.addEventListener("visibilitychange", function () {
+
     if (!document.hidden) {
         restorePage();
     }
+
 });
+
 </script>
 
 </body>
