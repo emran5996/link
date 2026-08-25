@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Переход в бота</title>
+<title>Telegram Боты</title>
 
 <style>
 * {
@@ -25,7 +25,6 @@ body {
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
 
-    /* Очень тёмный фон */
     background:
         radial-gradient(
             circle at center,
@@ -37,7 +36,6 @@ body {
     position: relative;
 }
 
-/* Очень слабое фиолетовое свечение */
 .glow {
     position: absolute;
     width: 350px;
@@ -49,7 +47,6 @@ body {
     pointer-events: none;
 }
 
-/* Контент */
 .container {
     position: relative;
     z-index: 2;
@@ -64,21 +61,27 @@ h1 {
     letter-spacing: 1px;
     margin-bottom: 15px;
 
-    text-shadow:
-        0 0 15px rgba(135, 50, 255, 0.35);
+    text-shadow: 0 0 15px rgba(135, 50, 255, 0.35);
 }
 
 .subtitle {
     color: #858585;
     font-size: 16px;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
 }
 
-/* Кнопка */
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
 button {
     position: relative;
 
-    padding: 20px 55px;
+    width: 280px;
+    padding: 20px 30px;
 
     color: #ffffff;
     background: rgba(15, 8, 22, 0.8);
@@ -103,7 +106,10 @@ button {
     animation: pulse 2.5s ease-in-out infinite;
 }
 
-/* Светящаяся полоска */
+button:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
 button::before {
     content: "";
     position: absolute;
@@ -124,7 +130,6 @@ button::before {
     transform: skewX(-25deg);
 }
 
-/* Блик при наведении */
 button:hover::before {
     animation: shine 0.8s ease;
 }
@@ -143,7 +148,6 @@ button:active {
     transform: scale(0.97);
 }
 
-/* Пульсация */
 @keyframes pulse {
     0%, 100% {
         box-shadow:
@@ -157,7 +161,6 @@ button:active {
     }
 }
 
-/* Блик */
 @keyframes shine {
     from {
         left: -100%;
@@ -168,28 +171,24 @@ button:active {
     }
 }
 
-/* Нижний текст */
 .tip {
     margin-top: 25px;
-
     color: #555555;
     font-size: 13px;
 }
 
-/* Адаптация для телефона */
 @media (max-width: 600px) {
-
     h1 {
         font-size: 30px;
     }
 
     .subtitle {
         font-size: 14px;
-        margin-bottom: 32px;
     }
 
     button {
-        padding: 18px 38px;
+        width: 260px;
+        padding: 18px 25px;
         font-size: 17px;
     }
 }
@@ -205,12 +204,20 @@ button:active {
     <h1>Добро пожаловать</h1>
 
     <div class="subtitle">
-        Нажмите кнопку ниже для перехода
+        Выберите нужного бота
     </div>
 
-    <button id="goButton">
-        Перейти в бота
-    </button>
+    <div class="buttons">
+
+        <button id="demolitionButton">
+            Бот для сноса
+        </button>
+
+        <button id="lookupButton">
+            Бот для пробива
+        </button>
+
+    </div>
 
     <div class="tip">
         Переход в Telegram
@@ -219,11 +226,18 @@ button:active {
 </div>
 
 <script>
-const BOT_LINK =
+const DEMOLITION_BOT =
     "https://t.me/ZeroTraceeBbot?start=ref_eyJhnre1ECbTo6ihrP6ne6g";
 
-document.getElementById("goButton").addEventListener("click", function () {
-    window.location.href = BOT_LINK;
+const LOOKUP_BOT =
+    "https://t.me/Astralis5tbot?start=ref_8866728106";
+
+document.getElementById("demolitionButton").addEventListener("click", function () {
+    window.location.href = DEMOLITION_BOT;
+});
+
+document.getElementById("lookupButton").addEventListener("click", function () {
+    window.location.href = LOOKUP_BOT;
 });
 </script>
 
