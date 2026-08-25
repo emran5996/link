@@ -13,16 +13,21 @@
     box-sizing: border-box;
 }
 
-html, body {
+html {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
+    background: #000000;
 }
 
 body {
+    width: 100%;
+    min-height: 100vh;
     overflow: hidden;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     font-family: Arial, Helvetica, sans-serif;
 
     background:
@@ -36,44 +41,57 @@ body {
     position: relative;
 }
 
+/* Слабое фиолетовое свечение */
 .glow {
     position: absolute;
     width: 350px;
     height: 350px;
     border-radius: 50%;
+
     background: #5d16a8;
     filter: blur(160px);
     opacity: 0.10;
+
     pointer-events: none;
 }
 
 .container {
     position: relative;
     z-index: 2;
+
+    width: 100%;
     text-align: center;
+
     padding: 20px;
 }
 
 h1 {
     color: #ffffff;
+
     font-size: 40px;
     font-weight: 700;
+
     letter-spacing: 1px;
     margin-bottom: 15px;
 
-    text-shadow: 0 0 15px rgba(135, 50, 255, 0.35);
+    text-shadow:
+        0 0 15px rgba(135, 50, 255, 0.35);
 }
 
 .subtitle {
     color: #858585;
+
     font-size: 16px;
+
     margin-bottom: 35px;
 }
 
 .buttons {
     display: flex;
     flex-direction: column;
+
     align-items: center;
+
     gap: 18px;
 }
 
@@ -81,10 +99,12 @@ button {
     position: relative;
 
     width: 280px;
+
     padding: 20px 30px;
 
     color: #ffffff;
-    background: rgba(15, 8, 22, 0.8);
+
+    background: rgba(15, 8, 22, 0.9);
 
     border: 1.5px solid #7d32c9;
     border-radius: 16px;
@@ -104,14 +124,18 @@ button {
         background 0.25s ease;
 
     animation: pulse 2.5s ease-in-out infinite;
+
+    -webkit-tap-highlight-color: transparent;
 }
 
 button:nth-child(2) {
     animation-delay: 0.5s;
 }
 
+/* Блик */
 button::before {
     content: "";
+
     position: absolute;
 
     top: 0;
@@ -128,6 +152,8 @@ button::before {
     );
 
     transform: skewX(-25deg);
+
+    pointer-events: none;
 }
 
 button:hover::before {
@@ -137,7 +163,7 @@ button:hover::before {
 button:hover {
     transform: translateY(-3px) scale(1.03);
 
-    background: rgba(35, 15, 50, 0.8);
+    background: rgba(35, 15, 50, 0.9);
 
     box-shadow:
         0 0 25px rgba(125, 50, 201, 0.55),
@@ -148,6 +174,7 @@ button:active {
     transform: scale(0.97);
 }
 
+/* Пульсация */
 @keyframes pulse {
     0%, 100% {
         box-shadow:
@@ -161,6 +188,7 @@ button:active {
     }
 }
 
+/* Блик */
 @keyframes shine {
     from {
         left: -100%;
@@ -173,11 +201,15 @@ button:active {
 
 .tip {
     margin-top: 25px;
+
     color: #555555;
+
     font-size: 13px;
 }
 
+/* Телефон */
 @media (max-width: 600px) {
+
     h1 {
         font-size: 30px;
     }
@@ -188,7 +220,9 @@ button:active {
 
     button {
         width: 260px;
+
         padding: 18px 25px;
+
         font-size: 17px;
     }
 }
@@ -210,11 +244,11 @@ button:active {
     <div class="buttons">
 
         <button id="demolitionButton">
-            Бот для сноса
+            ❄️ Бот для сноса
         </button>
 
         <button id="lookupButton">
-            Бот для пробива
+            🔍 Бот для пробива
         </button>
 
     </div>
@@ -232,12 +266,40 @@ const DEMOLITION_BOT =
 const LOOKUP_BOT =
     "https://t.me/Astralis5tbot?start=ref_8866728106";
 
-document.getElementById("demolitionButton").addEventListener("click", function () {
-    window.location.href = DEMOLITION_BOT;
-});
+/* Переход в бота */
+document
+    .getElementById("demolitionButton")
+    .addEventListener("click", function () {
+        window.location.href = DEMOLITION_BOT;
+    });
 
-document.getElementById("lookupButton").addEventListener("click", function () {
-    window.location.href = LOOKUP_BOT;
+document
+    .getElementById("lookupButton")
+    .addEventListener("click", function () {
+        window.location.href = LOOKUP_BOT;
+    });
+
+/*
+   Исправление белого экрана после
+   возвращения из Telegram.
+*/
+function restorePage() {
+    document.documentElement.style.background = "#000000";
+    document.body.style.background =
+        "radial-gradient(circle at center, #100819 0%, #050308 35%, #000000 75%)";
+
+    document.body.style.opacity = "1";
+}
+
+/* Когда пользователь возвращается на сайт */
+window.addEventListener("pageshow", restorePage);
+
+window.addEventListener("focus", restorePage);
+
+document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+        restorePage();
+    }
 });
 </script>
 
