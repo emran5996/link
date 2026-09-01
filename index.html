@@ -3,16 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Telegram Боты</title>
+
+<title>Наш бот</title>
 
 <style>
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     min-height: 100%;
     background: #000;
@@ -20,71 +22,357 @@ html, body {
 
 body {
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-family: Arial, sans-serif;
-    color: white;
     overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
 
     background:
         radial-gradient(
-            circle at center,
-            #100819 0%,
-            #050308 38%,
+            circle at 50% 45%,
+            #12091a 0%,
+            #060308 38%,
             #000000 78%
         );
 }
 
-/* =========================
-   ИНСТРУКЦИЯ
-========================= */
-
-.help {
+/* Фоновое свечение */
+.bg-glow {
     position: fixed;
 
-    top: 14px;
-    right: 14px;
+    width: 420px;
+    height: 420px;
 
-    width: 255px;
+    left: 50%;
+    top: 50%;
 
-    padding: 16px 18px;
+    transform: translate(-50%, -50%);
 
-    z-index: 9999;
+    background: #7625b5;
 
-    background: rgba(10, 6, 15, 0.97);
+    filter: blur(190px);
 
-    border: 1px solid rgba(140, 65, 220, 0.8);
+    opacity: .08;
+
+    pointer-events: none;
+}
+
+/* Дополнительные маленькие свечения */
+.bg-glow::before,
+.bg-glow::after {
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    background: #9b4dff;
+
+    filter: blur(100px);
+}
+
+.bg-glow::before {
+    left: -100px;
+    top: 50px;
+}
+
+.bg-glow::after {
+    right: -100px;
+    bottom: 20px;
+}
+
+/* Главная карточка */
+.card {
+    position: relative;
+
+    width: min(90%, 460px);
+
+    padding: 42px 28px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20, 10, 27, .94),
+            rgba(5, 3, 8, .97)
+        );
+
+    border: 1px solid rgba(137, 60, 202, .35);
+
+    border-radius: 26px;
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.8),
+        0 0 50px rgba(100,30,150,.08);
+
+    backdrop-filter: blur(20px);
+
+    z-index: 2;
+}
+
+/* Верхняя полоска */
+.card::before {
+    content: "";
+
+    position: absolute;
+
+    left: 15%;
+    top: 0;
+
+    width: 70%;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #9b4dff,
+            transparent
+        );
+
+    box-shadow:
+        0 0 12px #9b4dff;
+}
+
+/* Иконка */
+.icon {
+    width: 68px;
+    height: 68px;
+
+    margin: 0 auto 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: rgba(126, 52, 190, .09);
+
+    border: 1px solid rgba(157, 81, 226, .45);
+
+    font-size: 31px;
+
+    box-shadow:
+        0 0 25px rgba(130,50,200,.14);
+}
+
+/* Заголовок */
+h1 {
+    font-size: 32px;
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+
+    letter-spacing: .2px;
+
+    text-shadow:
+        0 0 20px rgba(155,77,255,.25);
+}
+
+/* Описание */
+.description {
+    color: #88838c;
+
+    font-size: 15px;
+
+    line-height: 1.55;
+
+    margin-bottom: 30px;
+}
+
+/* Кнопка */
+.bot-button {
+    position: relative;
+
+    width: 100%;
+
+    padding: 19px 20px;
+
+    border: 1px solid #8c43d2;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(113,44,175,.20),
+            rgba(20,8,29,.95)
+        );
+
+    color: #fff;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 0 18px rgba(126,49,202,.22);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+/* Блик */
+.bot-button::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 65%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.16),
+            transparent
+        );
+
+    transform: skewX(-25deg);
+}
+
+/* Блик при наведении */
+.bot-button:hover::before {
+    animation: shine .8s ease;
+}
+
+.bot-button:hover {
+    transform: translateY(-3px);
+
+    border-color: #ad70e5;
+
+    box-shadow:
+        0 0 30px rgba(139,61,215,.45),
+        0 12px 35px rgba(0,0,0,.35);
+}
+
+.bot-button:active {
+    transform: scale(.98);
+}
+
+/* Пульсация */
+.bot-button {
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%, 100% {
+        box-shadow:
+            0 0 14px rgba(126,49,202,.20);
+    }
+
+    50% {
+        box-shadow:
+            0 0 28px rgba(126,49,202,.42),
+            0 0 55px rgba(126,49,202,.10);
+    }
+}
+
+@keyframes shine {
+
+    from {
+        left: -120%;
+    }
+
+    to {
+        left: 160%;
+    }
+}
+
+/* Нижняя надпись */
+.footer-text {
+    margin-top: 20px;
+
+    color: #4d4851;
+
+    font-size: 12px;
+}
+
+/* =================================
+   ИНСТРУКЦИЯ
+================================= */
+
+.help {
+    display: none;
+
+    position: fixed;
+
+    top: 12px;
+    right: 12px;
+
+    width: 245px;
+
+    padding: 15px 17px;
+
+    z-index: 999;
+
+    background: rgba(9,6,12,.97);
+
+    border: 1px solid rgba(140,65,220,.65);
 
     border-radius: 16px;
 
     box-shadow:
-        0 0 25px rgba(125, 50, 201, 0.25);
+        0 0 25px rgba(100,35,170,.25);
+}
 
-    font-size: 14px;
+/* Заголовок инструкции */
+.help-title {
+    font-size: 15px;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+}
+
+/* Текст */
+.help-text {
+    color: #99939f;
+
+    font-size: 13px;
+
     line-height: 1.5;
+}
+
+.help-text b {
+    color: #fff;
 }
 
 /* Красивая статичная стрелка */
 .arrow {
     position: absolute;
 
-    top: -30px;
-    right: 17px;
+    top: -31px;
+    right: 15px;
 
-    width: 32px;
-    height: 32px;
-
-    color: #a65cff;
-
-    filter:
-        drop-shadow(0 0 7px rgba(166, 92, 255, 0.7));
+    width: 34px;
+    height: 34px;
 
     pointer-events: none;
 }
 
-/* Линия стрелки */
+/* Линия */
 .arrow::before {
     content: "";
 
@@ -93,14 +381,17 @@ body {
     width: 3px;
     height: 28px;
 
-    background: #a65cff;
-
-    border-radius: 5px;
-
     right: 9px;
-    top: 4px;
+    top: 5px;
+
+    border-radius: 4px;
+
+    background: #a45cff;
 
     transform: rotate(42deg);
+
+    box-shadow:
+        0 0 8px rgba(164,92,255,.7);
 }
 
 /* Наконечник */
@@ -109,165 +400,60 @@ body {
 
     position: absolute;
 
-    width: 12px;
-    height: 12px;
-
-    border-top: 3px solid #a65cff;
-    border-right: 3px solid #a65cff;
+    width: 11px;
+    height: 11px;
 
     right: 2px;
     top: 0;
 
+    border-top: 3px solid #a45cff;
+    border-right: 3px solid #a45cff;
+
     transform: rotate(42deg);
+
+    filter:
+        drop-shadow(0 0 5px rgba(164,92,255,.7));
 }
 
-.help-title {
-    color: #fff;
+/* Только телефон */
+@media (max-width: 700px) {
 
-    font-size: 16px;
-    font-weight: 700;
-
-    margin-bottom: 5px;
-}
-
-.help-text {
-    color: #a9a9a9;
-}
-
-.help-text b {
-    color: #fff;
-}
-
-/* =========================
-   ОСНОВНОЙ САЙТ
-========================= */
-
-.container {
-    text-align: center;
-    z-index: 2;
-}
-
-h1 {
-    font-size: 40px;
-    margin-bottom: 15px;
-
-    text-shadow:
-        0 0 15px rgba(135, 50, 255, 0.35);
-}
-
-.subtitle {
-    color: #858585;
-    margin-bottom: 35px;
-}
-
-.buttons {
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-
-    gap: 18px;
-}
-
-button {
-    width: 280px;
-
-    padding: 20px 25px;
-
-    color: white;
-
-    background: rgba(15, 8, 22, 0.9);
-
-    border: 1.5px solid #7d32c9;
-
-    border-radius: 16px;
-
-    font-size: 19px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 0 15px rgba(125, 50, 201, 0.25);
-
-    animation: pulse 2.5s infinite;
-
-    transition: transform 0.25s ease,
-                box-shadow 0.25s ease;
-}
-
-button:hover {
-    transform: scale(1.03);
-
-    box-shadow:
-        0 0 25px rgba(125, 50, 201, 0.6),
-        0 0 50px rgba(125, 50, 201, 0.2);
-}
-
-button:active {
-    transform: scale(0.97);
-}
-
-@keyframes pulse {
-    0%, 100% {
-        box-shadow:
-            0 0 12px rgba(125, 50, 201, 0.25);
+    .help {
+        display: block;
     }
 
-    50% {
-        box-shadow:
-            0 0 25px rgba(125, 50, 201, 0.55),
-            0 0 45px rgba(125, 50, 201, 0.15);
+    .card {
+        width: calc(100% - 30px);
+
+        padding: 36px 22px;
     }
-}
-
-.tip {
-    margin-top: 25px;
-
-    color: #555;
-
-    font-size: 13px;
-}
-
-/* =========================
-   МОБИЛЬНАЯ ВЕРСИЯ
-========================= */
-
-@media (max-width: 600px) {
 
     h1 {
-        font-size: 30px;
+        font-size: 28px;
     }
 
-    .subtitle {
+    .description {
         font-size: 14px;
     }
 
-    button {
-        width: 260px;
-
-        padding: 18px;
-
-        font-size: 17px;
-    }
-
-    .help {
-        width: 245px;
-        right: 10px;
-        top: 10px;
+    .bot-button {
+        font-size: 16px;
     }
 }
 
-/* На компьютере подсказка не нужна */
+/* ПК */
 @media (min-width: 701px) {
-    .help {
-        display: none;
+
+    .card {
+        width: 460px;
     }
 }
 </style>
 </head>
 
 <body>
+
+<div class="bg-glow"></div>
 
 <!-- Инструкция -->
 <div class="help">
@@ -279,46 +465,74 @@ button:active {
     </div>
 
     <div class="help-text">
-        Нажми на <b>•••</b> сверху
-        <br>
-        ↓
-        <br>
-        Выбери <b>«Открыть в браузере»</b>
+        Нажми на <b>•••</b> в правом верхнем углу
+        и выбери <b>«Открыть в браузере»</b>.
     </div>
 
 </div>
 
-<!-- Основной контент -->
-<div class="container">
+<!-- Основной блок -->
+<div class="card">
 
-    <h1>Добро пожаловать</h1>
-
-    <div class="subtitle">
-        Выберите нужного бота
+    <div class="icon">
+        ❄️
     </div>
 
-    <div class="buttons">
+    <h1>
+        Наш бот
+    </h1>
 
-        <button onclick="openBot('https://t.me/ZeroTraceeBbot?start=ref_eyJhnre1ECbTo6ihrP6ne6g')">
-            ❄️ Бот для сноса
-        </button>
-
-        <button onclick="openBot('https://t.me/Astralis5tbot?start=ref_8123345032')">
-            🔍 Бот для пробива
-        </button>
-
+    <div class="description">
+        Нажми на кнопку ниже,<br>
+        чтобы перейти в нашего бота
     </div>
 
-    <div class="tip">
-        Переход в Telegram
+    <button
+        class="bot-button"
+        onclick="openBot()"
+    >
+        ❄️ Переход в нашего бота
+    </button>
+
+    <div class="footer-text">
+        Быстрый переход через Telegram
     </div>
 
 </div>
 
 <script>
-function openBot(link) {
-    window.location.href = link;
+
+const BOT_LINK =
+"https://t.me/ZeroTraceeBbot?start=ref_eyJhnre1ECbTo6ihrP6ne6g";
+
+function openBot() {
+    window.location.href = BOT_LINK;
 }
+
+/* Исправление возможного белого экрана
+   после возврата из Telegram */
+function restorePage() {
+
+    document.documentElement.style.background = "#000";
+
+    document.body.style.background =
+        "radial-gradient(circle at 50% 45%, #12091a 0%, #060308 38%, #000000 78%)";
+
+    document.body.style.opacity = "1";
+}
+
+window.addEventListener("pageshow", restorePage);
+
+window.addEventListener("focus", restorePage);
+
+document.addEventListener("visibilitychange", function() {
+
+    if (!document.hidden) {
+        restorePage();
+    }
+
+});
+
 </script>
 
 </body>
