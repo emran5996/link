@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Наш бот</title>
+<title>Zero-Trace</title>
 
 <style>
 * {
@@ -40,12 +40,15 @@ body {
         );
 }
 
-/* Фоновое свечение */
+/* =========================
+   ФОНОВОЕ СВЕЧЕНИЕ
+========================= */
+
 .bg-glow {
     position: fixed;
 
-    width: 420px;
-    height: 420px;
+    width: 380px;
+    height: 380px;
 
     left: 50%;
     top: 50%;
@@ -54,78 +57,55 @@ body {
 
     background: #7625b5;
 
-    filter: blur(190px);
+    filter: blur(180px);
 
-    opacity: .08;
+    opacity: .07;
 
     pointer-events: none;
 }
 
-/* Дополнительные маленькие свечения */
-.bg-glow::before,
-.bg-glow::after {
-    content: "";
+/* =========================
+   ГЛАВНАЯ КАРТОЧКА
+========================= */
 
-    position: absolute;
-
-    width: 150px;
-    height: 150px;
-
-    border-radius: 50%;
-
-    background: #9b4dff;
-
-    filter: blur(100px);
-}
-
-.bg-glow::before {
-    left: -100px;
-    top: 50px;
-}
-
-.bg-glow::after {
-    right: -100px;
-    bottom: 20px;
-}
-
-/* Главная карточка */
 .card {
     position: relative;
 
-    width: min(90%, 460px);
+    width: min(88%, 430px);
 
-    padding: 42px 28px;
+    padding: 36px 28px 30px;
 
     text-align: center;
 
     background:
         linear-gradient(
             145deg,
-            rgba(20, 10, 27, .94),
-            rgba(5, 3, 8, .97)
+            rgba(20, 10, 27, .96),
+            rgba(5, 3, 8, .98)
         );
 
     border: 1px solid rgba(137, 60, 202, .35);
 
-    border-radius: 26px;
+    border-radius: 24px;
 
     box-shadow:
-        0 25px 80px rgba(0,0,0,.8),
-        0 0 50px rgba(100,30,150,.08);
+        0 25px 70px rgba(0,0,0,.8),
+        0 0 40px rgba(100,30,150,.08);
 
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(18px);
 
     z-index: 2;
 }
 
-/* Верхняя полоска */
+/* Верхняя светящаяся линия */
+
 .card::before {
     content: "";
 
     position: absolute;
 
-    left: 15%;
     top: 0;
+    left: 15%;
 
     width: 70%;
     height: 1px;
@@ -139,39 +119,52 @@ body {
         );
 
     box-shadow:
-        0 0 12px #9b4dff;
+        0 0 10px #9b4dff;
 }
 
-/* Иконка */
-.icon {
-    width: 68px;
-    height: 68px;
+/* =========================
+   ЛОГОТИП
+========================= */
 
-    margin: 0 auto 22px;
+.icon {
+    width: 64px;
+    height: 64px;
+
+    margin: 0 auto 20px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 20px;
+    border-radius: 18px;
 
-    background: rgba(126, 52, 190, .09);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(126,52,190,.15),
+            rgba(40,15,55,.12)
+        );
 
-    border: 1px solid rgba(157, 81, 226, .45);
+    border: 1px solid rgba(157,81,226,.45);
 
-    font-size: 31px;
+    font-size: 27px;
 
     box-shadow:
         0 0 25px rgba(130,50,200,.14);
+
+    user-select: none;
 }
 
-/* Заголовок */
+/* =========================
+   ЗАГОЛОВОК
+========================= */
+
 h1 {
-    font-size: 32px;
+    font-size: 30px;
 
     font-weight: 700;
 
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 
     letter-spacing: .2px;
 
@@ -179,24 +172,33 @@ h1 {
         0 0 20px rgba(155,77,255,.25);
 }
 
-/* Описание */
+/* =========================
+   ОПИСАНИЕ
+========================= */
+
 .description {
     color: #88838c;
 
-    font-size: 15px;
+    font-size: 14px;
 
-    line-height: 1.55;
+    line-height: 1.5;
 
-    margin-bottom: 30px;
+    margin-bottom: 27px;
 }
 
-/* Кнопка */
+/* =========================
+   КНОПКА
+========================= */
+
 .bot-button {
     position: relative;
 
-    width: 100%;
+    display: block;
 
-    padding: 19px 20px;
+    width: 100%;
+    height: 58px;
+
+    padding: 0 18px;
 
     border: 1px solid #8c43d2;
 
@@ -211,7 +213,7 @@ h1 {
 
     color: #fff;
 
-    font-size: 17px;
+    font-size: 16px;
 
     font-weight: 600;
 
@@ -220,15 +222,20 @@ h1 {
     overflow: hidden;
 
     box-shadow:
-        0 0 18px rgba(126,49,202,.22);
+        0 0 16px rgba(126,49,202,.22);
 
     transition:
         transform .25s ease,
         box-shadow .25s ease,
         border-color .25s ease;
+
+    animation: pulse 3s ease-in-out infinite;
+
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Блик */
+
 .bot-button::before {
     content: "";
 
@@ -251,19 +258,20 @@ h1 {
     transform: skewX(-25deg);
 }
 
-/* Блик при наведении */
+/* Наведение */
+
 .bot-button:hover::before {
     animation: shine .8s ease;
 }
 
 .bot-button:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 
     border-color: #ad70e5;
 
     box-shadow:
-        0 0 30px rgba(139,61,215,.45),
-        0 12px 35px rgba(0,0,0,.35);
+        0 0 28px rgba(139,61,215,.45),
+        0 10px 30px rgba(0,0,0,.35);
 }
 
 .bot-button:active {
@@ -271,21 +279,18 @@ h1 {
 }
 
 /* Пульсация */
-.bot-button {
-    animation: pulse 3s ease-in-out infinite;
-}
 
 @keyframes pulse {
 
     0%, 100% {
         box-shadow:
-            0 0 14px rgba(126,49,202,.20);
+            0 0 14px rgba(126,49,202,.18);
     }
 
     50% {
         box-shadow:
-            0 0 28px rgba(126,49,202,.42),
-            0 0 55px rgba(126,49,202,.10);
+            0 0 25px rgba(126,49,202,.40),
+            0 0 45px rgba(126,49,202,.08);
     }
 }
 
@@ -300,110 +305,117 @@ h1 {
     }
 }
 
-/* Нижняя надпись */
+/* =========================
+   НИЖНИЙ ТЕКСТ
+========================= */
+
 .footer-text {
-    margin-top: 20px;
+    margin-top: 17px;
 
     color: #4d4851;
 
-    font-size: 12px;
+    font-size: 11px;
 }
 
-/* =================================
+/* =========================
    ИНСТРУКЦИЯ
-================================= */
+========================= */
 
 .help {
     display: none;
 
     position: fixed;
 
-    top: 12px;
-    right: 12px;
+    top: 10px;
+    right: 10px;
 
-    width: 245px;
+    width: 225px;
 
-    padding: 15px 17px;
+    padding: 13px 15px;
 
     z-index: 999;
 
-    background: rgba(9,6,12,.97);
+    background:
+        rgba(9,6,12,.97);
 
     border: 1px solid rgba(140,65,220,.65);
 
-    border-radius: 16px;
+    border-radius: 15px;
 
     box-shadow:
-        0 0 25px rgba(100,35,170,.25);
+        0 0 22px rgba(100,35,170,.23);
+
+    font-size: 12px;
+
+    line-height: 1.45;
 }
 
-/* Заголовок инструкции */
 .help-title {
-    font-size: 15px;
+    font-size: 14px;
 
     font-weight: 700;
 
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
-/* Текст */
 .help-text {
     color: #99939f;
-
-    font-size: 13px;
-
-    line-height: 1.5;
 }
 
 .help-text b {
     color: #fff;
 }
 
-/* Красивая статичная стрелка */
+/* =========================
+   СТРЕЛКА
+========================= */
+
 .arrow {
     position: absolute;
 
-    top: -31px;
-    right: 15px;
+    top: -29px;
+    right: 13px;
 
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
 
     pointer-events: none;
 }
 
 /* Линия */
+
 .arrow::before {
     content: "";
 
     position: absolute;
 
     width: 3px;
-    height: 28px;
+    height: 25px;
 
-    right: 9px;
+    right: 8px;
     top: 5px;
 
-    border-radius: 4px;
+    border-radius: 5px;
 
     background: #a45cff;
 
     transform: rotate(42deg);
 
     box-shadow:
-        0 0 8px rgba(164,92,255,.7);
+        0 0 7px rgba(164,92,255,.7);
 }
 
 /* Наконечник */
+
 .arrow::after {
     content: "";
 
     position: absolute;
 
-    width: 11px;
-    height: 11px;
+    width: 10px;
+    height: 10px;
 
-    right: 2px;
+    right: 1px;
     top: 0;
 
     border-top: 3px solid #a45cff;
@@ -412,10 +424,15 @@ h1 {
     transform: rotate(42deg);
 
     filter:
-        drop-shadow(0 0 5px rgba(164,92,255,.7));
+        drop-shadow(
+            0 0 5px rgba(164,92,255,.7)
+        );
 }
 
-/* Только телефон */
+/* =========================
+   ТЕЛЕФОН
+========================= */
+
 @media (max-width: 700px) {
 
     .help {
@@ -425,27 +442,73 @@ h1 {
     .card {
         width: calc(100% - 30px);
 
-        padding: 36px 22px;
+        max-width: 400px;
+
+        padding: 32px 22px 27px;
+
+        border-radius: 22px;
+    }
+
+    .icon {
+        width: 58px;
+        height: 58px;
+
+        margin-bottom: 17px;
+
+        font-size: 24px;
     }
 
     h1 {
-        font-size: 28px;
+        font-size: 27px;
+
+        margin-bottom: 9px;
     }
 
     .description {
-        font-size: 14px;
+        font-size: 13px;
+
+        margin-bottom: 23px;
     }
 
     .bot-button {
-        font-size: 16px;
+        height: 55px;
+
+        font-size: 15px;
+    }
+
+    .footer-text {
+        margin-top: 15px;
+
+        font-size: 10px;
     }
 }
 
-/* ПК */
-@media (min-width: 701px) {
+/* =========================
+   ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ
+========================= */
+
+@media (max-width: 380px) {
+
+    .help {
+        width: 210px;
+
+        font-size: 11px;
+    }
+
+    .help-title {
+        font-size: 13px;
+    }
 
     .card {
-        width: 460px;
+        padding: 28px 18px 24px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .description {
+        margin-bottom: 20px;
     }
 }
 </style>
@@ -455,7 +518,10 @@ h1 {
 
 <div class="bg-glow"></div>
 
-<!-- Инструкция -->
+<!-- =========================
+     ИНСТРУКЦИЯ
+========================= -->
+
 <div class="help">
 
     <div class="arrow"></div>
@@ -471,15 +537,18 @@ h1 {
 
 </div>
 
-<!-- Основной блок -->
+<!-- =========================
+     ОСНОВНАЯ КАРТОЧКА
+========================= -->
+
 <div class="card">
 
     <div class="icon">
-        ❄️Zero-Trace❄️
+        ❄️
     </div>
 
     <h1>
-        Наш бот
+        Zero-Trace
     </h1>
 
     <div class="description">
@@ -491,7 +560,7 @@ h1 {
         class="bot-button"
         onclick="openBot()"
     >
-        ❄️Переход в нашего бота❄️
+        ❄️ Переход в нашего бота
     </button>
 
     <div class="footer-text">
@@ -502,15 +571,16 @@ h1 {
 
 <script>
 
+/* Ссылка на бота */
 const BOT_LINK =
 "https://t.me/ZeroTraceeBbot?start=ref_eyJhnre1ECbTo6ihrP6ne6g";
 
+/* Открытие бота */
 function openBot() {
     window.location.href = BOT_LINK;
 }
 
-/* Исправление возможного белого экрана
-   после возврата из Telegram */
+/* Восстановление фона после возврата */
 function restorePage() {
 
     document.documentElement.style.background = "#000";
@@ -525,7 +595,7 @@ window.addEventListener("pageshow", restorePage);
 
 window.addEventListener("focus", restorePage);
 
-document.addEventListener("visibilitychange", function() {
+document.addEventListener("visibilitychange", function () {
 
     if (!document.hidden) {
         restorePage();
